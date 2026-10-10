@@ -2,12 +2,12 @@
   "format_version": 2,
   "header": {
     "name": "ORIGIN: Build Your Own Hero \u00a78(BP)",
-    "description": "v0.23 - Mjolnir (lift it from the stone in Asgard if you're worthy: throw it, call it back, fly, summon lightning), the Vanguard Shield, Shock Batons and Agent Gauntlets, three new suits (Vanguard, Infiltrator, Thunder God), a stronger Lumen Signet (8 colours, Hand, Spear, Gatling, Titan, overcharge), and XoX reborn: a new design and a three-phase fight. Build Your Own Hero.",
+    "description": "v0.24 - SPACE above the sky (Watchtower Station, the Moon, asteroids; the Exo-Frame needs the new Orbital Seal), the SPEED FORCE for speedsters (Time Gates, the Black Flash), Asgard three times bigger (a city, Odin's throne hall and vault, training grounds, the Hall of Heroes) guarded by HEIMDALL and the Einherjar with raids to fight off, BATARANGS, real ricochet physics and new moves for the star-spangled Vanguard Shield, a three-act NULL fight with signal towers, arm severing you can recover from (stitch it back on), weapons that sit in your hands, and fixed armor. Build Your Own Hero.",
     "uuid": "306a5bb1-90fd-51e6-9403-e26982703f28",
     "version": [
       0,
       0,
-      23
+      24
     ],
     "min_engine_version": [
       1,
@@ -22,7 +22,7 @@
       "version": [
         0,
         0,
-        23
+        24
       ]
     },
     {
@@ -32,7 +32,7 @@
       "version": [
         0,
         0,
-        23
+        24
       ],
       "entry": "scripts/main.js"
     }
@@ -43,7 +43,7 @@
       "version": [
         0,
         0,
-        23
+        24
       ]
     },
     {

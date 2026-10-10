@@ -1,0 +1,127 @@
+{
+ "format_version": "1.21.0",
+ "minecraft:entity": {
+  "description": {
+   "identifier": "origin:heimdall",
+   "is_spawnable": false,
+   "is_summonable": true
+  },
+  "components": {
+   "minecraft:type_family": {
+    "family": [
+     "asgardian",
+     "heimdall",
+     "mob"
+    ]
+   },
+   "minecraft:collision_box": {
+    "width": 0.7,
+    "height": 2.0
+   },
+   "minecraft:scale": {
+    "value": 1.15
+   },
+   "minecraft:health": {
+    "value": 500,
+    "max": 500
+   },
+   "minecraft:movement": {
+    "value": 0.3
+   },
+   "minecraft:movement.basic": {},
+   "minecraft:jump.static": {},
+   "minecraft:navigation.walk": {
+    "can_path_over_water": true,
+    "avoid_water": true,
+    "avoid_damage_blocks": true
+   },
+   "minecraft:physics": {},
+   "minecraft:pushable": {
+    "is_pushable": false,
+    "is_pushable_by_piston": false
+   },
+   "minecraft:knockback_resistance": {
+    "value": 0.8
+   },
+   "minecraft:attack": {
+    "damage": 16
+   },
+   "minecraft:behavior.nearest_attackable_target": {
+    "priority": 2,
+    "must_see": false,
+    "within_radius": 26,
+    "reselect_targets": true,
+    "entity_types": [
+     {
+      "filters": {
+       "all_of": [
+        {
+         "test": "is_family",
+         "subject": "other",
+         "value": "monster"
+        },
+        {
+         "test": "is_family",
+         "subject": "other",
+         "operator": "!=",
+         "value": "asgardian"
+        }
+       ]
+      },
+      "max_dist": 26
+     }
+    ]
+   },
+   "minecraft:behavior.hurt_by_target": {
+    "priority": 1
+   },
+   "minecraft:behavior.melee_attack": {
+    "priority": 3,
+    "speed_multiplier": 1.25,
+    "track_target": true
+   },
+   "minecraft:behavior.random_stroll": {
+    "priority": 7,
+    "speed_multiplier": 0.6,
+    "xz_dist": 6
+   },
+   "minecraft:behavior.look_at_player": {
+    "priority": 8,
+    "look_distance": 10,
+    "probability": 0.5
+   },
+   "minecraft:behavior.random_look_around": {
+    "priority": 9
+   },
+   "minecraft:nameable": {
+    "always_show": true,
+    "allow_name_tag_renaming": false
+   },
+   "minecraft:persistent": {},
+   "minecraft:fire_immune": true,
+   "minecraft:breathable": {
+    "breathes_air": true,
+    "breathes_water": true
+   },
+   "minecraft:damage_sensor": {
+    "triggers": [
+     {
+      "cause": "all",
+      "deals_damage": "no"
+     }
+    ]
+   },
+   "minecraft:interact": {
+    "interactions": [
+     {
+      "interact_text": "action.interact.origin.talk",
+      "swing": false
+     }
+    ]
+   },
+   "minecraft:loot": {
+    "table": "loot_tables/empty.json"
+   }
+  }
+ }
+}

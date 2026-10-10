@@ -1,4 +1,4 @@
-// ORIGIN v0.23 - suit.js
+// ORIGIN v0.24 - suit.js
 // Four dyeable pieces, each with its own color and (for mask/torso/legs) a style.
 // Every style is its own item so it can carry its own armor texture.
 import { system, ItemStack, EquipmentSlot } from "@minecraft/server";
@@ -73,7 +73,7 @@ export const PRESETS = [
   { name: "Cosmic Guardian", mask: ["visor", "#3CC8F0"], torso: ["star", "#3A3FA8"], legs: ["stripe", "#EDEDED"], boots: ["plain", "#3A3FA8"] },
   { name: "Street Level", mask: ["half", "#EDEDED"], torso: ["plain", "#F07A21"], legs: ["stripe", "#3A3D44"], boots: ["plain", "#EDEDED"] },
   { name: "Edgy Anti-Hero", mask: ["half", "#17171B"], torso: ["bolt", "#17171B"], legs: ["stripe", "#C8262C"], boots: ["plain", "#C8262C"] },
-  { name: "Vanguard", mask: ["vanguard", "#3A3FA8"], torso: ["vanguard", "#2F6FDE"], legs: ["utility", "#3A3FA8"], boots: ["combat", "#C8262C"] },
+  { name: "Vanguard", mask: ["vanguard", "#2F6FDE"], torso: ["vanguard", "#2F6FDE"], legs: ["plain", "#3A3FA8"], boots: ["combat", "#C8262C"] },
   { name: "Infiltrator", mask: ["goggles", "#17171B"], torso: ["infiltrator", "#17171B"], legs: ["utility", "#17171B"], boots: ["combat", "#17171B"] },
   { name: "Thunder God", mask: ["winged", "#A9AFB8"], torso: ["asgard", "#3A3D44"], legs: ["armored", "#3A3D44"], boots: ["greaves", "#A9AFB8"] },
 ];

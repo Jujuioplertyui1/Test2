@@ -1,0 +1,36 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:attachable": {
+  "description": {
+   "identifier": "origin:explosive_batarang",
+   "materials": {
+    "default": "entity_alphatest",
+    "enchanted": "entity_alphatest_glint"
+   },
+   "textures": {
+    "default": "textures/origin/entity/gear/batarang_explosive",
+    "enchanted": "textures/misc/enchanted_item_glint"
+   },
+   "geometry": {
+    "default": "geometry.origin.batarang"
+   },
+   "animations": {
+    "tp": "animation.origin.gear.batarang.tp",
+    "fp": "animation.origin.gear.batarang.fp"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "tp": "!c.is_first_person"
+     },
+     {
+      "fp": "c.is_first_person"
+     }
+    ]
+   },
+   "render_controllers": [
+    "controller.render.item_default"
+   ]
+  }
+ }
+}

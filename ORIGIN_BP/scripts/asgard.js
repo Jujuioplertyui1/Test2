@@ -1,4 +1,4 @@
-// ORIGIN v0.21 - asgard.js
+// ORIGIN v0.24 - asgard.js
 // ASGARD: a floating realm of gold above a sea of clouds - the observatory where the Bifrost lands, a rainbow bridge
 // watched by two golden guardians, a palace with towers and a dome, a great golden tree, floating islets, flower
 // meadows, lamps and braziers, waterfalls pouring off the edge of the world. Golden motes drift, leaves fall, light
@@ -7,7 +7,7 @@
 // stand under open sky, use it - the rainbow slams down, pulls you up, and burns its rune ring into the ground.
 // The realm builds itself around the first visitors, piece by piece as the land loads; nothing counts as built until
 // every block of it is really there. /hero asgard rebuild (operators) starts it over.
-import { world, system, BlockVolume, BlockPermutation, MolangVariableMap } from "@minecraft/server";
+import { world, system, BlockVolume, BlockPermutation, MolangVariableMap, ItemStack } from "@minecraft/server";
 import { hero, RT, saveNow } from "./data.js";
 import { V, at, valid, fx, sound, now } from "./util.js";
 import { hudMsg } from "./voice.js";
@@ -87,6 +87,190 @@ function meadow() {
   }
   return out;
 }
+// ================================================================== v0.24: THE REALM ETERNAL
+// Three new floating lands, each its own world-sized piece of Asgard, built tile by tile as the land loads:
+//   NORTH - the CITY: a golden plaza with Odin's statue in a fountain, avenues, twenty houses with stepped gold roofs,
+//           and the THRONE HALL - Odin's empty throne, braziers, and a stair down into the VAULT (three chests).
+//   WEST  - the TRAINING GROUNDS: an arena ring of quartz and gold, and IDUNN'S ORCHARD of golden trees.
+//   EAST  - the HALL OF HEROES under a golden dome (statues round an eternal flame) and the SKYSHIP DOCK on the edge.
+// Bridges of gold with quartz rails and lanterns run out to each of them; waterfalls pour off their edges.
+// Pieces that sit on a land wait until all of that land's ground is down (deps), so nothing gets buried.
+export const LANDS = [
+  { key: "city", cx: -14, cz: 115, r: 52, depth: 18, seed: 3 },
+  { key: "west", cx: -112, cz: 4, r: 38, depth: 14, seed: 7 },
+  { key: "east", cx: 112, cz: 4, r: 38, depth: 14, seed: 11 },
+];
+const AIR = "minecraft:air", SQ = "minecraft:smooth_quartz", LANT = "minecraft:lantern";
+function landRadius(L, x, z, k) {
+  const a = Math.atan2(z - L.cz, x - L.cx);
+  const wob = 1 + 0.06 * Math.sin(3 * a + L.seed) + 0.04 * Math.cos(7 * a + L.seed * 2);
+  return L.r * wob * Math.pow(Math.max(0, 1 - Math.pow(k / L.depth, 1.7)), 0.5);
+}
+function landTile(L, x0, z0, x1, z1) {
+  const ops = [];
+  for (let k = 0; k < L.depth; k++) {
+    const id = k === 0 ? "minecraft:grass_block" : k < 3 ? "minecraft:dirt" : k > L.depth - 4 && (x0 + z0 + k) % 5 === 0 ? "minecraft:gold_ore" : "minecraft:stone";
+    for (let z = z0; z <= z1; z++) {
+      let run = null;
+      for (let x = x0; x <= x1 + 1; x++) {
+        const inside = x <= x1 && Math.hypot(x - L.cx, z - L.cz) <= landRadius(L, x, z, k);
+        if (inside && run === null) run = x;
+        if (!inside && run !== null) { ops.push(box(run, 100 - k, z, x - 1, 100 - k, z, id)); run = null; }
+      }
+    }
+  }
+  return ops;
+}
+function tilesOf(L) {
+  const out = [], T = 16;
+  for (let x0 = Math.floor((L.cx - L.r - 4) / T) * T; x0 <= L.cx + L.r + 4; x0 += T)
+    for (let z0 = Math.floor((L.cz - L.r - 4) / T) * T; z0 <= L.cz + L.r + 4; z0 += T) {
+      const nx = Math.max(x0, Math.min(L.cx, x0 + T - 1)), nz = Math.max(z0, Math.min(L.cz, z0 + T - 1));
+      if (Math.hypot(nx - L.cx, nz - L.cz) > L.r * 1.12) continue;
+      out.push([`${L.key}_t${x0}_${z0}`, { x: x0 + 8, y: 100, z: z0 + 8 }, () => landTile(L, x0, z0, x0 + T - 1, z0 + T - 1)]);
+    }
+  return out;
+}
+// a golden bridge: gold walkway, quartz edges, rails and lanterns, and arches hanging under it
+function bridge(x0, z0, x1, z1) {
+  const ops = [], alongX = Math.abs(x1 - x0) > Math.abs(z1 - z0);
+  const [a0, a1] = alongX ? [Math.min(x0, x1), Math.max(x0, x1)] : [Math.min(z0, z1), Math.max(z0, z1)];
+  const c = alongX ? z0 : x0;
+  const B = (a, w, y, id) => alongX ? box(a, y, c + w, a, y, c + w, id) : box(c + w, y, a, c + w, y, a, id);
+  ops.push(alongX ? box(a0, 100, c - 2, a1, 100, c + 2, SQ) : box(c - 2, 100, a0, c + 2, 100, a1, SQ));
+  ops.push(alongX ? box(a0, 100, c, a1, 100, c, G) : box(c, 100, a0, c, 100, a1, G));
+  ops.push(alongX ? box(a0, 101, c - 3, a1, 101, c - 3, Q) : box(c - 3, 101, a0, c - 3, 101, a1, Q));
+  ops.push(alongX ? box(a0, 101, c + 3, a1, 101, c + 3, Q) : box(c + 3, 101, a0, c + 3, 101, a1, Q));
+  for (let a = a0 + 3; a <= a1 - 2; a += 7) {
+    for (const w of [-3, 3]) { ops.push(B(a, w, 102, G), B(a, w, 103, LANT)); }
+    ops.push(B(a, 0, 99, G), B(a, -1, 98, G), B(a, 1, 98, G), B(a, 0, 97, "minecraft:shroomlight"));
+  }
+  return ops;
+}
+function house(cx, cz, tx, tz) {   // (tx,tz): toward the plaza
+  const fx = Math.abs(tx) >= Math.abs(tz) ? Math.sign(tx) : 0, fz = fx ? 0 : Math.sign(tz);
+  const ops = [box(cx - 3, 100, cz - 3, cx + 3, 100, cz + 3, SQ), box(cx - 3, 101, cz - 3, cx + 3, 104, cz + 3, Q), box(cx - 2, 101, cz - 2, cx + 2, 104, cz + 2, AIR)];
+  for (const [dx, dz] of [[-3, -3], [3, -3], [-3, 3], [3, 3]]) ops.push(box(cx + dx, 101, cz + dz, cx + dx, 104, cz + dz, G));
+  for (let k = 0; k <= 3; k++) ops.push(box(cx - 4 + k, 105 + k, cz - 4 + k, cx + 4 - k, 105 + k, cz + 4 - k, k === 3 ? "minecraft:shroomlight" : G));
+  // windows on the two sides, a door facing the plaza, a light inside
+  if (fx) ops.push(box(cx - 1, 102, cz - 3, cx + 1, 103, cz - 3, YG), box(cx - 1, 102, cz + 3, cx + 1, 103, cz + 3, YG), box(cx + 3 * fx, 101, cz, cx + 3 * fx, 102, cz, AIR));
+  else ops.push(box(cx - 3, 102, cz - 1, cx - 3, 103, cz + 1, YG), box(cx + 3, 102, cz - 1, cx + 3, 103, cz + 1, YG), box(cx, 101, cz + 3 * fz, cx, 102, cz + 3 * fz, AIR));
+  ops.push(box(cx, 104, cz, cx, 104, cz, "minecraft:glowstone"), box(cx + 4 * (fx || 0) + (fx ? 0 : 1), 101, cz + 4 * (fz || 0) + (fz ? 0 : 1), cx + 4 * (fx || 0) + (fx ? 0 : 1), 101, cz + 4 * (fz || 0) + (fz ? 0 : 1), LANT));
+  return ops;
+}
+const CITY = LANDS[0], WEST = LANDS[1], EAST = LANDS[2];
+export const PLAZA = { x: CITY.cx, y: 101, z: CITY.cz };
+export const THRONE = { x: CITY.cx, y: 101, z: CITY.cz + 34 };
+export const ARENA = { x: WEST.cx - 4, y: 101, z: 0 };
+export const HEROES = { x: EAST.cx + 6, y: 101, z: 0 };
+const HOUSES = (() => {
+  const out = [];
+  for (const [r, n, off] of [[26, 8, 22.5], [40, 12, 15]]) for (let i = 0; i < n; i++) {
+    const deg = off + (i * 360) / n, a = (deg * Math.PI) / 180;
+    const x = Math.round(CITY.cx + Math.cos(a) * r), z = Math.round(CITY.cz + Math.sin(a) * r);
+    if (Math.abs(x - CITY.cx) < 6 || Math.abs(z - CITY.cz) < 6) continue;                 // keep the avenues clear
+    if (z > THRONE.z - 16 && Math.abs(x - THRONE.x) < 22) continue;                         // and the throne hall's square
+    out.push([x, z]);
+  }
+  return out;
+})();
+function throneHall() {
+  const { x, z } = THRONE, x0 = x - 12, x1 = x + 12, z0 = z - 12, z1 = z + 14;
+  const ops = [box(x0, 100, z0, x1, 100, z1, SQ), box(x0, 101, z0, x1, 112, z1, Q), box(x0 + 1, 101, z0 + 1, x1 - 1, 111, z1 - 1, AIR), box(x - 2, 101, z0, x + 2, 106, z0, AIR)];
+  for (let zz = z0; zz <= z1; zz += 4) ops.push(box(x0, 101, zz, x0, 113, zz, G), box(x1, 101, zz, x1, 113, zz, G), box(x0, 105, zz + 1, x0, 108, zz + 2, YG), box(x1, 105, zz + 1, x1, 108, zz + 2, YG));
+  for (let k = 0; k <= 5; k++) ops.push(box(x0 + k * 2, 112 + k, z0, x1 - k * 2, 112 + k, z1, k === 5 ? "minecraft:shroomlight" : G));
+  ops.push(box(x - 1, 100, z0 + 1, x + 1, 100, z1 - 4, "minecraft:yellow_wool"));                                  // the aisle
+  ops.push(box(x - 4, 101, z1 - 4, x + 4, 101, z1 - 1, G), box(x - 2, 102, z1 - 3, x + 2, 102, z1 - 1, G));          // the dais
+  ops.push(box(x - 1, 103, z1 - 2, x + 1, 103, z1 - 2, G), box(x - 1, 104, z1 - 1, x + 1, 107, z1 - 1, G), box(x, 108, z1 - 1, x, 108, z1 - 1, "minecraft:diamond_block"),
+    box(x - 1, 103, z1 - 1, x - 1, 104, z1 - 2, G), box(x + 1, 103, z1 - 1, x + 1, 104, z1 - 2, G));             // Odin's empty throne
+  for (const zz of [z0 + 4, z0 + 12, z0 + 20]) for (const xx of [x - 6, x + 6]) ops.push(box(xx, 101, zz, xx, 101, zz, G), box(xx, 102, zz, xx, 102, zz, "minecraft:campfire"));
+  return ops;
+}
+function vault() {   // under the hall's west end: a stair of scaffolding down to three chests
+  const { x, z } = THRONE, vx = x - 8, vz = z + 4;
+  return [box(vx - 3, 93, vz - 3, vx + 3, 98, vz + 3, Q), box(vx - 2, 94, vz - 2, vx + 2, 97, vz + 2, AIR), box(vx - 2, 93, vz - 2, vx + 2, 93, vz + 2, G),
+    box(vx, 94, vz - 3, vx, 100, vz - 3, "minecraft:scaffolding"), box(vx - 2, 97, vz - 2, vx - 2, 97, vz - 2, "minecraft:glowstone"), box(vx + 2, 97, vz + 2, vx + 2, 97, vz + 2, "minecraft:glowstone")];
+}
+export const VAULT_CHESTS = [[THRONE.x - 10, 94, THRONE.z + 6], [THRONE.x - 8, 94, THRONE.z + 6], [THRONE.x - 6, 94, THRONE.z + 6]];
+function plaza() {
+  const { x, z } = PLAZA, ops = [];
+  ops.push(...disc(x, 100, z, 12, G), ...disc(x, 100, z, 11, SQ), ...disc(x, 101, z, 6, Q), ...disc(x, 101, z, 5, "minecraft:water"));
+  ops.push(...statue(x, z));                                                                    // the All-Father, in the fountain
+  for (let k = 0; k < 8; k++) { const a = (k * Math.PI) / 4, lx = Math.round(x + Math.cos(a) * 10), lz = Math.round(z + Math.sin(a) * 10); ops.push(box(lx, 101, lz, lx, 102, lz, G), box(lx, 103, lz, lx, 103, lz, LANT)); }
+  // avenues: north to the throne hall, south to the bridge, east and west to the edge
+  ops.push(box(x - 1, 100, z + 12, x + 1, 100, THRONE.z - 13, SQ), box(x, 100, z + 12, x, 100, THRONE.z - 13, G));
+  ops.push(box(x - 1, 100, CITY.cz - CITY.r + 2, x + 1, 100, z - 12, SQ), box(x, 100, CITY.cz - CITY.r + 2, x, 100, z - 12, G));
+  ops.push(box(x - 44, 100, z - 1, x - 12, 100, z + 1, SQ), box(x + 12, 100, z - 1, x + 44, 100, z + 1, SQ), box(x - 44, 100, z, x - 12, 100, z, G), box(x + 12, 100, z, x + 44, 100, z, G));
+  return ops;
+}
+function arena() {
+  const { x, z } = ARENA, ops = [...disc(x, 100, z, 13, "minecraft:sand"), ...disc(x, 99, z, 13, "minecraft:sandstone")];
+  for (let dz = -15; dz <= 15; dz++) for (let dx = -15; dx <= 15; dx++) {
+    const r = Math.hypot(dx, dz);
+    if (r < 13.4 || r > 15) continue;
+    if (Math.abs(dx) <= 1 || Math.abs(dz) <= 1) continue;                                     // four gates
+    ops.push(box(x + dx, 101, z + dz, x + dx, 103, z + dz, Q), box(x + dx, 104, z + dz, x + dx, 104, z + dz, G));
+  }
+  for (const [dx, dz] of [[10, 10], [-10, 10], [10, -10], [-10, -10]]) ops.push(box(x + dx, 101, z + dz, x + dx, 101, z + dz, G), box(x + dx, 102, z + dz, x + dx, 102, z + dz, "minecraft:campfire"));
+  ops.push(box(x + 15, 100, z - 1, WEST.cx + WEST.r - 1, 100, z + 1, SQ), box(x + 15, 100, z, WEST.cx + WEST.r - 1, 100, z, G));
+  return ops;
+}
+function orchard() {
+  const ops = [];
+  for (const [dx, dz] of [[-12, 20], [0, 22], [12, 20], [-18, 30], [-6, 32], [6, 32], [18, 28]]) ops.push(...goldenTree(WEST.cx + dx, 101, WEST.cz + dz, 5, 2, dx % 2 ? "minecraft:cherry_leaves" : HC));
+  // Idunn's tree: the big one
+  const x = WEST.cx + 2, z = WEST.cz - 24;
+  ops.push(box(x - 1, 101, z - 1, x + 1, 113, z + 1, LOG));
+  ops.push(...disc(x, 111, z, 6, AZ), ...disc(x, 112, z, 7, HC), ...disc(x, 113, z, 7, HC), ...disc(x, 114, z, 5, HC), ...disc(x, 115, z, 3, HC));
+  for (const [dx, dz] of [[3, 2], [-3, 3], [-4, -2], [2, -4], [0, 0]]) ops.push(box(x + dx, 113, z + dz, x + dx, 113, z + dz, "minecraft:shroomlight"));
+  return ops;
+}
+function heroes() {
+  const { x, z } = HEROES, ops = [...disc(x, 100, z, 11, SQ)];
+  for (let dy = 0; dy <= 6; dy++) for (let dz = -11; dz <= 11; dz++) for (let dx = -11; dx <= 11; dx++) {
+    const r = Math.hypot(dx, dz);
+    if (r < 10 || r > 11) continue;
+    if (dx < -8 && Math.abs(dz) <= 1 && dy <= 3) continue;                                       // the door, facing the bridge
+    ops.push(box(x + dx, 101 + dy, z + dz, x + dx, 101 + dy, z + dz, dy === 3 && Math.abs(dz) % 3 === 0 ? YG : Q));
+  }
+  for (let dy = 1; dy <= 10; dy++) { const rr = Math.sqrt(Math.max(0, 121 - dy * dy)); for (let dz = -11; dz <= 11; dz++) for (let dx = -11; dx <= 11; dx++) { const r = Math.hypot(dx, dz); if (r <= rr && r > rr - 1.2) ops.push(box(x + dx, 107 + dy, z + dz, x + dx, 107 + dy, z + dz, dy === 10 ? "minecraft:shroomlight" : G)); } }
+  for (let k = 0; k < 6; k++) {                                                                  // six heroes round an eternal flame
+    const a = (k * Math.PI) / 3, sx = Math.round(x + Math.cos(a) * 7), sz = Math.round(z + Math.sin(a) * 7);
+    ops.push(box(sx, 101, sz, sx, 101, sz, Q), box(sx, 102, sz, sx, 104, sz, G), box(sx, 105, sz, sx, 105, sz, "minecraft:gold_block"), box(sx, 106, sz, sx, 106, sz, "minecraft:end_rod"));
+  }
+  ops.push(box(x, 101, z, x, 101, z, G), box(x, 102, z, x, 102, z, "minecraft:soul_campfire"));
+  ops.push(box(EAST.cx - EAST.r + 1, 100, z - 1, x - 11, 100, z + 1, SQ), box(EAST.cx - EAST.r + 1, 100, z, x - 11, 100, z, G));
+  return ops;
+}
+function dock() {   // a pier off the east edge with a little skyship tied to it
+  const x0 = EAST.cx + 30, z = EAST.cz - 16, P = "minecraft:spruce_planks", O = "minecraft:oak_planks", W = "minecraft:white_wool";
+  const ops = [box(x0, 100, z - 1, x0 + 16, 100, z + 1, P), box(x0 + 4, 99, z - 1, x0 + 4, 99, z + 1, "minecraft:spruce_log"), box(x0 + 12, 99, z - 1, x0 + 12, 99, z + 1, "minecraft:spruce_log")];
+  const sx = x0 + 6, sz = z + 4;
+  ops.push(box(sx, 99, sz, sx + 10, 99, sz + 4, O), box(sx, 100, sz, sx + 10, 100, sz, O), box(sx, 100, sz + 4, sx + 10, 100, sz + 4, O), box(sx, 100, sz, sx, 100, sz + 4, O), box(sx + 10, 100, sz + 1, sx + 10, 100, sz + 3, O),
+    box(sx + 1, 98, sz + 1, sx + 9, 98, sz + 3, O), box(sx + 11, 99, sz + 2, sx + 12, 99, sz + 2, G));
+  ops.push(box(sx + 5, 100, sz + 2, sx + 5, 108, sz + 2, "minecraft:spruce_log"), box(sx + 5, 103, sz, sx + 5, 107, sz + 4, W), box(sx + 5, 109, sz + 2, sx + 5, 109, sz + 2, "minecraft:lantern"));
+  return ops;
+}
+function LAND_PIECES() {
+  const out = [];
+  const deps = {};
+  for (const L of LANDS) { const t = tilesOf(L); deps[L.key] = t.map((p) => p[0]); out.push(...t); }
+  const on = (land, name, c, fn) => out.push([name, c, fn, deps[land]]);
+  out.push(["bridge_north", { x: -14, y: 100, z: 48 }, () => [...bridge(-14, 30, -14, CITY.cz - CITY.r + 3)]]);
+  out.push(["bridge_west", { x: -54, y: 100, z: 0 }, () => [box(-33, 100, 0, -33, 100, 0, "minecraft:grass_block"), ...bridge(-35, 0, WEST.cx + WEST.r - 2, 0)]]);
+  out.push(["bridge_east", { x: 54, y: 100, z: 0 }, () => [box(33, 100, 0, 33, 100, 0, "minecraft:grass_block"), ...bridge(35, 0, EAST.cx - EAST.r + 2, 0)]]);
+  on("city", "city_plaza", PLAZA, plaza);
+  HOUSES.forEach(([x, z], i) => on("city", `city_house${i}`, { x, y: 101, z }, () => house(x, z, PLAZA.x - x, PLAZA.z - z)));
+  on("city", "throne_hall", THRONE, throneHall);
+  on("city", "throne_vault", { x: THRONE.x - 8, y: 95, z: THRONE.z + 4 }, vault);
+  on("city", "city_falls", { x: CITY.cx + CITY.r - 2, y: 100, z: CITY.cz }, () => [box(CITY.cx + Math.round(CITY.r * 0.94) - 1, 100, CITY.cz + 8, CITY.cx + Math.round(CITY.r * 0.94) - 1, 100, CITY.cz + 8, "minecraft:water")]);
+  on("west", "west_arena", ARENA, arena);
+  on("west", "west_orchard", { x: WEST.cx, y: 101, z: WEST.cz + 24 }, orchard);
+  on("east", "east_heroes", HEROES, heroes);
+  on("east", "east_dock", { x: EAST.cx + 36, y: 100, z: EAST.cz - 16 }, dock);
+  return out;
+}
+
 const PIECES = [
   ["observatory", { x: 0, y: 100, z: -64 }, () => [...disc(0, 99, -64, 5, Q), ...disc(0, 100, -64, 6, G), ...Array.from({ length: 8 }, (_, k) => { const a = (k * Math.PI) / 4, x = Math.round(Math.cos(a) * 5), z = -64 + Math.round(Math.sin(a) * 5); return box(x, 101, z, x, 105, z, G); }),
     ...disc(0, 106, -64, 5, G), ...disc(0, 107, -64, 3, YG), box(0, 100, -64, 0, 100, -64, SL)]],
@@ -115,15 +299,20 @@ const PIECES = [
   }],
   ...ISLETS.map(([cx, top, cz, r, leaf, fall], i) => [`islet${i}`, { x: cx, y: top, z: cz }, () => islet(cx, top, cz, r, leaf, fall)]),
   ["meadow", { x: 0, y: 101, z: 0 }, meadow],
+  // ---------------- v0.24: Asgard grows - three new lands, joined to the old island by golden bridges
+  ...LAND_PIECES(),
 ];
+
+export const PIECE_NAMES = PIECES.map((p) => p[0]);
 const builtSet = () => new Set(String(world.getDynamicProperty(KEY) ?? "").split(",").filter(Boolean));
 export function resetAsgard() { world.setDynamicProperty(KEY, ""); }
 export const asgardBuilt = (name) => builtSet().has(name);
 function tryBuild(dim) {
   const done = builtSet();
   let n = 0, changed = false;
-  for (const [name, c, ops] of PIECES) {
-    if (done.has(name) || n >= 3) continue;
+  for (const [name, c, ops, deps] of PIECES) {
+    if (done.has(name) || n >= 4) continue;
+    if (deps && !deps.every((d) => done.has(d))) continue;
     let loaded = false; try { loaded = !!dim.getBlock(c); } catch { }
     if (!loaded) continue;
     n++;
@@ -132,7 +321,29 @@ function tryBuild(dim) {
     if (ok) { done.add(name); changed = true; }
   }
   if (changed) world.setDynamicProperty(KEY, [...done].join(","));
+  if (done.has("throne_vault") && !world.getDynamicProperty("origin:asgard_vault")) fillVault(dim);
   return done.has("observatory");
+}
+// Odin's vault: three chests, filled once per world
+function fillVault(dim) {
+  const LOOT = [
+    [["minecraft:gold_ingot", 16], ["minecraft:diamond", 4], ["origin:bifrost_key", 1], ["minecraft:golden_apple", 3], ["minecraft:experience_bottle", 16]],
+    [["minecraft:enchanted_golden_apple", 1], ["origin:aetherium_ingot", 4], ["origin:starmetal_plate", 2], ["minecraft:netherite_scrap", 2], ["minecraft:gold_block", 4]],
+    [["origin:null_crystal", 2], ["minecraft:totem_of_undying", 1], ["minecraft:diamond", 6], ["origin:blueprint_data", 4], ["minecraft:emerald", 12]],
+  ];
+  let ok = 0;
+  VAULT_CHESTS.forEach(([x, y, z], i) => {
+    try {
+      const b = dim.getBlock({ x, y, z });
+      if (!b) return;
+      if (b.typeId !== "minecraft:chest") b.setType("minecraft:chest");
+      const c = b.getComponent("minecraft:inventory")?.container;
+      if (!c) return;
+      LOOT[i].forEach(([id, n], k) => { try { c.setItem(k * 2, new ItemStack(id, n)); } catch { } });
+      ok++;
+    } catch { }
+  });
+  if (ok === VAULT_CHESTS.length) world.setDynamicProperty("origin:asgard_vault", true);
 }
 
 // ------------------------------------------------------------------ the Bifrost
@@ -184,8 +395,9 @@ export async function useBifrost(p) {
 }
 
 // ------------------------------------------------------------------ the realm's ambience (each player sees their own)
-const TREES = [[-20, 106, -10], [20, 106, -12], [-24, 106, 14], [24, 106, 16], [-14, 106, -24], [16, 106, -22], [26, 115, -2], ...ISLETS.map(([x, y, z]) => [x, y + 6, z])];
-const FALLS = [...[[33, 0], [-33, 0], [0, 33], [23, 23], [-23, 23]].map(([x, z]) => { const o = V.flat({ x, y: 0, z }); return [x, z, 100, o.x, o.z]; }), ...ISLETS.filter((i) => i[5]).map(([x, y, z, r]) => [x + r - 1, z, y, 1, 0])];
+const TREES = [[-20, 106, -10], [20, 106, -12], [-24, 106, 14], [24, 106, 16], [-14, 106, -24], [16, 106, -22], [26, 115, -2], ...ISLETS.map(([x, y, z]) => [x, y + 6, z]),
+  ...[[-12, 20], [0, 22], [12, 20], [-18, 30], [-6, 32], [6, 32], [18, 28]].map(([dx, dz]) => [-112 + dx, 106, 4 + dz]), [-110, 113, -20]];
+const FALLS = [...[[0, 33], [23, 23], [-23, 23]].map(([x, z]) => { const o = V.flat({ x, y: 0, z }); return [x, z, 100, o.x, o.z]; }), ...ISLETS.filter((i) => i[5]).map(([x, y, z, r]) => [x + r - 1, z, y, 1, 0]), [LANDS[0].cx + Math.round(LANDS[0].r * 0.94) - 1, LANDS[0].cz + 8, 100, 1, 0]];
 const GOLDS = [{ red: 1, green: 0.85, blue: 0.4 }, { red: 1, green: 0.95, blue: 0.7 }, { red: 1, green: 0.75, blue: 0.3 }];
 const AURORA = [{ red: 0.3, green: 1, blue: 0.62 }, { red: 0.62, green: 0.4, blue: 1 }, { red: 1, green: 0.8, blue: 0.38 }, { red: 0.3, green: 0.85, blue: 1 }];
 const rnd = (a, b) => a + Math.random() * (b - a);

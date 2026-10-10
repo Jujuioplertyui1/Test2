@@ -1,0 +1,28 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:black_flash",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/origin/entity/black_flash"
+   },
+   "geometry": {
+    "default": "geometry.origin.ghost_body"
+   },
+   "animations": {
+    "run": "animation.origin.black_flash.run"
+   },
+   "scripts": {
+    "animate": [
+     "run"
+    ]
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

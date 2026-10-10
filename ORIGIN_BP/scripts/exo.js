@@ -1,4 +1,4 @@
-// ORIGIN v0.21 - exo.js (v0.21: repulsor jets on palms + boots, twin-palm repulsor blasts, Nano Housing, Wrist Laser, hunting drones, suit status HUD)
+// ORIGIN v0.24 - exo.js (v0.21: repulsor jets on palms + boots, twin-palm repulsor blasts, Nano Housing, Wrist Laser, hunting drones, suit status HUD)
 // THE EXO-FRAME, rebuilt. Four Marks you research, build, paint and upgrade at the Exo Workshop (workshop.js):
 //   Mark I Forgeborn (riveted, tough, short rocket hops) · Mark II Skylark (fastest flyer, thin plating)
 //   Mark III Vanguard (all-rounder) · Mark IV Bastion (siege plating, big reactor, shoulder cannon)
@@ -85,6 +85,8 @@ export const BLUEPRINTS = {
   nano: { name: "Nano Housing", kind: "system", icon: "x_nano", data: 5, need: [R("minecraft:netherite_ingot", 1), R("origin:null_crystal", 1), R("minecraft:redstone_block", 2)], desc: "The suit lives inside the reactor: call it and it flows over you in a second (even mid-fall); stow it and it pours back in." },
   skycatch: { name: "Sky Catch Protocol", kind: "system", icon: "x_skycatch", data: 2, need: [R("minecraft:feather", 4), R("minecraft:redstone", 8)], desc: "Fall too far and the suit catches you on its own. No button needed." },
   advanced: { name: "Advanced Schematics", kind: "tier", icon: "x_upgrade", data: 5, need: [R("origin:rift_heart", 1)], desc: "Unlocks level 3 upgrades." },
+  orbital: { name: "Orbital Seal", kind: "system", icon: "x_orbital", data: 6, need: [R("minecraft:netherite_ingot", 1), R("origin:null_crystal", 2), R("minecraft:phantom_membrane", 4), R("minecraft:glass", 8)],
+    desc: "Pressure seals, de-icers and life support. Without it the suit ices up past 240 blocks and loses power at 290. With it you fly straight out of the sky into SPACE - and breathe there." },
 };
 export const BP_KEYS = Object.keys(BLUEPRINTS);
 
@@ -426,7 +428,7 @@ export function visorOn(p) {
 // ------------------------------------------------------------------ thrusters
 export function canExoFly(p) {
   if (!fullSuit(p)) return false;
-  if ((RT(p).groundedUntil ?? 0) > now()) { hudMsg(p, "§5Gravity lock - the thrusters can't fight it", 30); return false; }
+  if ((RT(p).groundedUntil ?? 0) > now()) { hudMsg(p, RT(p).groundedWhy === "ice" ? "§b◆ THRUSTERS ICED §7- wait for them to thaw" : "§5Gravity lock - the thrusters can't fight it", 30); return false; }
   if (offline(p).feet) { hudMsg(p, "§c◆ THRUSTERS OFFLINE §7- repair the boots", 30); return false; }
   const x = exoData(hero(p));
   if ((x.reactor ?? 0) < 10) { hudMsg(p, "§bReactor too low for thrusters", 30); return false; }
@@ -444,11 +446,44 @@ export function exoTakeoff(p) {
       thrusterJets(pl, age, boosting);
       if (age - engineAt >= (boosting ? 26 : 40)) { engineAt = age; sound(pl.dimension, "origin.sfx.engine", pl.location, boosting ? 1.15 : 0.95, boosting ? 0.55 : 0.35); }
       if (x.reactor <= 0) { x.reactor = 0; hudMsg(pl, "§bREACTOR DEPLETED", 40); aiSay(pl, "Reactor's dry, {addr}. Gliding you down."); return false; }
+      if (altitude(pl, age, x) === false) return false;
       if (x.reactor < 12 && age % 100 === 0) aiSay(pl, `Reactor at ${Math.round(x.reactor)}, {addr}. I'd find somewhere to land.`, { chat: false });
       return true;
     },
     onEnd: (pl) => markDirty(pl),
   });
+}
+// ALTITUDE. The suit was never rated for the edge of the sky: past 240 blocks it starts to ice up (the thrusters
+// sputter, the reactor burns three times as fast), and at 290 it loses power and drops you - the Sky Catch can grab
+// you again once you've fallen into warmer air. The ORBITAL SEAL blueprint fixes all of it, and then the sky has no
+// top: keep climbing past 330 and you're in space (space.js).
+const ICE_START = 240, ICE_FAIL = 290;
+function altitude(p, age, x) {
+  const r = RT(p);
+  let dimId = ""; try { dimId = p.dimension.id; } catch { }
+  if (dimId !== "minecraft:overworld") return true;
+  const y = p.location.y;
+  if (knows(hero(p), "orbital")) {
+    if (y > ICE_START && !r.orbitalSaid) { r.orbitalSaid = true; aiSay(p, "Orbital Seal holding, {addr}. Keep climbing and we'll be in space."); }
+    if (y < ICE_START - 40) r.orbitalSaid = false;
+    return true;
+  }
+  if (y <= ICE_START) { r.iceSaid = 0; return true; }
+  const ice = Math.min(1, (y - ICE_START) / (ICE_FAIL - ICE_START));
+  x.reactor -= 0.16 * ice;
+  if (age % 4 === 0) fx(p.dimension, "origin:mote", at(p.location, (Math.random() - 0.5) * 0.8, 0.5 + Math.random() * 1.3, (Math.random() - 0.5) * 0.8), { red: 0.85, green: 0.95, blue: 1 }, 0.9);
+  if (age % 10 === 0) hudMsg(p, `§b◆ ICING ${Math.round(ice * 100)}% §7- the suit isn't rated for this altitude`, 14);
+  if (ice > 0.3 && Math.random() < ice * 0.25) { try { p.applyKnockback({ x: 0, z: 0 }, -0.25 * ice); } catch { } sound(p.dimension, "random.fizz", p.location, 1.6, 0.3); }
+  if (ice > 0.5 && !r.iceSaid) { r.iceSaid = 1; aiSay(p, "We're icing up, {addr}. The suit can't take this altitude - I'd turn back."); }
+  if (y > ICE_FAIL) {
+    r.groundedUntil = now() + 100; r.groundedWhy = "ice";
+    hudMsg(p, "§c◆ ICED UP - POWER FAILURE", 60);
+    aiSay(p, "Power failure! The thrusters are frozen solid, {addr}. Hang on - they'll thaw on the way down. (The Orbital Seal blueprint would fix this.)");
+    sound(p.dimension, "random.glass", p.location, 0.6, 1);
+    try { p.camera.fade({ fadeTime: { fadeInTime: 0, holdTime: 0.1, fadeOutTime: 0.6 }, fadeColor: { red: 0.8, green: 0.9, blue: 1 } }); } catch { }
+    return false;
+  }
+  return true;
 }
 // repulsor jets on both palms and both boots: a white-hot core inside the beam colour. They point down while you
 // hover and back while you fly, and stretch long and orange-hot when you boost. Hovering low kicks up dust.

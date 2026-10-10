@@ -1,4 +1,4 @@
-// ORIGIN v0.23 - mjolnir.js
+// ORIGIN v0.24 - mjolnir.js
 // MJOLNIR, the thunder god's hammer from Norse myth (forged by the dwarf brothers Brokkr and Eitri). It rests on a
 // rune stone in Asgard's palace hall, and only the WORTHY can lift it. Worthiness is honour: you earn it by protecting
 // (beating monsters and bosses) and lose it by preying on the innocent (villagers, golems, pets, and players who never
@@ -66,7 +66,7 @@ export function worthy(p) {
   try { if (String(p.getGameMode()).toLowerCase() === "creative") return true; } catch { }
   return honorOf(p) >= WORTHY;
 }
-function addHonor(p, n, why) {
+export function addHonor(p, n, why) {
   const h = hero(p), before = h.honor ?? 10;
   h.honor = Math.max(-100, Math.min(100, before + n));
   markDirty(p);

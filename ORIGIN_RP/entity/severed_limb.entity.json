@@ -1,21 +1,34 @@
 {
-  "format_version": "1.10.0",
-  "minecraft:client_entity": {
-    "description": {
-      "identifier": "origin:severed_limb",
-      "materials": {
-        "default": "entity_alphatest"
-      },
-      "textures": {
-        "flesh": "textures/origin/entity/limb_flesh",
-        "armored": "textures/origin/entity/limb_armored"
-      },
-      "geometry": {
-        "default": "geometry.origin.limb"
-      },
-      "render_controllers": [
-        "controller.render.origin.limb"
-      ]
-    }
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:severed_limb",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "flesh": "textures/origin/entity/limb_flesh",
+    "armored": "textures/origin/entity/limb_armored",
+    "zombie": "textures/origin/entity/limb_zombie",
+    "bone": "textures/origin/entity/limb_bone",
+    "grey": "textures/origin/entity/limb_grey",
+    "piglin": "textures/origin/entity/limb_piglin",
+    "husk": "textures/origin/entity/limb_husk"
+   },
+   "geometry": {
+    "default": "geometry.origin.limb"
+   },
+   "render_controllers": [
+    "controller.render.origin.limb"
+   ],
+   "animations": {
+    "twitch": "animation.origin.limb.twitch"
+   },
+   "scripts": {
+    "animate": [
+     "twitch"
+    ]
+   }
   }
+ }
 }

@@ -1,0 +1,29 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:batarang_thrown",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "plain": "textures/origin/entity/gear/batarang",
+    "explosive": "textures/origin/entity/gear/batarang_explosive"
+   },
+   "geometry": {
+    "default": "geometry.origin.batarang_thrown"
+   },
+   "animations": {
+    "spin": "animation.origin.batarang_thrown.spin"
+   },
+   "scripts": {
+    "animate": [
+     "spin"
+    ]
+   },
+   "render_controllers": [
+    "controller.render.origin.batarang"
+   ]
+  }
+ }
+}

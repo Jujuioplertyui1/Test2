@@ -1,8 +1,11 @@
-// ORIGIN v0.23 - gear.js
+// ORIGIN v0.24 - gear.js
 // Hero gear (original designs):
-//  VANGUARD SHIELD   sneak = guard (blocks everything from the front, arrows included) · use = throw it: it ricochets
-//                    between up to four enemies (and off walls) and comes back · sprint + use = shield charge ·
-//                    sneak + use = shield slam · use the empty strap to call it back early
+//  VANGUARD SHIELD   sneak = guard (blocks everything from the front, arrows included); raise it just as a hit lands
+//                    for a PERFECT BLOCK (shots go back at the shooter) · guard while you fall = SHIELD LANDING ·
+//                    use = throw it: real ricochet physics off walls (bank shots into people behind cover), chains
+//                    through up to five enemies, curves home like a boomerang · catch it after 3+ hits = TRICK SHOT ·
+//                    hit, hit, hit = bash, bash, UPPERCUT · sprint + use = shield charge · sneak + use = shield slam ·
+//                    use the empty strap to call it back early
 //  SHOCK BATONS      every hit shocks and staggers · every third hit in a row is a flip kick · use = chain shock
 //                    (arcs through four enemies) · sneak + use = takedown (vault onto them and slam them down)
 //  AGENT GAUNTLETS   use = shock dart · sneak + use = grapple line (pull yourself to a block, or yank an enemy to you)
@@ -13,6 +16,7 @@ import { V, at, valid, fx, sound, now, C, isSolidBlock, FX_IDS, hexToRgb } from 
 import { hudMsg } from "./voice.js";
 import { tether } from "./models.js";
 import { bolt } from "./powers3.js";
+import { flashBeam, STYLES } from "./beams.js";
 
 export const SHIELD = "origin:vanguard_shield", SHIELD_STRAP = "origin:shield_strap", BATONS = "origin:shock_batons", GAUNTLETS = "origin:agent_gauntlets";
 export const GEAR = new Set([SHIELD, SHIELD_STRAP, BATONS, GAUNTLETS]);
@@ -50,7 +54,7 @@ function tutorial(p, id) {
   if (h.gearSeen[id]) return;
   h.gearSeen[id] = 1; markDirty(p);
   const T = {
-    [SHIELD]: "§eVanguard Shield §7- sneak: guard · use: throw (ricochets) · sprint + use: charge · sneak + use: slam",
+    [SHIELD]: "§eVanguard Shield §7- sneak: guard (time it = perfect block) · use: throw (bounces off walls into enemies) · 3 hits: uppercut · sprint + use: charge · sneak + use: slam · guard while falling: shield landing",
     [BATONS]: "§bShock Batons §7- hits shock and stagger, every 3rd is a flip kick · use: chain shock · sneak + use: takedown",
     [GAUNTLETS]: "§bAgent Gauntlets §7- use: shock dart · sneak + use: grapple · sprint + use: ghost",
   };
@@ -67,10 +71,14 @@ export function useGear(p, id, sneaking) {
 }
 
 // ------------------------------------------------------------------ the shield: guard
+// Sneak with it up: blocks everything from the front. Raise it just as a hit lands (a PERFECT BLOCK) and arrows,
+// bolts and fireballs go straight back at whoever sent them. Falling with it raised under you: a SHIELD LANDING -
+// you ride it down, no fall damage, and the impact flattens everything around you.
 export function onShieldBefore(ev) {
   const p = ev.hurtEntity;
   if (p?.typeId !== "minecraft:player" || !p.isSneaking || heldId(p) !== SHIELD) return false;
   const cause = String(ev.damageSource?.cause);
+  if (cause === "fall") return shieldLanding(p, ev);
   const src = ev.damageSource.damagingEntity ?? ev.damageSource.damagingProjectile;
   if (!src && cause !== "entityExplosion" && cause !== "blockExplosion") return false;
   if (!src) return false;   // can't tell where it came from: the shield can't be sure it's in the way
@@ -83,19 +91,62 @@ export function onShieldBefore(ev) {
   }
   if (cause === "entityAttack" || cause === "projectile" || cause === "magic" || cause === "fireworks") ev.cancel = true;
   else return false;
-  const attacker = ev.damageSource.damagingEntity;
+  const attacker = ev.damageSource.damagingEntity, dmg = ev.damage, r = RT(p);
+  const perfect = now() - (r.guardAt ?? -99) <= 8;
   system.run(() => {
     if (!valid(p)) return;
     const yaw = (p.getRotation().y * Math.PI) / 180, c = at(p.location, -Math.sin(yaw) * 0.7, 1.2, Math.cos(yaw) * 0.7);
     for (let k = 0; k < 4; k++) fx(p.dimension, "origin:spark", c, k % 2 ? BRONZE : WHITE, 1);
     sound(p.dimension, "item.shield.block", p.location, 0.9, 1); sound(p.dimension, "random.anvil_land", p.location, 1.8, 0.25);
-    if (valid(attacker) && cause === "entityAttack" && V.dist(attacker.location, p.location) < 4) { const d = V.flat(V.sub(attacker.location, p.location)); try { attacker.applyKnockback({ x: d.x * 0.7, z: d.z * 0.7 }, 0.2); } catch { } }
+    if (cause !== "entityAttack" && perfect && valid(attacker) && attacker !== p && V.dist(attacker.location, p.location) < 40) {
+      // the shot goes back the way it came
+      const to2 = at(attacker.location, 0, 1.1, 0);
+      try { flashBeam(p.dimension, c, to2, { ...STYLES.tracer, glow: BRONZE }, { life: 0.25 }); } catch { }
+      hurt(attacker, Math.max(4, dmg * 1.5), p);
+      stun(attacker, 30);
+      fx(p.dimension, "origin:flash", c, BRONZE, 1, { size: 1.2 });
+      sound(p.dimension, "origin.sfx.ting", c, 1.4, 1);
+      hudMsg(p, "§e§lREFLECTED", 20);
+    } else if (valid(attacker) && cause === "entityAttack" && V.dist(attacker.location, p.location) < 4) {
+      const d = V.flat(V.sub(attacker.location, p.location));
+      try { attacker.applyKnockback({ x: d.x * (perfect ? 1.4 : 0.7), z: d.z * (perfect ? 1.4 : 0.7) }, perfect ? 0.35 : 0.2); } catch { }
+      if (perfect) { stun(attacker, 40); hudMsg(p, "§e§lPERFECT BLOCK", 20); sound(p.dimension, "origin.sfx.parry", p.location, 1.2, 1); }
+    }
+  });
+  return true;
+}
+function shieldLanding(p, ev) {
+  const dmg = ev.damage;
+  if (dmg > 40) { ev.damage = dmg - 40; return false; }   // even vibranium has limits
+  ev.cancel = true;
+  system.run(() => {
+    if (!valid(p)) return;
+    const c = { ...p.location }, dim = p.dimension, power = Math.min(1, dmg / 20), R = 3 + power * 4;
+    fx(dim, "origin:shockwave", at(c, 0, 0.1, 0), BRONZE, 1, { radius: R }); fx(dim, "origin:shockwave", at(c, 0, 0.3, 0), WHITE, 1, { radius: R * 0.5 });
+    fx(dim, "origin:debris", c, C.dust, 1); fx(dim, "origin:dust", c, C.dust, 1);
+    sound(dim, "random.anvil_land", c, 0.5, 1); sound(dim, "origin.sfx.stonecrash", c, 0.8, 1);
+    try { for (const q of dim.getPlayers({ location: c, maxDistance: 16 })) shake(q, 0.25 + power * 0.3, 0.3); } catch { }
+    for (const e of creatures(dim, c, R, p)) {
+      const d = V.flat(V.sub(e.location, c));
+      hurt(e, 4 + Math.round(power * 8), p);
+      try { e.applyKnockback({ x: d.x * (0.6 + power), z: d.z * (0.6 + power) }, 0.4 + power * 0.4); } catch { }
+      stun(e, 20);
+    }
+    hudMsg(p, dmg >= 6 ? "§e§lSHIELD LANDING" : "§7Shield landing", 25);
   });
   return true;
 }
 
 // ------------------------------------------------------------------ the shield: throw, ricochet, return
+// The throw is real geometry now: every sub-step it ray-casts for blocks and reflects off the face it hits (angle in =
+// angle out), losing a little speed each time. After a wall it looks for a target near the new heading and banks
+// into it - aim at a wall to hit someone behind cover. Each enemy it hits sends it on to the nearest one it hasn't
+// hit yet (up to five). On the way back it curves home like a boomerang, and still clips anyone in its path.
+// Catch it after three or more hits for a TRICK SHOT: your charge and slam come back off cooldown.
 const shields = new Map();
+const MAX_BOUNCES = 5;
+const NORMAL = { Up: { x: 0, y: 1, z: 0 }, Down: { x: 0, y: -1, z: 0 }, North: { x: 0, y: 0, z: -1 }, South: { x: 0, y: 0, z: 1 }, East: { x: 1, y: 0, z: 0 }, West: { x: -1, y: 0, z: 0 } };
+const reflect = (d, n) => { const k = 2 * V.dot(d, n); return V.norm({ x: d.x - k * n.x, y: d.y - k * n.y, z: d.z - k * n.z }); };
 function strapStack() { const s = new ItemStack(SHIELD_STRAP, 1); try { s.keepOnDeath = true; s.setLore(["§7Your shield is out there.", "§8Use: call it back."]); } catch { } return s; }
 function shieldStack() { const s = new ItemStack(SHIELD, 1); try { s.keepOnDeath = true; } catch { } return s; }
 function throwShield(p) {
@@ -109,10 +160,14 @@ function throwShield(p) {
     if (!c || c.getItem(slot)?.typeId !== SHIELD) return;
     c.setItem(slot, strapStack());
     hero(p).shieldOut = true; saveNow(p);   // saved at once: a quick log-off can't lose or copy it
-    const dir = V.norm(p.getViewDirection()), pos = V.add(handPos(p), V.mul(dir, 0.7));
+    let dir = V.norm(p.getViewDirection());
+    // a little aim assist: someone close to where you're looking gets the shield
+    const lock = lookE(p, 28);
+    const pos = V.add(handPos(p), V.mul(dir, 0.7));
+    if (lock) dir = V.norm(V.sub(at(lock.location, 0, 1, 0), pos));
     let e; try { e = p.dimension.spawnEntity(THROWN, pos); } catch { }
     if (!e) { c.setItem(slot, shieldStack()); hero(p).shieldOut = false; saveNow(p); return; }
-    shields.set(p.id, { p, e, pos, dir, phase: "out", t: 0, dist: 0, bounces: 0, hits: new Set(), dim: p.dimension, speed: 1.5 });
+    shields.set(p.id, { p, e, pos, dir, phase: "out", t: 0, dist: 0, bounces: 0, hits: new Set(), dim: p.dimension, speed: 1.6, born: now(), hitCount: 0, walls: 0 });
   }, 3);
 }
 function recallShield(p) {
@@ -126,34 +181,66 @@ function recallShield(p) {
 }
 function ricochetFrom(m, from) {   // the next enemy it can bounce to
   let best = null, bd = 99;
-  for (const e of creatures(m.dim, from, 10, m.p)) {
+  for (const e of creatures(m.dim, from, 12, m.p)) {
     if (m.hits.has(e.id) || e.typeId === "minecraft:player") continue;
     const d = V.dist(e.location, from);
     if (d < bd) { bd = d; best = e; }
   }
   return best;
 }
+// after a wall: someone within ~40 degrees of the new heading and 18 blocks gets banked into
+function bankTarget(m, from, dir) {
+  let best = null, bs = 0.76;
+  for (const e of creatures(m.dim, from, 18, m.p)) {
+    if (m.hits.has(e.id) || e.typeId === "minecraft:player") continue;
+    const to = V.norm(V.sub(at(e.location, 0, 1, 0), from)), s = V.dot(to, dir);
+    if (s > bs) { bs = s; best = e; }
+  }
+  return best;
+}
 function clang(m, at0) { for (let k = 0; k < 4; k++) fx(m.dim, "origin:spark", at0, k % 2 ? BRONZE : WHITE, 1); sound(m.dim, "random.anvil_land", at0, 1.7, 0.45); sound(m.dim, "item.shield.block", at0, 1.2, 0.8); }
+function shieldHit(m, hit, at0) {
+  const p = m.p, dim = m.dim;
+  m.hits.add(hit.id); m.bounces++; m.hitCount++;
+  hurt(hit, 9 + Math.min(4, m.hitCount - 1), p);   // each link in the chain hits a little harder
+  try { hit.applyKnockback({ x: m.dir.x * 1.2, z: m.dir.z * 1.2 }, 0.3); } catch { }
+  stun(hit, 14);
+  clang(m, at(hit.location, 0, 1, 0)); sound(dim, "origin.sfx.heavyhit", hit.location, 1.2, 0.8);
+  if (m.hitCount >= 2) hudMsg(p, `§e§lRICOCHET §r§fx${m.hitCount}`, 16);
+}
 function stepShield(m) {
   const dim = m.dim, p = m.p;
   if (m.phase === "out") {
     const n = 4;
     for (let s = 0; s < n && m.phase === "out"; s++) {
-      const step = V.mul(m.dir, m.speed / n), next = V.add(m.pos, step);
+      const len = m.speed / n, step = V.mul(m.dir, len), next = V.add(m.pos, step);
       const hit = creatures(dim, next, 2.6, p).find((e) => !m.hits.has(e.id) && bodyHit(e, next));
       if (hit) {
-        m.hits.add(hit.id); m.bounces++;
-        hurt(hit, 9, p);
-        try { hit.applyKnockback({ x: m.dir.x * 1.2, z: m.dir.z * 1.2 }, 0.3); } catch { }
-        stun(hit, 14);
-        clang(m, at(hit.location, 0, 1, 0)); sound(dim, "origin.sfx.heavyhit", hit.location, 1.2, 0.8);
-        const nxt = m.bounces < 4 ? ricochetFrom(m, next) : null;
+        shieldHit(m, hit, next);
+        const nxt = m.bounces < MAX_BOUNCES ? ricochetFrom(m, next) : null;
         if (nxt) m.dir = V.norm(V.sub(at(nxt.location, 0, 1, 0), next)); else m.phase = "back";
         m.pos = next;
         break;
       }
+      // walls: find the face we hit and bounce off it properly
+      let rh = null;
+      try { rh = dim.getBlockFromRay(m.pos, m.dir, { maxDistance: len + 0.25, includePassableBlocks: false, includeLiquidBlocks: false }); } catch { }
+      if (rh?.block && isSolidBlock(rh.block)) {
+        const L = rh.block.location, pt = { x: L.x + rh.faceLocation.x, y: L.y + rh.faceLocation.y, z: L.z + rh.faceLocation.z };
+        const nrm = NORMAL[String(rh.face)] ?? V.mul(m.dir, -1);
+        let d = reflect(m.dir, nrm);
+        m.pos = V.add(pt, V.mul(nrm, 0.3));
+        const bank = bankTarget(m, m.pos, d);
+        if (bank) d = V.norm(V.sub(at(bank.location, 0, 1, 0), m.pos));
+        m.dir = d; m.bounces++; m.walls++; m.speed = Math.max(1.0, m.speed * 0.93);
+        clang(m, m.pos);
+        sound(dim, "random.orb", m.pos, 0.6 + Math.random() * 0.2, 0.5);   // the ring of it
+        if (m.bounces >= MAX_BOUNCES) m.phase = "back";
+        break;
+      }
+      // fallback for blocks the ray can't see (inside a block already): the old axis flip
       let blk; try { blk = dim.getBlock(next); } catch { m.phase = "back"; break; }
-      if (blk && isSolidBlock(blk)) {   // bounce off the wall: flip the axes that went into it
+      if (blk && isSolidBlock(blk)) {
         const solid = (o) => { try { return isSolidBlock(dim.getBlock(V.add(m.pos, o))); } catch { return true; } };
         const d = { ...m.dir };
         if (solid({ x: step.x, y: 0, z: 0 })) d.x = -d.x;
@@ -162,21 +249,25 @@ function stepShield(m) {
         if (d.x === m.dir.x && d.y === m.dir.y && d.z === m.dir.z) { d.x = -d.x; d.z = -d.z; }
         m.dir = V.norm(d); m.bounces++;
         clang(m, m.pos);
-        if (m.bounces >= 4) m.phase = "back";
+        if (m.bounces >= MAX_BOUNCES) m.phase = "back";
         break;
       }
       m.pos = next;
     }
     m.dist += m.speed;
-    if (m.phase === "out" && m.dist >= 26) m.phase = "back";
+    if (m.phase === "out" && m.dist >= 30) m.phase = "back";
   } else {
     const hand = handPos(p);
     if (p.dimension.id !== dim.id || V.dist(hand, m.pos) > 160) return catchShield(p, m);
     m.backT = (m.backT ?? 0) + 1;
-    const sp = Math.min(2.4, 1.0 + m.backT * 0.1), to = V.sub(hand, m.pos), L = V.len(to);
+    const sp = Math.min(2.6, 1.0 + m.backT * 0.1), to = V.sub(hand, m.pos), L = V.len(to);
     if (L <= sp + 0.6) return catchShield(p, m);
-    m.dir = V.mul(to, 1 / L);
+    // boomerang: turn toward the hand a bit more each tick instead of snapping straight at it
+    const want = V.mul(to, 1 / L), turn = Math.min(1, 0.22 + m.backT * 0.04);
+    m.dir = V.norm(V.lerp(m.dir, want, turn));
     m.pos = V.add(m.pos, V.mul(m.dir, sp));
+    const hit = creatures(dim, m.pos, 2.4, p).find((e) => !m.hits.has(e.id) && e.typeId !== "minecraft:player" && bodyHit(e, m.pos));
+    if (hit) shieldHit(m, hit, m.pos);
   }
   try { m.e.teleport(m.pos, { rotation: { x: 0, y: (Math.atan2(-m.dir.x, m.dir.z) * 180) / Math.PI } }); } catch { }
   if (m.t % 2 === 0) fx(dim, "origin:streak_glow", m.pos, STEEL, 0.5, { dx: -m.dir.x, dy: -m.dir.y, dz: -m.dir.z, len: 0.9, w: 0.1, spd: 0.1, life: 0.1 });
@@ -191,6 +282,12 @@ function catchShield(p, m) {
   sound(p.dimension, "item.shield.block", p.location, 1.4, 0.8); sound(p.dimension, "random.anvil_land", p.location, 2, 0.2);
   fx(p.dimension, "origin:spark", handPos(p), BRONZE, 1);
   shake(p, 0.12, 0.12);
+  if (m.hitCount >= 3) {   // TRICK SHOT: the rest of your kit comes back
+    const r = RT(p);
+    r.shCharge = 0; r.shSlam = 0;
+    hudMsg(p, `§e§lTRICK SHOT §r§fx${m.hitCount}${m.walls ? ` §7(${m.walls} bank${m.walls > 1 ? "s" : ""})` : ""} §8- charge & slam ready`, 40);
+    sound(p.dimension, "random.levelup", p.location, 1.6, 0.4);
+  }
 }
 function putBack(p) {
   const c = container(p);
@@ -262,11 +359,40 @@ async function shieldSlam(p) {
   }
 }
 
+// ------------------------------------------------------------------ the shield: melee (bash, bash, UPPERCUT)
+function shieldBash(p, target) {
+  const r = RT(p), t = now(), dim = p.dimension;
+  if ((r.shBashAt ?? 0) > t) return;
+  r.shBashAt = t + 4;
+  r.shCombo = t - (r.shBashLast ?? -99) < 30 ? (r.shCombo ?? 0) + 1 : 1;
+  r.shBashLast = t;
+  const d = V.flat(V.sub(target.location, p.location)), n = r.shCombo % 3;
+  play(p, "animation.origin.shield.bash");
+  system.run(() => {
+    if (!valid(target)) return;
+    if (n === 0) {   // third in a row: the uppercut
+      hurt(target, 6, p);
+      try { target.applyKnockback({ x: d.x * 0.4, z: d.z * 0.4 }, 0.95); } catch { }
+      stun(target, 30);
+      fx(dim, "origin:flash", at(target.location, 0, 1.2, 0), BRONZE, 1, { size: 1.3 }); fx(dim, "origin:shockwave", at(target.location, 0, 0.2, 0), WHITE, 0.9, { radius: 1.6 });
+      sound(dim, "origin.sfx.heavyhit", target.location, 0.9, 1); sound(dim, "random.anvil_land", target.location, 1.4, 0.4);
+      shake(p, 0.2, 0.15);
+      hudMsg(p, "§e§lSHIELD UPPERCUT", 16);
+    } else {
+      hurt(target, 2, p);
+      try { target.applyKnockback({ x: d.x * (n === 2 ? 1.4 : 1.0), z: d.z * (n === 2 ? 1.4 : 1.0) }, 0.3); } catch { }
+      if (n === 2) stun(target, 10);
+      fx(dim, "origin:spark", at(target.location, 0, 1.2, 0), BRONZE, 1);
+      sound(dim, "item.shield.block", target.location, 1.2 + n * 0.1, 0.7);
+    }
+  });
+}
+
 // ------------------------------------------------------------------ shock batons
 export function onGearMelee(p, target) {
   const id = heldId(p);
   if (!valid(target)) return;
-  if (id === SHIELD) { const d = V.flat(V.sub(target.location, p.location)); system.run(() => { try { target.applyKnockback({ x: d.x * 1.0, z: d.z * 1.0 }, 0.3); } catch { } }); play(p, "animation.origin.shield.bash"); return; }
+  if (id === SHIELD) return shieldBash(p, target);
   if (id === GAUNTLETS) return ambushHit(p, target);
   if (id !== BATONS) return;
   const r = RT(p), t = now(), dim = p.dimension;

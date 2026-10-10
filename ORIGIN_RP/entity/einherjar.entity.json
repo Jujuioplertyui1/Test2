@@ -1,0 +1,40 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:einherjar",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/origin/entity/einherjar"
+   },
+   "geometry": {
+    "default": "geometry.origin.asgardian"
+   },
+   "animations": {
+    "look": "animation.origin.asgardian.look",
+    "walk": "animation.origin.asgardian.walk",
+    "idle": "animation.origin.asgardian.idle_guard"
+   },
+   "scripts": {
+    "animate": [
+     "look",
+     {
+      "walk": "q.modified_move_speed > 0.02"
+     },
+     {
+      "idle": "q.modified_move_speed <= 0.02"
+     }
+    ]
+   },
+   "render_controllers": [
+    "controller.render.origin.einherjar"
+   ],
+   "spawn_egg": {
+    "base_color": "#d9a23a",
+    "overlay_color": "#8b1d1d"
+   }
+  }
+ }
+}

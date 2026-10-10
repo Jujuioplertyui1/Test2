@@ -10,7 +10,7 @@
           "type": "int",
           "range": [
             0,
-            1
+            6
           ],
           "default": 0,
           "client_sync": true

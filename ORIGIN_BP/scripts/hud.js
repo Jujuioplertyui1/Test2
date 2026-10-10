@@ -1,4 +1,4 @@
-// ORIGIN v0.04 - hud.js
+// ORIGIN v0.24 - hud.js
 // Corner HUD: the script sends "origin_hud<lines>" on the TITLE channel; RP ui/hud_screen.json hides that
 // title in the middle of the screen and draws the text in a panel in the top-left corner instead
 // (it keeps the last value, so real titles can still play over it). Quips use the actionbar.
@@ -18,6 +18,9 @@ import { surgeLine, trialLine } from "./ascend.js";
 import { lumenLine } from "./lumen.js";
 import { inNullFight } from "./null.js";
 import { limbLine } from "./dismember.js";
+import { sfLine } from "./speedforce.js";
+import { spaceLine } from "./space.js";
+import { raidLine } from "./heimdall.js";
 import { staminaLine } from "./stamina.js";
 
 export const HUD_PREFIX = "origin_hud";
@@ -74,6 +77,12 @@ export function buildCorner(p) {
   if (cl) lines.unshift(cl);
   const gl = gauntletLine(p);
   if (gl) lines.push(gl);
+  const sfl = sfLine(p);
+  if (sfl) lines.push(sfl);
+  const spl = spaceLine(p);
+  if (spl) lines.unshift(spl);
+  const rl = raidLine(p);
+  if (rl) lines.unshift(rl);
   const c = comboOf(p);
   if (c >= 2) lines.push(`§6${ICON.combo} §lx${c} §r§6COMBO`);
   return lines.join("\n");
@@ -92,12 +101,15 @@ function buildVanilla(p) {
   const r = RT(p);
   const t = now();
   const hasMsg = r.msgUntil > t && r.msg;
-  const show = hasMsg || holding(p) || t - r.lastCombat < 160 || h.dread >= 70 || inIW(p);
+  const show = hasMsg || holding(p) || t - r.lastCombat < 160 || h.dread >= 70 || inIW(p) || !!spaceLine(p) || !!sfLine(p);
   if (!show) return null;
   const max = maxEnergy(h);
   const over = h.arch === "energy" && h.energy >= max * 0.9;
   const lines = [];
   if (hasMsg) lines.push(r.msg);
+  const spl = spaceLine(p), sfl = sfLine(p);
+  if (spl) lines.push(spl);
+  if (sfl) lines.push(sfl);
   lines.push(moveLine(h, r, t, over));
   const pl = powerLine(p);
   if (pl) lines.push(pl);

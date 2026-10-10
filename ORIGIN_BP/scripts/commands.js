@@ -3,6 +3,8 @@ import { ItemStack as ItemStack3 } from "@minecraft/server";
 // /hero <action> [value]   (also available as /origin:hero)
 import { system, world, CommandPermissionLevel, CustomCommandParamType, CustomCommandStatus } from "@minecraft/server";
 import { hero, RT, markDirty, saveNow, resetHero, maxEnergy, ARCH } from "./data.js";
+import { resetSpace } from "./space.js";
+import { enterSpeedForce } from "./speedforce.js";
 import { at, msg, valid, forwardFromYaw } from "./util.js";
 import { startAwakening } from "./awakening.js";
 import { setDread } from "./dread.js";
@@ -31,7 +33,7 @@ import { resetAsgard } from "./asgard.js";
 import { giveMjolnir, honorOf, worthy } from "./mjolnir.js";
 
 const ACTIONS = ["help", "awaken", "dread", "energy", "sky", "enter", "wake", "spawn", "info", "codex", "moves", "suit", "forge", "hud", "ui", "give", "reset", "rebuild",
-  "power", "ego", "villain", "villains", "static", "quest", "exo", "meteor", "other", "nemesis", "stage", "resolve", "surge", "trial", "signet", "gore", "sever", "katana", "serum", "prosthetic", "armfix", "stones", "gauntlet", "blueprints", "workshop", "overlay", "ai", "mark", "skycatch", "mirror", "xox", "guns", "weapons", "ultimate", "destruction", "bifrost", "asgard", "mjolnir", "honor", "gear"];
+  "power", "ego", "villain", "villains", "static", "quest", "exo", "meteor", "other", "nemesis", "stage", "resolve", "surge", "trial", "signet", "gore", "sever", "katana", "serum", "prosthetic", "armfix", "stones", "gauntlet", "blueprints", "workshop", "overlay", "ai", "mark", "skycatch", "mirror", "xox", "guns", "weapons", "ultimate", "destruction", "bifrost", "asgard", "mjolnir", "honor", "gear", "space", "speedforce", "null", "raid"];
 
 const HELP = [
   "§f§lORIGIN /hero commands",
@@ -60,7 +62,8 @@ const HELP = [
   "§e/hero overlay §7<full|safe> - if the helmet/NULL overlays don't show, try safe",
   "§e/hero xox §7- summon XoX (or craft a Gravity Seal) · §e/hero guns §7· §e/hero weapons §7· §e/hero ultimate §7(testing)",
   "§e/hero power hellfire §7| web_slinger | telekinesis | pyrokinesis | cryokinesis | blood_manipulation | graviton | super_speed | super_strength | super_durability | regeneration | stretch | flight | titan_grip | blast | sentry | mirror_hour | arc_storm | shadow_step | shade_form | tendrils | umbral_clones · every power has new moves in its Power menu (sneak + use) · §e/hero bifrost §7(Asgard key) · §e/hero destruction §7<on|off>",
-  "§e/hero asgard rebuild §7(operators) - rebuild Asgard",
+  "§e/hero asgard rebuild §7(operators) - rebuild Asgard (it's three times bigger now; Heimdall guards the Bifrost)",
+  "§e/hero space §7[rebuild] - launch into space (or re-enter) · §e/hero speedforce §7- straight into the Speed Force · §e/hero null §7- summon NULL here (testing) · §e/hero raid §7- a raid on Asgard (testing)",
   "§e/hero honor §7- how worthy you are (Mjolnir waits in Asgard's palace hall) · §e/hero mjolnir §7· §e/hero gear §7(testing)",
   "§e/hero info §7- print your hero data",
   "§e/hero codex §7| §emoves §7- open menus",
@@ -369,9 +372,23 @@ function run(player, action, value) {
     case "asgard":
       if (value === "rebuild") { resetAsgard(); return msg(player, "§6Asgard will rebuild around whoever is standing in it."); }
       return msg(player, "§7Usage: /hero asgard rebuild");
+    case "space": {
+      if (value === "rebuild") { resetSpace(); return msg(player, "§7Watchtower Station, the Moon and the asteroids will rebuild."); }
+      if (player.dimension.id === "origin:space") { player.teleport({ x: player.location.x, y: 2, z: player.location.z }); return; }
+      if (player.dimension.id !== "minecraft:overworld") return msg(player, "§7Space is above the Overworld.");
+      player.teleport({ x: player.location.x, y: 332, z: player.location.z });
+      return msg(player, "§7Up you go. §8(Real route: fly above y 330. The Exo-Frame needs the Orbital Seal blueprint.)");
+    }
+    case "speedforce": enterSpeedForce(player); return;
+    case "raid": import("./heimdall.js").then((m) => msg(player, m.forceRaid() ? "§cA raid on Asgard begins." : "§7Only in Asgard, and not while a raid is on.")).catch((e) => msg(player, "§c" + e)); return;
+    case "null": import("./null.js").then((m) => m.summonNull(player)).catch((e) => msg(player, "§c" + e)); return;
     case "mjolnir": giveMjolnir(player); return msg(player, "§bMjolnir (testing). §7Use: throw it · use again: call it back · sneak + use: Thunder menu · double-tap jump: fly. §8The real one waits on a rune stone in Asgard's palace hall - only the worthy can lift it.");
     case "honor": return msg(player, `§bHonor §f${honorOf(player)}§7/20 - ${worthy(player) ? "§bworthy." : "§7not yet worthy."} §8Beat monsters (+1) and bosses (+5). Killing villagers, golems, pets or players who never fought you costs it.`);
-    case "gear": for (const g of ["origin:vanguard_shield", "origin:shock_batons", "origin:agent_gauntlets"]) giveItem(player, g); return msg(player, "§eVanguard Shield, Shock Batons, Agent Gauntlets. §7Hold each one for its controls. §8(All craftable.)");
+    case "gear": {
+      for (const g of ["origin:vanguard_shield", "origin:shock_batons", "origin:agent_gauntlets"]) giveItem(player, g);
+      try { const c = player.getComponent("minecraft:inventory").container; c.addItem(new ItemStack3("origin:batarang", 16)); c.addItem(new ItemStack3("origin:explosive_batarang", 8)); } catch { }
+      return msg(player, "§eVanguard Shield, Shock Batons, Agent Gauntlets, Batarangs. §7Hold each one for its controls. §8(All craftable.)");
+    }
     case "bifrost": giveItem(player, "origin:bifrost_key"); return msg(player, "§6Bifrost Keystone. §7Use it in the Overworld, under open sky, to go to Asgard - and again in Asgard to come home.");
     default:
       msg(player, HELP);

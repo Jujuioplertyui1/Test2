@@ -1,0 +1,33 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:null_antenna",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "idle": "textures/origin/entity/null_antenna",
+    "hot": "textures/origin/entity/null_antenna_hot"
+   },
+   "geometry": {
+    "default": "geometry.origin.null_antenna"
+   },
+   "animations": {
+    "spin": "animation.origin.null_antenna.spin"
+   },
+   "scripts": {
+    "animate": [
+     "spin"
+    ]
+   },
+   "render_controllers": [
+    "controller.render.origin.null_antenna"
+   ],
+   "spawn_egg": {
+    "base_color": "#1a1a1a",
+    "overlay_color": "#2affff"
+   }
+  }
+ }
+}

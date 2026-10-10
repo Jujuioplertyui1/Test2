@@ -1,0 +1,23 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "origin:batarang",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:display_name": {
+    "value": "Batarang"
+   },
+   "minecraft:icon": {
+    "textures": {
+     "default": "origin_batarang"
+    }
+   },
+   "minecraft:max_stack_size": 16,
+   "minecraft:hand_equipped": true
+  }
+ }
+}

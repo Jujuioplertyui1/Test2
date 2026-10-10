@@ -389,7 +389,12 @@
     "textures": {
      "Array.look": [
       "Texture.flesh",
-      "Texture.armored"
+      "Texture.armored",
+      "Texture.zombie",
+      "Texture.bone",
+      "Texture.grey",
+      "Texture.piglin",
+      "Texture.husk"
      ]
     }
    },
@@ -1353,6 +1358,88 @@
     },
     {
      "seams": false
+    }
+   ]
+  },
+  "controller.render.origin.null_antenna": {
+   "arrays": {
+    "textures": {
+     "Array.t": [
+      "Texture.idle",
+      "Texture.hot"
+     ]
+    }
+   },
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Array.t[query.property('origin:hot')]"
+   ]
+  },
+  "controller.render.origin.batarang": {
+   "arrays": {
+    "textures": {
+     "Array.k": [
+      "Texture.plain",
+      "Texture.explosive"
+     ]
+    }
+   },
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Array.k[query.property('origin:kind')]"
+   ]
+  },
+  "controller.render.origin.heimdall": {
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.default"
+   ],
+   "part_visibility": [
+    {
+     "*": true
+    },
+    {
+     "spear": false
+    },
+    {
+     "shield": false
+    }
+   ]
+  },
+  "controller.render.origin.einherjar": {
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.default"
+   ],
+   "part_visibility": [
+    {
+     "*": true
+    },
+    {
+     "sword": false
+    },
+    {
+     "horns": false
     }
    ]
   }

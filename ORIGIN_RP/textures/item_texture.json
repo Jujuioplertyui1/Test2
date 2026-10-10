@@ -523,6 +523,12 @@
   },
   "origin_agent_gauntlets": {
    "textures": "textures/origin/items/agent_gauntlets"
+  },
+  "origin_batarang": {
+   "textures": "textures/origin/items/batarang"
+  },
+  "origin_explosive_batarang": {
+   "textures": "textures/origin/items/explosive_batarang"
   }
  }
 }

@@ -1,4 +1,4 @@
-// ORIGIN v0.23 - main.js
+// ORIGIN v0.24 - main.js
 // Build Your Own Hero. Entry point: wires events and tick loops.
 import { ItemStack, world, system, InputButton, ButtonState } from "@minecraft/server";
 import { hero, RT, saveDirty, forget, ARCH, markDirty, closeFight } from "./data.js";
@@ -22,7 +22,7 @@ import { tickLoad } from "./load.js";
 import { tickStamina, dodgeGate, onSneakDown, applyGuardPose, onGuardBefore, injectSerum, canSerumLeap, serumLeap, serumFall } from "./stamina.js";
 import { setDodgeGate } from "./combat.js";
 import { tickInk } from "./ego.js";
-import { tryCut, sharpOf, tickLimbs, onLimbInteract, useBandage, installProsthetic, iaido, reapplyLimbs, dropArm, tickProsthetics, onProstheticSwing, onProstheticMelee, installModule, MODULE_OF_ITEM } from "./dismember.js";
+import { tryCut, sharpOf, tickLimbs, onLimbInteract, useBandage, installProsthetic, iaido, reapplyLimbs, useSeveredArm, onSharpKill, tickProsthetics, onProstheticSwing, onProstheticMelee, installModule, MODULE_OF_ITEM } from "./dismember.js";
 import { SIGNET, useSignet, tickLumen, tickConstructs, tickRingGlow } from "./lumen.js";
 import { gainResolve, tickTrials, tickAwakened, trySurge, onHurtSurge, onTrialDeath } from "./ascend.js";
 import { INTERFACE, useInterface, tickExo, tickMeteors, canExoFly, exoTakeoff, tickSuitParts, tickMissiles, exoHurt, rescueSuit, tickDrones, tickBlade, bladeHit } from "./exo.js";
@@ -32,6 +32,7 @@ import { SHARD, MASK, useShard, useMask, onHurtBefore as egoHurtBefore, onHurtAf
 import { tickStatic, inStatic, garbleChat, pullOut } from "./static.js";
 import { tickAlter } from "./powers.js";
 import { useReceiver, useRemote, tickNull, onNullDeath, onBruteKilledForQuest, NULL } from "./quest.js";
+import { onNullHurtBefore, onTowerDeath, TOWER } from "./null.js";
 import { VILLAIN, tickVillains, tickVillainSpawns, onVillainDeath, onVillainHit, onVillainHurt } from "./villain.js";
 import { tickFall } from "./fall.js";
 import { tickTargets } from "./target.js";
@@ -53,6 +54,10 @@ import { tickP3, onP3HurtBefore, onP3HurtAfter, onP3Melee, onP3Kill } from "./po
 import { tickModels } from "./models.js";
 import { MJ, STRAP as MJ_STRAP, throwHammer, recall as recallMj, thunderMenu, onMjMelee, onMjKill, onMjHurt, tickMjolnir, tickMjStone, onStoneInteract, canMjFly, mjTakeoff, restoreMj, onMjLeave } from "./mjolnir.js";
 import { GEAR, useGear, onShieldBefore, onGearMelee, tickGear, restoreShield, onGearLeave } from "./gear.js";
+import { isBatarang, useBatarang, tickBatarangs, batarangHelp } from "./batarang.js";
+import { tickSpeedForce, trySpeedForce, noteDeath, rescueSpeedForce } from "./speedforce.js";
+import { tickSpace, rescueSpace } from "./space.js";
+import { tickHeimdall, talkHeimdall, onHeimdallStruck, onAsgardianHit, onAsgardianDeath, onRaiderDeath, HEIMDALL, EINHERJAR } from "./heimdall.js";
 
 // startup registrations (must happen before the world loads)
 registerDimension();
@@ -146,7 +151,7 @@ on(world.afterEvents, "itemUse", safe((ev) => {
   } else if (id === "origin:severed_arm") {
     if (now() - r.lastUse < 10) return;
     r.lastUse = now();
-    dropArm(p, () => consumeHeld(p));
+    useSeveredArm(p, () => consumeHeld(p));
   } else if (id === "origin:bandage") {
     useBandage(p, () => consumeHeld(p));
   } else if (id === "origin:exo_prosthetic") {
@@ -179,6 +184,10 @@ on(world.afterEvents, "itemUse", safe((ev) => {
     if (now() - r.lastUse < 6) return;
     r.lastUse = now();
     recallMj(p);
+  } else if (isBatarang(id)) {
+    const h = hero(p);
+    if (!h.gearSeen?.batarang) { (h.gearSeen ??= {}).batarang = 1; markDirty(p); batarangHelp(p); }
+    useBatarang(p, id, p.isSneaking);
   } else if (GEAR.has(id)) {
     if (now() - r.lastUse < 4) return;
     r.lastUse = now();
@@ -243,6 +252,8 @@ on(world.afterEvents, "playerInteractWithEntity", safe((ev) => {
   const t = ev.target;
   if (!t) return;
   if (t.typeId === "origin:mjolnir_stone") { onStoneInteract(ev.player, t); return; }
+  if (t.typeId === HEIMDALL) { talkHeimdall(ev.player, t); return; }
+  if (t.typeId === EINHERJAR) { msg(ev.player, ["§c[Einherjar] §fFor Asgard.", "§c[Einherjar] §fHeimdall sees all. Mind yourself.", "§c[Einherjar] §fThe hall of heroes is east. The city is north.", "§c[Einherjar] §fIf the rift opens, stand with us."][Math.floor(Math.random() * 4)]); return; }
   if (t.typeId === "origin:archetype_orb") onOrbInteract(ev.player, t);
   else if (t.typeId === "origin:manifestation") talk(ev.player);
 }));
@@ -251,6 +262,8 @@ on(world.afterEvents, "entityHitEntity", safe((ev) => {
   const a = ev.damagingEntity;
   if (a?.typeId === "minecraft:player") { try { onStoneMelee(a, ev.hitEntity); } catch { } try { if (!onPhysMelee(a, ev.hitEntity)) onCombatHit(a, ev.hitEntity); } catch { } try { onP2Melee(a, ev.hitEntity); } catch { } try { onP3Melee(a, ev.hitEntity); } catch { } try { onMjMelee(a, ev.hitEntity); } catch { } try { onGearMelee(a, ev.hitEntity); } catch { } try { if (!a.getComponent("minecraft:inventory").container.getItem(a.selectedSlotIndex) && hero(a).awakened) a.dimension.playSound("origin.sfx.punch", ev.hitEntity.location, { volume: 0.55, pitch: 0.85 + Math.random() * 0.3 }); } catch { } onMeleeHit(a, ev.hitEntity); onPowerMelee(a, ev.hitEntity); bladeHit(a, ev.hitEntity); onProstheticMelee(a, ev.hitEntity); }
   else if (a?.typeId === VILLAIN) onVillainHit(a, ev.hitEntity);
+  else if (a?.typeId === HEIMDALL || a?.typeId === EINHERJAR) onAsgardianHit(a, ev.hitEntity);
+  if (ev.hitEntity?.typeId === HEIMDALL) onHeimdallStruck(ev.hitEntity, a);
 }));
 
 // Stretch: punches that reach past normal range
@@ -300,6 +313,8 @@ on(world.beforeEvents, "entityHurt", (raw) => {
 // XoX has his own: blocking, tougher against crowds, untouchable in his cutscenes, and his defeat (katana + mask).
 // (Until v0.22 this lived only in the player-filtered chain above, so it never ran.)
 on(world.beforeEvents, "entityHurt", (raw) => { try { onXoxHurtBefore(hurtBefore(raw)); } catch (e) { console.warn("[ORIGIN] xox hurt: " + e); } }, { entityFilter: { type: XOX } });
+// NULL: shielded by its signal towers, open while EXPOSED or BUFFERING, tougher against a crowd
+on(world.beforeEvents, "entityHurt", (raw) => { try { onNullHurtBefore(hurtBefore(raw)); } catch (e) { console.warn("[ORIGIN] null hurt: " + e); } }, { entityFilter: { type: NULL } });
 // ...and dropping under 30% health triggers it too
 on(world.afterEvents, "entityHurt", (raw) => {
   if (!alive(raw.hurtEntity)) return;
@@ -324,13 +339,17 @@ on(world.afterEvents, "entityDie", safe((raw) => {
   }
   if (killer?.typeId === "minecraft:player" && dead?.typeId !== "minecraft:player") gainResolve(killer, dead);
   try { onMjKill(killer, dead); } catch (e) { console.warn("[ORIGIN] honor: " + e); }
-  if (dead?.typeId === "minecraft:player") { onTrialDeath(dead); try { onXoxPlayerDeath(dead); } catch { } }
+  try { onSharpKill(killer, dead); } catch (e) { console.warn("[ORIGIN] sever: " + e); }
+  if (dead?.typeId === "minecraft:player") { onTrialDeath(dead); noteDeath(dead); try { onXoxPlayerDeath(dead); } catch { } }
   if (dead?.typeId === BRUTE) {
     onBruteDeath(dead, ev.damageSource);
     if (killer?.typeId === "minecraft:player") { onBruteKilledForQuest(killer); if (Math.random() < 0.006) dropItem(dead.dimension, dead.location, SHARD); if (Math.random() < 0.05) dropItem(dead.dimension, dead.location, "origin:rift_heart"); }
   }
   if (killer?.typeId === "origin:alter_ego") onEgoKill(killer, dead);
   if (dead?.typeId === NULL) onNullDeath(dead, ev.damageSource);
+  if (dead?.typeId === TOWER) onTowerDeath(dead);
+  if (dead?.typeId === EINHERJAR) onAsgardianDeath(dead);
+  try { onRaiderDeath(dead, killer); } catch { }
   if (dead?.typeId === VILLAIN) {
     onVillainDeath(dead, ev.damageSource);
     if (killer?.typeId === "minecraft:player") { onBruteKilledForQuest(killer, 0.4); if (Math.random() < 0.012) dropItem(dead.dimension, dead.location, SHARD); }
@@ -362,7 +381,7 @@ function takeoff(p) { const f = flyers.find((x) => { try { return x.can(p); } ca
 // sneak: skip/advance cinematics; double-tap sneak: dodge
 on(world.afterEvents, "playerButtonInput", safe((ev) => {
   if (ev.newButtonState !== ButtonState.Pressed) return;
-  if (ev.button === InputButton.Jump) { onJumpPress(ev.player, canFly, takeoff); return; }
+  if (ev.button === InputButton.Jump) { if (trySpeedForce(ev.player)) return; onJumpPress(ev.player, canFly, takeoff); return; }
   if (ev.button !== InputButton.Sneak) return;
   onSneakDown(ev.player);
   if (isCaged(ev.player)) { struggle(ev.player); return; }
@@ -385,6 +404,8 @@ on(world.afterEvents, "playerSpawn", safe((ev) => {
     rescueCaged(p);
     system.runTimeout(() => { if (valid(p)) { reapplyLimbs(p); applyGuardPose(p); } }, 40);
     rescueSuit(p);
+    rescueSpeedForce(p);
+    rescueSpace(p);
     system.runTimeout(() => { if (valid(p)) { restoreMj(p); restoreShield(p); } }, 30);   // thrown when they logged off: back in hand
     if (inStage(p)) system.runTimeout(() => {
       if (!valid(p)) return;
@@ -413,7 +434,13 @@ on(world.afterEvents, "playerSpawn", safe((ev) => {
           msg(p, "§7Hold the §fPower Core§7 and use it. Sneak + use opens the Power menu.");
         }
         giveKit(p);
-        msg(p, `§8ORIGIN v0.23 - ${ARCH[h.arch]?.name ?? ""} · ${POWERS[h.power]?.name ?? ""} | /hero help`);
+        msg(p, `§8ORIGIN v0.24 - ${ARCH[h.arch]?.name ?? ""} · ${POWERS[h.power]?.name ?? ""} | /hero help`);
+        if (h.seenVersion !== 24) {
+          h.seenVersion = 24; markDirty(p);
+          msg(p, ["§f§lNEW IN v0.24", "§f☾ Space §7- fly above y 330 (the Exo-Frame needs the §bOrbital Seal§7 blueprint)",
+            "§e⚡ The Speed Force §7- Super Speed: run flat out for six seconds, then jump", "§6Asgard §7is three times bigger - and §6Heimdall§7 guards it (talk to him)",
+            "§8Batarangs §7· §9the Vanguard Shield §7bounces off walls, blocks perfectly, lands from any height", "§8NULL §7fights in three acts · §4severed arms §7can be stitched back on (Bandage)"].join("\n"));
+        }
       }, 60);
     }
   } else {
@@ -462,10 +489,14 @@ system.runInterval(safe(tickP3), 1);
 system.runInterval(safe(tickModels), 1);
 system.runInterval(safe(tickMjolnir), 1);
 system.runInterval(safe(tickGear), 1);
+system.runInterval(safe(tickBatarangs), 1);
+system.runInterval(safe(tickSpeedForce), 2);
+system.runInterval(safe(tickSpace), 2);
 system.runInterval(safe(tickMjStone), 10);
 system.runInterval(safe(tickPhysical), 1);
 system.runInterval(safe(tickImpact), 1);
 system.runInterval(safe(tickAsgard), 5);
+system.runInterval(safe(tickHeimdall), 10);
 on(world.afterEvents, "entityDie", (raw) => { const ev = dieAfter(raw); each(() => onGoreDeath(ev.deadEntity), () => onP2Kill(ev.damageSource.damagingEntity, ev.deadEntity), () => onP3Kill(ev.damageSource.damagingEntity, ev.deadEntity))(ev); });
 system.runInterval(safe(tickXoX), 2);
 system.runInterval(safe(tickUlt), 10);
@@ -506,4 +537,4 @@ system.runInterval(safe(() => {
 
 // after a /reload nobody gets a first-join reset: undo any camera or movement lock a cut-off cutscene left behind
 system.runTimeout(() => { try { for (const p of world.getAllPlayers()) if (!RT(p).cine) resetPlayerView(p); } catch { } }, 20);
-console.log("[ORIGIN] v0.23 loaded. /hero help");
+console.log("[ORIGIN] v0.24 loaded. /hero help");

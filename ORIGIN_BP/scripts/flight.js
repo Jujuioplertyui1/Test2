@@ -1,4 +1,4 @@
-// ORIGIN v0.23 - flight.js
+// ORIGIN v0.24 - flight.js
 // Real flight (Flight power, Exo-Frame thrusters, the Lumen Signet, Mjolnir). Runs every tick:
 //  - you fly where you LOOK when you push forward; strafe sideways; jump climbs, sneak dives
 //  - momentum: you accelerate, drift and bank instead of snapping around

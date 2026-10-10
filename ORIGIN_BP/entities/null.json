@@ -37,8 +37,8 @@
         "height": 3.0
       },
       "minecraft:health": {
-        "value": 260,
-        "max": 260
+        "value": 420,
+        "max": 420
       },
       "minecraft:boss": {
         "should_darken_sky": true,
@@ -46,7 +46,7 @@
         "name": "NULL"
       },
       "minecraft:movement": {
-        "value": 0.24
+        "value": 0.27
       },
       "minecraft:movement.basic": {},
       "minecraft:jump.static": {},
@@ -107,7 +107,11 @@
         "table": "loot_tables/empty.json"
       },
       "minecraft:experience_reward": {
-        "on_death": "200"
+        "on_death": "400"
+      },
+      "minecraft:follow_range": {
+        "value": 48,
+        "max": 48
       }
     },
     "events": {

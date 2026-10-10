@@ -11173,7 +11173,7 @@
       -0.5
      ],
      "rotation": [
-      0,
+      -50,
       0,
       0
      ]
@@ -11241,7 +11241,19 @@
       -0.5
      ],
      "rotation": [
+      -90,
       0,
+      0
+     ]
+    },
+    "gun_l": {
+     "position": [
+      0,
+      1,
+      -0.5
+     ],
+     "rotation": [
+      -90,
       0,
       0
      ]
@@ -11262,6 +11274,9 @@
       0,
       0
      ]
+    },
+    "gun_l": {
+     "scale": 0
     }
    }
   },
@@ -11277,6 +11292,13 @@
      "rotation": [
       0,
       0,
+      0
+     ]
+    },
+    "gun_l": {
+     "position": [
+      0,
+      1,
       0
      ]
     }
@@ -11296,6 +11318,9 @@
       0,
       0
      ]
+    },
+    "gun_l": {
+     "scale": 0
     }
    }
   },
@@ -14472,6 +14497,491 @@
        -55,
        0,
        -6
+      ]
+     }
+    }
+   }
+  },
+  "animation.origin.limb.twitch": {
+   "loop": true,
+   "bones": {
+    "root": {
+     "rotation": [
+      0,
+      "q.life_time < 2.5 ? math.sin(q.life_time * 1900) * 7 * (2.5 - q.life_time) / 2.5 : 0",
+      "q.life_time < 2.5 ? math.cos(q.life_time * 1300) * 4 * (2.5 - q.life_time) / 2.5 : 0"
+     ]
+    }
+   }
+  },
+  "animation.origin.null_antenna.spin": {
+   "loop": true,
+   "bones": {
+    "dish": {
+     "rotation": [
+      0,
+      "q.life_time * 40",
+      0
+     ]
+    },
+    "screen": {
+     "position": [
+      0,
+      "math.sin(q.life_time * 90) * 0.3",
+      0
+     ]
+    },
+    "light": {
+     "scale": "1 + math.pow(math.sin(q.life_time * 400), 8) * 0.6"
+    },
+    "root": {
+     "rotation": [
+      "math.sin(q.life_time * 1100) * 1.5 * q.property('origin:hot')",
+      0,
+      "math.cos(q.life_time * 900) * 1.5 * q.property('origin:hot')"
+     ]
+    }
+   }
+  },
+  "animation.origin.gear.batarang.tp": {
+   "loop": true,
+   "bones": {
+    "gun": {
+     "position": [
+      0,
+      -1,
+      -0.5
+     ],
+     "rotation": [
+      0,
+      0,
+      90
+     ],
+     "scale": 0.8
+    }
+   }
+  },
+  "animation.origin.gear.batarang.fp": {
+   "loop": true,
+   "bones": {
+    "gun": {
+     "position": [
+      1,
+      6,
+      -2
+     ],
+     "rotation": [
+      -20,
+      0,
+      90
+     ]
+    }
+   }
+  },
+  "animation.origin.batarang_thrown.spin": {
+   "loop": true,
+   "bones": {
+    "spin": {
+     "rotation": [
+      0,
+      "q.life_time * 1800",
+      0
+     ]
+    }
+   }
+  },
+  "animation.origin.batarang.throw": {
+   "animation_length": 0.3,
+   "bones": {
+    "rightarm": {
+     "rotation": {
+      "0.0": [
+       -30,
+       30,
+       40
+      ],
+      "0.1": [
+       -95,
+       -20,
+       -10
+      ],
+      "0.3": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "body": {
+     "rotation": {
+      "0.0": [
+       0,
+       15,
+       0
+      ],
+      "0.1": [
+       0,
+       -15,
+       0
+      ],
+      "0.3": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.origin.batarang.fan": {
+   "animation_length": 0.4,
+   "bones": {
+    "rightarm": {
+     "rotation": {
+      "0.0": [
+       -40,
+       60,
+       60
+      ],
+      "0.15": [
+       -90,
+       -60,
+       -20
+      ],
+      "0.4": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "body": {
+     "rotation": {
+      "0.0": [
+       0,
+       30,
+       0
+      ],
+      "0.15": [
+       0,
+       -30,
+       0
+      ],
+      "0.4": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.origin.black_flash.run": {
+   "loop": true,
+   "bones": {
+    "body": {
+     "rotation": [
+      24,
+      0,
+      0
+     ]
+    },
+    "head": {
+     "rotation": [
+      -20,
+      "math.sin(q.life_time * 2400) * 6",
+      0
+     ]
+    },
+    "rightArm": {
+     "rotation": [
+      "math.sin(q.life_time * 1500) * 75",
+      0,
+      8
+     ]
+    },
+    "leftArm": {
+     "rotation": [
+      "-math.sin(q.life_time * 1500) * 75",
+      0,
+      -8
+     ]
+    },
+    "rightLeg": {
+     "rotation": [
+      "-math.sin(q.life_time * 1500) * 70",
+      0,
+      0
+     ]
+    },
+    "leftLeg": {
+     "rotation": [
+      "math.sin(q.life_time * 1500) * 70",
+      0,
+      0
+     ]
+    },
+    "root": {
+     "position": [
+      "math.sin(q.life_time * 3100) * 0.6",
+      0,
+      "math.cos(q.life_time * 2700) * 0.6"
+     ]
+    }
+   }
+  },
+  "animation.origin.asgardian.look": {
+   "loop": true,
+   "bones": {
+    "head": {
+     "rotation": [
+      "q.target_x_rotation",
+      "q.target_y_rotation",
+      0
+     ]
+    }
+   }
+  },
+  "animation.origin.asgardian.walk": {
+   "loop": true,
+   "bones": {
+    "rightLeg": {
+     "rotation": [
+      "math.cos(q.modified_distance_moved * 38) * 38 * q.modified_move_speed",
+      0,
+      0
+     ]
+    },
+    "leftLeg": {
+     "rotation": [
+      "-math.cos(q.modified_distance_moved * 38) * 38 * q.modified_move_speed",
+      0,
+      0
+     ]
+    },
+    "rightArm": {
+     "rotation": [
+      "-math.cos(q.modified_distance_moved * 38) * 26 * q.modified_move_speed - 10",
+      0,
+      0
+     ]
+    },
+    "leftArm": {
+     "rotation": [
+      "math.cos(q.modified_distance_moved * 38) * 26 * q.modified_move_speed",
+      0,
+      0
+     ]
+    },
+    "cape": {
+     "rotation": [
+      "10 + q.modified_move_speed * 30",
+      0,
+      0
+     ]
+    }
+   }
+  },
+  "animation.origin.asgardian.idle_heimdall": {
+   "loop": true,
+   "bones": {
+    "rightArm": {
+     "rotation": [
+      -28,
+      -24,
+      4
+     ]
+    },
+    "leftArm": {
+     "rotation": [
+      -30,
+      30,
+      -4
+     ]
+    },
+    "sword": {
+     "rotation": [
+      28,
+      20,
+      0
+     ]
+    },
+    "body": {
+     "rotation": [
+      "math.sin(q.life_time * 60) * 1",
+      0,
+      0
+     ]
+    },
+    "cape": {
+     "rotation": [
+      "6 + math.sin(q.life_time * 50) * 2",
+      0,
+      "math.cos(q.life_time * 40) * 1.5"
+     ]
+    }
+   }
+  },
+  "animation.origin.asgardian.idle_guard": {
+   "loop": true,
+   "bones": {
+    "rightArm": {
+     "rotation": [
+      -14,
+      0,
+      6
+     ]
+    },
+    "spear": {
+     "rotation": [
+      14,
+      0,
+      0
+     ]
+    },
+    "leftArm": {
+     "rotation": [
+      -24,
+      10,
+      -8
+     ]
+    },
+    "cape": {
+     "rotation": [
+      "6 + math.sin(q.life_time * 50) * 2",
+      0,
+      0
+     ]
+    }
+   }
+  },
+  "animation.origin.asgardian.attack": {
+   "loop": false,
+   "animation_length": 0.5,
+   "bones": {
+    "rightArm": {
+     "rotation": {
+      "0.0": [
+       -150,
+       0,
+       10
+      ],
+      "0.25": [
+       -20,
+       0,
+       0
+      ],
+      "0.5": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "body": {
+     "rotation": {
+      "0.0": [
+       -8,
+       10,
+       0
+      ],
+      "0.25": [
+       12,
+       -10,
+       0
+      ],
+      "0.5": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.origin.asgardian.swing": {
+   "loop": false,
+   "animation_length": 0.5,
+   "bones": {
+    "rightArm": {
+     "rotation": {
+      "0.0": [
+       -150,
+       0,
+       10
+      ],
+      "0.25": [
+       -20,
+       0,
+       0
+      ],
+      "0.5": [
+       0,
+       0,
+       0
+      ]
+     }
+    },
+    "body": {
+     "rotation": {
+      "0.0": [
+       -8,
+       10,
+       0
+      ],
+      "0.25": [
+       12,
+       -10,
+       0
+      ],
+      "0.5": [
+       0,
+       0,
+       0
+      ]
+     }
+    }
+   }
+  },
+  "animation.origin.asgardian.raise": {
+   "loop": false,
+   "animation_length": 1.2,
+   "bones": {
+    "rightArm": {
+     "rotation": {
+      "0.0": [
+       -160,
+       0,
+       8
+      ],
+      "0.8": [
+       -170,
+       0,
+       8
+      ],
+      "1.2": [
+       -30,
+       -20,
+       4
+      ]
+     }
+    },
+    "leftArm": {
+     "rotation": {
+      "0.0": [
+       -160,
+       0,
+       -8
+      ],
+      "0.8": [
+       -170,
+       0,
+       -8
+      ],
+      "1.2": [
+       -30,
+       30,
+       -4
       ]
      }
     }

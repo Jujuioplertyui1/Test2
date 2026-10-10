@@ -1,16 +1,21 @@
-// ORIGIN v0.10 - dismember.js
-// SEVERED. Rare - and PERMANENT.
+// ORIGIN v0.24 - dismember.js
+// SEVERED. Rare - and it stays gone unless you do something about it.
 //  Sharp: swords, axes, the Katana, and sharp powers (The Other's Rend, Arc Blade, Lumen Blade, a Shadow Step ambush).
 //  It only happens when a sharp hit CONNECTS BADLY: you have to be low on health, flanked (hit from the side or
 //   behind), hit by a falling critical strike, or hit very hard - and even then it's a small roll (about 1-4%), cut way
 //   down by a chestplate (Exo-Frame / netherite most of all). Each person can only lose a limb once every 5 minutes.
-//  The arm on the side that got hit comes off: it flies, it bleeds, it lands. Your model loses that arm. For good:
-//   it doesn't grow back, it can't be stitched on, and it stays gone through death and relogging.
+//  The arm on the side that got hit comes off: it flies, it bleeds, it lands. Your model loses that arm, and it stays
+//   gone through death and relogging.
 //   Right arm gone: your strikes are weak (Weakness II) and you mine slowly. Left arm gone: your off-hand drops
 //   and you're a little slower.
 //  You BLEED for 20s (half a heart every 2s) unless you use a Bandage, eat a golden apple or have Regeneration.
-//  The only answer is a replacement: an Exo Prosthetic from the Exo-Forge restores what the arm could do.
-//  Villains and The Other can lose arms too (and hit a lot softer for it).
+//  Getting it back (v0.24):
+//   - STITCH IT ON: pick your own arm up and use it while you carry a Bandage. It only takes if it's fresh
+//     (10 minutes, real time) - after that it's gone cold.
+//   - Regeneration grows it back on its own. Mirror Hour can rewind it.
+//   - An Exo Prosthetic from the Exo-Forge replaces it for good (and takes modules).
+//  Villains and The Other can lose arms too (and hit a lot softer for it). Sharp killing blows take arms off
+//  zombies, skeletons, illagers, piglins and other people-shaped mobs (that's only for show - they're already dead).
 //  /hero gore full | mild | off  (mild: no blood; off: no severing at all)
 import { world, system, EntityDamageCause, EquipmentSlot, ItemStack, ItemLockMode } from "@minecraft/server";
 import { hero, RT, markDirty, saveNow } from "./data.js";
@@ -23,6 +28,17 @@ const SHARP_MOB = ["minecraft:vindicator", "minecraft:wither_skeleton", "minecra
 const BASE = { katana: 0.015, sword: 0.0075, axe: 0.01, power: 0.01, mob: 0.005 };
 const ARMOR = (id) => (!id ? 1 : /netherite|exo_chest/.test(id) ? 0.3 : /diamond/.test(id) ? 0.45 : /iron|chainmail|suit_torso/.test(id) ? 0.6 : 0.8);
 const BLEED = 20 * 20, PICKUP = 20 * 60 * 10;
+const FRESH_MS = 10 * 60 * 1000;   // how long a severed arm can still be stitched back on (real time, survives relogs)
+// what a flying arm looks like: 0 skin + sleeve, 1 armored, 2 zombie, 3 bone, 4 grey (illagers), 5 piglin, 6 husk/drowned
+export const LIMB_LOOK = { flesh: 0, armored: 1, zombie: 2, bone: 3, grey: 4, piglin: 5, husk: 6 };
+const MOB_LOOK = {
+  "minecraft:zombie": 2, "minecraft:zombie_villager": 2, "minecraft:zombie_villager_v2": 2, "minecraft:husk": 6, "minecraft:drowned": 6,
+  "minecraft:skeleton": 3, "minecraft:stray": 3, "minecraft:wither_skeleton": 3, "minecraft:bogged": 3,
+  "minecraft:pillager": 4, "minecraft:vindicator": 4, "minecraft:evoker": 4, "minecraft:illusioner": 4, "minecraft:witch": 4,
+  "minecraft:villager": 0, "minecraft:villager_v2": 0, "minecraft:wandering_trader": 0,
+  "minecraft:piglin": 5, "minecraft:piglin_brute": 5, "minecraft:zombie_pigman": 5, "minecraft:zombified_piglin": 5,
+  "origin:villain": 0, "origin:alter_ego": 0,
+};
 
 export function goreSetting() { const v = world.getDynamicProperty("origin:gore"); return v === "mild" || v === "off" ? v : "full"; }
 export function setGore(v) { world.setDynamicProperty("origin:gore", v); }
@@ -98,6 +114,48 @@ export function tryCut(attacker, victim, damage, kind, force = false, forceSide 
 
 // ------------------------------------------------------------------ the cut
 const limbs = [];   // {e, owner (id), side, until}
+// throw an arm out of a shoulder. Who it belonged to and when it came off ride on the entity itself (dynamic
+// properties), so a relog doesn't turn it into a stranger's arm - or leave it lying there forever.
+function flingLimb(dim, from, away, look, { owner = "", side = "r", gore = goreSetting(), name = "", cut = Date.now(), spin = true } = {}) {
+  let limb = null;
+  try {
+    limb = dim.spawnEntity("origin:severed_limb", from);
+    try { limb.setProperty("origin:look", look); } catch { }
+    limb.setRotation({ x: 0, y: Math.random() * 360 });
+    limb.applyImpulse({ x: away.x * (spin ? 0.32 : 0.15), y: spin ? 0.28 : 0.1, z: away.z * (spin ? 0.32 : 0.15) });
+    if (name) limb.nameTag = name;
+    try { limb.setDynamicProperty("origin:owner", owner); limb.setDynamicProperty("origin:side", side); limb.setDynamicProperty("origin:cut", cut); limb.setDynamicProperty("origin:look", look); } catch { }
+    limbs.push({ e: limb, owner, side, until: now() + (owner ? PICKUP : 20 * 120), gore });
+    // a big fight shouldn't bury the place in arms: past 20 nobody owns, the oldest go first
+    const strays = limbs.filter((q) => !q.owner);
+    for (const q of strays.slice(0, Math.max(0, strays.length - 20))) { try { if (valid(q.e)) q.e.remove(); } catch { } limbs.splice(limbs.indexOf(q), 1); }
+  } catch { }
+  return limb;
+}
+// a sharp killing blow on something shaped like a person: an arm goes flying (for show - it's already dead)
+const KILL_CHANCE = { katana: 0.45, sword: 0.22, axe: 0.3, power: 0.3, mob: 0 };
+export function onSharpKill(killer, dead, kind = null) {
+  if (!valid(dead) || !killer || goreSetting() === "off") return;
+  const look = MOB_LOOK[dead.typeId];
+  if (look === undefined || dead.typeId === "origin:villain" || dead.typeId === "origin:alter_ego") return;   // those two lose arms while alive
+  kind = kind ?? sharpOf(killer);
+  if (!kind || Math.random() > (KILL_CHANCE[kind] ?? 0)) return;
+  const dim = dead.dimension;
+  let facing = { x: 0, y: 0, z: 1 };
+  try { const yaw = (dead.getRotation().y * Math.PI) / 180; facing = { x: -Math.sin(yaw), y: 0, z: Math.cos(yaw) }; } catch { }
+  const right = rightOf(facing), sx = Math.random() < 0.5 ? 1 : -1;
+  let top = 1.35;
+  try { top = Math.max(0.8, (dead.getHeadLocation().y - dead.location.y) - 0.25); } catch { }
+  const shoulder = at(dead.location, right.x * 0.38 * sx, top, right.z * 0.38 * sx);
+  const away = V.flat(V.add(V.mul(right, sx), V.mul(V.flat(V.sub(dead.location, killer.location)), 0.8)));
+  flingLimb(dim, shoulder, away, look, { owner: "", side: sx > 0 ? "r" : "l" });
+  if (goreSetting() === "full" && look !== LIMB_LOOK.bone) {
+    fx(dim, "origin:blood_spray", shoulder, C.white, 1, { dir_x: away.x, dir_z: away.z });
+    fx(dim, "origin:blood_mist", shoulder, C.white, 1);
+  } else fx(dim, "origin:debris", shoulder, look === LIMB_LOOK.bone ? C.white : C.dust, 1);
+  sound(dim, look === LIMB_LOOK.bone ? "origin.sfx.bonecrack" : "mob.slime.attack", shoulder, 1, 0.7);
+  if (killer.typeId === "minecraft:player") hudMsg(killer, "§4§lSEVERED", 16);
+}
 function sever(attacker, victim, side) {
   const dim = victim.dimension;
   const gore = goreSetting();
@@ -125,17 +183,12 @@ function sever(attacker, victim, side) {
   try { popNumber(dim, at(shoulder, 0, 0.5, 0), "§4§lSEVERED"); } catch { }
   fx(dim, "origin:flash", shoulder, gore === "full" ? { red: 0.8, green: 0.05, blue: 0.05 } : C.white, 1, { size: 1.2 });
   // the arm flies
-  let limb = null;
-  try {
-    limb = dim.spawnEntity("origin:severed_limb", shoulder);
-    let chest = null;
-    try { chest = victim.getComponent("minecraft:equippable")?.getEquipment(EquipmentSlot.Chest)?.typeId; } catch { }
-    limb.setProperty("origin:look", chest ? 1 : 0);
-    limb.setRotation({ x: 0, y: Math.random() * 360 });
-    limb.applyImpulse({ x: away.x * 0.3, y: 0.25, z: away.z * 0.3 });
-    limb.nameTag = victim.typeId === "minecraft:player" ? `${victim.name}'s ${side === "r" ? "right" : "left"} arm` : "";
-    limbs.push({ e: limb, owner: victim.id, side, until: now() + PICKUP, gore });
-  } catch { }
+  let chest = null;
+  try { chest = victim.getComponent("minecraft:equippable")?.getEquipment(EquipmentSlot.Chest)?.typeId; } catch { }
+  const limb = flingLimb(dim, shoulder, away, chest ? LIMB_LOOK.armored : (MOB_LOOK[victim.typeId] ?? 0), {
+    owner: victim.typeId === "minecraft:player" ? victim.id : "", side, gore,
+    name: victim.typeId === "minecraft:player" ? `${victim.name}'s ${side === "r" ? "right" : "left"} arm` : "",
+  });
   if (victim.typeId === "minecraft:player" && hero(victim).limbs?.prosthetic?.[side]) {
     const h = hero(victim);
     h.limbs.prosthetic[side] = false;
@@ -216,27 +269,111 @@ export function reapplyLimbs(p) {
   RT(p).bleedUntil = 0;
   applyLook(p);
 }
-// pick up a severed arm: it goes in your bag (it can't go back on). Use the item to set it down again.
+// what we know about an arm (entity or item): whose, which side, when it came off, how it looks
+function limbInfo(src) {
+  const get = (k) => { try { return src.getDynamicProperty(k); } catch { return undefined; } };
+  let owner = get("origin:owner"), side = get("origin:side"), cut = get("origin:cut"), look = get("origin:look");
+  if (owner === undefined && typeof src.getLore === "function") {   // items from before v0.24 (or a world without item properties)
+    try { const tag = src.getLore().find((l) => l.startsWith("§0§r")); if (tag) [owner, side, cut, look] = tag.slice(4).split("|"); } catch { }
+  }
+  return { owner: String(owner ?? ""), side: side === "l" ? "l" : "r", cut: Number(cut) || 0, look: Number(look) || 0 };
+}
+const freshness = (info) => (info.cut ? Date.now() - info.cut : Infinity);
+function armItem(info, mine) {
+  const it = new ItemStack("origin:severed_arm", 1);
+  const age = freshness(info), fresh = age < FRESH_MS;
+  const lore = [mine ? (fresh ? `§7Your ${info.side === "r" ? "right" : "left"} arm. §aStill warm.` : "§7Yours. §8It's gone cold.") : info.owner ? "§7Someone else's." : "§7Not anyone's any more."];
+  if (mine && fresh) lore.push(`§7Use it with a §fBandage§7 in your bag to stitch it back on §8(${Math.max(1, Math.ceil((FRESH_MS - age) / 60000))} min left)`);
+  lore.push("§8Sneak + use: put it down");
+  let stored = false;
+  try { it.setDynamicProperty("origin:owner", info.owner); it.setDynamicProperty("origin:side", info.side); it.setDynamicProperty("origin:cut", info.cut); it.setDynamicProperty("origin:look", info.look); stored = true; } catch { }
+  if (!stored) lore.push(`§0§r${info.owner}|${info.side}|${info.cut}|${info.look}`);
+  try { it.setLore(lore); } catch { }
+  return it;
+}
+// pick up a severed arm: it goes in your bag. Yours and still fresh? Use it with a Bandage to stitch it back on.
 export function onLimbInteract(p, e) {
   const i = limbs.findIndex((q) => q.e.id === e.id);
-  const mine = i >= 0 && limbs[i].owner === p.id;
+  const info = limbInfo(e);
+  if (!info.owner && i >= 0) info.owner = limbs[i].owner;
+  if (!info.cut) info.cut = Date.now() - FRESH_MS;   // an arm nobody kept track of has been lying there a while
+  const mine = info.owner === p.id;
   try {
-    const it = new ItemStack("origin:severed_arm", 1);
-    it.setLore([mine ? "§7Yours. It isn't coming back." : "§7Someone else's."]);
-    const left = p.getComponent("minecraft:inventory").container.addItem(it);
+    const left = p.getComponent("minecraft:inventory").container.addItem(armItem(info, mine));
     if (left) { hudMsg(p, "§7No room in your bag.", 30); return; }
   } catch { return; }
   if (i >= 0) limbs.splice(i, 1);
   try { e.remove(); } catch { }
   sound(p.dimension, "random.pop", p.location, 0.6, 0.8);
+  if (mine && freshness(info) < FRESH_MS && !hero(p).limbs?.[info.side]) hudMsg(p, "§aYour arm. §7Use it with a §fBandage§7 to stitch it back on - before it goes cold.", 70);
 }
-export function dropArm(p, consume) {
+// set it down again (keeps whose it is and how long ago it came off)
+export function dropArm(p, consume, item = null) {
   try {
+    const info = item ? limbInfo(item) : { owner: "", side: "r", cut: Date.now() - FRESH_MS, look: 0 };
     const f = V.flat(p.getViewDirection());
-    const e = p.dimension.spawnEntity("origin:severed_limb", at(p.location, f.x * 1.2, 0.3, f.z * 1.2));
-    e.setRotation({ x: 0, y: Math.random() * 360 });
-    consume();
+    const e = flingLimb(p.dimension, at(p.location, f.x * 1.2, 0.6, f.z * 1.2), f, info.look, { owner: info.owner, side: info.side, cut: info.cut, spin: false, gore: "mild" });
+    if (e) consume();
   } catch { }
+}
+// using a Severed Arm: sneak = put it down; otherwise try to stitch it back on (yours, fresh, and you have a Bandage)
+const stitching = new Map();   // playerId -> {side, until}
+export function useSeveredArm(p, consume) {
+  let item;
+  try { item = p.getComponent("minecraft:inventory").container.getItem(p.selectedSlotIndex); } catch { }
+  if (!item) return;
+  if (p.isSneaking) return dropArm(p, consume, item);
+  const info = limbInfo(item), L = hero(p).limbs ?? { r: 1, l: 1 };
+  if (stitching.has(p.id)) return;
+  if (info.owner !== p.id) { hudMsg(p, "§7That's not your arm. §8(Sneak + use to put it down.)", 40); return; }
+  if (L[info.side]) { hudMsg(p, "§7You've already got that arm.", 30); return; }
+  if (L.prosthetic?.[info.side]) { hudMsg(p, "§7There's a prosthetic there now.", 30); return; }
+  if (freshness(info) >= FRESH_MS) { hudMsg(p, "§8It's gone cold and grey. §7It won't take any more.", 50); return; }
+  if (!hasBandage(p)) { hudMsg(p, "§7You need a §fBandage§7 in your bag to stitch it on.", 50); return; }
+  stitchArm(p, info.side, consume);
+}
+function hasBandage(p) {
+  try { const c = p.getComponent("minecraft:inventory").container; for (let i = 0; i < c.size; i++) if (c.getItem(i)?.typeId === "origin:bandage") return true; } catch { }
+  return false;
+}
+function takeBandage(p) {
+  try {
+    const c = p.getComponent("minecraft:inventory").container;
+    for (let i = 0; i < c.size; i++) { const it = c.getItem(i); if (it?.typeId !== "origin:bandage") continue; if (it.amount > 1) { it.amount--; c.setItem(i, it); } else c.setItem(i, undefined); return true; }
+  } catch { }
+  return false;
+}
+// three seconds of holding still: hold the arm in place, wrap it, pull it tight. Getting hit or walking off spoils it.
+async function stitchArm(p, side, consume) {
+  const start = { ...p.location }, total = 60;
+  stitching.set(p.id, { side });
+  RT(p).bleedUntil = 0;   // pressing the arm to the wound stops the bleeding (or the bleed itself would "interrupt" you)
+  const hp0 = health(p)?.cur ?? 0;
+  try { p.addEffect("slowness", total + 10, { amplifier: 3, showParticles: false }); } catch { }
+  sound(p.dimension, "armor.equip_leather", p.location, 0.8, 1);
+  let ok = true;
+  for (let t = 0; t < total; t += 5) {
+    await system.waitTicks(5);
+    if (!valid(p)) { stitching.delete(p.id); return; }
+    const hpNow = health(p)?.cur ?? hp0;
+    if (V.hdist(p.location, start) > 1.5 || hpNow < hp0 - 0.5) { ok = false; break; }
+    const k = Math.round(((t + 5) / total) * 10);
+    hudMsg(p, `§fStitching... §a${"|".repeat(k)}§8${"|".repeat(10 - k)}`, 8);
+    if (t % 15 === 0) sound(p.dimension, "armor.equip_leather", p.location, 1 + t / 60, 0.6);
+    const yaw = (p.getRotation().y * Math.PI) / 180, right = rightOf({ x: -Math.sin(yaw), y: 0, z: Math.cos(yaw) }), sx = side === "r" ? 1 : -1;
+    if (goreSetting() === "full") fx(p.dimension, "origin:blood_drip", at(p.location, right.x * 0.38 * sx, 1.3, right.z * 0.38 * sx), C.white, 1);
+  }
+  stitching.delete(p.id);
+  try { p.removeEffect("slowness"); } catch { }
+  if (!ok) { hudMsg(p, "§cYou lost your grip on it. §7Hold still and try again.", 40); return; }
+  if (!takeBandage(p)) { hudMsg(p, "§7You need a §fBandage§7 in your bag to stitch it on.", 40); return; }
+  consume();
+  restore(p, side, "stitch");
+  RT(p).bleedUntil = 0;
+  try { p.addEffect("weakness", 20 * 60, { amplifier: 0, showParticles: false }); p.addEffect("mining_fatigue", 20 * 60, { amplifier: 0, showParticles: false }); } catch { }
+  try { p.camera.fade({ fadeTime: { fadeInTime: 0, holdTime: 0.05, fadeOutTime: 0.5 }, fadeColor: { red: 0.4, green: 0, blue: 0 } }); } catch { }
+  sound(p.dimension, "random.levelup", p.location, 0.7, 0.8);
+  hudMsg(p, "§aStitched. §7It's stiff and it aches - give it a minute.", 60);
 }
 // keep every arm sitting ON the ground (snap it back up if it ever sinks into a block)
 function keepOnGround(e) {
@@ -301,13 +438,31 @@ export function tickLimbs() {
       if (!L.r) { p.addEffect("weakness", 30, { amplifier: 1, showParticles: false }); p.addEffect("mining_fatigue", 30, { amplifier: 0, showParticles: false }); }
       if (!L.l) p.addEffect("slowness", 30, { amplifier: 0, showParticles: false });
     } catch { }
-    if (t % 100 < 10) applyLook(p);   // re-apply after dimension changes
+    // animations played on a player don't survive a dimension change or a respawn: put the look back at once
+    let dimId = ""; try { dimId = p.dimension.id; } catch { }
+    if (r.limbDim !== dimId) { r.limbDim = dimId; system.runTimeout(() => valid(p) && applyLook(p), 10); }
+    if (t % 100 < 10) applyLook(p);   // and keep it right for anyone who walks into view
   }
   for (let i = limbs.length - 1; i >= 0; i--) {
     const q = limbs[i];
     if (!valid(q.e) || t > q.until) { try { if (valid(q.e)) { fx(q.e.dimension, "origin:void_swirl", q.e.location, C.grey, 0.6); q.e.remove(); } } catch { } limbs.splice(i, 1); continue; }
     keepOnGround(q.e);
-    if (q.gore === "full" && t % 30 < 10) fx(q.e.dimension, "origin:blood_drip", at(q.e.location, 0, 0.2, 0), C.white, 1);
+    if (q.gore === "full" && t % 30 < 10 && (q.e.getProperty?.("origin:look") ?? 0) !== LIMB_LOOK.bone) fx(q.e.dimension, "origin:blood_drip", at(q.e.location, 0, 0.2, 0), C.white, 1);
+  }
+  // arms nobody is tracking any more (the world was reloaded): clear them out once they've lain there their time
+  if (t % 200 < 10) {
+    const seen = new Set(limbs.map((q) => q.e.id));
+    for (const p of world.getAllPlayers()) {
+      let list = [];
+      try { list = p.dimension.getEntities({ type: "origin:severed_limb", location: p.location, maxDistance: 96 }); } catch { }
+      for (const e of list) {
+        if (seen.has(e.id)) continue;
+        const info = limbInfo(e);
+        if (!info.cut) { try { e.setDynamicProperty("origin:cut", Date.now()); } catch { } continue; }   // old arm: start its clock now
+        if (Date.now() - info.cut > FRESH_MS) { try { fx(e.dimension, "origin:void_swirl", e.location, C.grey, 0.6); e.remove(); } catch { } }
+        else limbs.push({ e, owner: info.owner, side: info.side, until: t + Math.max(200, Math.floor((FRESH_MS - (Date.now() - info.cut)) / 50)), gore: goreSetting() });
+      }
+    }
   }
 }
 export function limbLine(p) {

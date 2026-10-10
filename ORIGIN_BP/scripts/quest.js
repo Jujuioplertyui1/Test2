@@ -1,4 +1,4 @@
-// ORIGIN v0.04 - quest.js
+// ORIGIN v0.24 - quest.js
 // "Signal Lost" — the questline that unlocks the Static for one special player, and NULL, its boss.
 // Stages (hero.quest.signal):
 //   0 nothing   1 heard the noise (got a Detuned Receiver)   2 collected 8 Static Shards
@@ -13,7 +13,7 @@ import { title } from "./cine.js";
 import { popNumber } from "./combat.js";
 
 export const NULL = "origin:null";
-export const SHARDS_NEEDED = 10;
+export const SHARDS_NEEDED = 8;
 
 export function questStage(player) { return hero(player).quest?.signal ?? 0; }
 function setStage(player, n) {
@@ -24,13 +24,14 @@ function setStage(player, n) {
   markDirty(player);
 }
 
-// A Rift Brute (22%) or a villain (40%) died: chance to drop a Static Shard, and the first time, start the quest.
-export function onBruteKilledForQuest(player, chance = 0.22) {
+// A Rift Brute (35%) or a villain (55%) died: chance to drop a Static Shard, and the first time, start the quest.
+// (v0.24: the old odds - 22% x 35% - meant ~130 brutes for the ten shards it asked for; now it's eight shards, ~25 brutes)
+export function onBruteKilledForQuest(player, chance = 0.35) {
   if (!player || player.typeId !== "minecraft:player") return;
   const h = hero(player);
   if (!h.awakened) return;
   if (Math.random() < chance) {
-    if (Math.random() < 0.35) giveItem(player, ITEMS.staticShard, { keep: true, lore: ["§7It hums on a channel that isn't there."] }); else { try { player.sendMessage("§8The static slips through your fingers. Keep trying."); } catch { } }
+    if (questStage(player) === 0 || Math.random() < 0.9) giveItem(player, ITEMS.staticShard, { keep: true, lore: ["§7It hums on a channel that isn't there."] }); else { try { player.sendMessage("§8The static slips through your fingers. Keep trying."); } catch { } }
     if (questStage(player) === 0) {
       setStage(player, 1);
       giveItem(player, ITEMS.receiver, { keep: true, lore: ["§7Points toward the noise.", "§7Collect 8 Static Shards."] });
@@ -57,17 +58,20 @@ export function useReceiver(player) {
   if ((r.recvCd ?? 0) > t) return;
   r.recvCd = t + 20;
   const n = countItem(player, ITEMS.staticShard);
-  if (n < SHARDS_NEEDED) {
+  if (nullOwed(player)) { h.quest = h.quest ?? { signal: 0 }; h.quest.nullFree = true; markDirty(player); }
+  const free = !!h.quest?.nullFree;   // it left before the fight was over: calling it back is free
+  if (n < SHARDS_NEEDED && !free) {
     hudMsg(player, `§7The receiver hisses. §8Static Shards: ${n}/${SHARDS_NEEDED}`, 60);
     psound(player, "random.fizz", 1, 0.5);
     fx(player.dimension, "origin:glitch", at(player.getHeadLocation(), 0, 0.2, 0), C.grey, 0.7);
     return;
   }
   if (nullAlive(player.dimension)) { hudMsg(player, "§7It's already here. Can't you feel it?"); return; }
-  if (player.dimension.id !== "minecraft:overworld" && player.dimension.id !== "minecraft:the_nether" && player.dimension.id !== "minecraft:the_end") {
+  if (player.dimension.id !== "minecraft:overworld" && player.dimension.id !== "minecraft:nether" && player.dimension.id !== "minecraft:the_end") {
     hudMsg(player, "§7Not here. It wants open air. §8(Use it in the overworld.)"); return;
   }
-  for (let i = 0; i < SHARDS_NEEDED; i++) removeOne(player, ITEMS.staticShard);
+  if (free) { h.quest.nullFree = false; markDirty(player); }
+  else for (let i = 0; i < SHARDS_NEEDED; i++) removeOne(player, ITEMS.staticShard);
   summonNull(player);
 }
 
@@ -76,7 +80,7 @@ function nullAlive(dim) {
 }
 
 // ------------------------------------------------------------------ NULL boss (null.js)
-import { summonNull, tickNull as _tickNull, forgetNull } from "./null.js";
+import { summonNull, tickNull as _tickNull, forgetNull, nullOwed } from "./null.js";
 import { inStatic, pullIn } from "./static.js";
 export const tickNull = _tickNull;
 
@@ -84,8 +88,10 @@ export function onNullDeath(e, source) {
   forgetNull(e);
   // the channel breaks apart: Null Crystals (Exo-Frame material), and the first time, a Shard of the Other
   try {
-    const n = 2 + Math.floor(Math.random() * 2);
+    const n = 3 + Math.floor(Math.random() * 3);
     e.dimension.spawnItem(new ItemStack("origin:null_crystal", n), at(e.location, 0, 1, 0));
+    e.dimension.spawnItem(new ItemStack("minecraft:diamond", 2 + Math.floor(Math.random() * 3)), at(e.location, 0, 1, 0));
+    e.dimension.spawnItem(new ItemStack("minecraft:experience_bottle", 8), at(e.location, 0, 1, 0));
   } catch { }
   const killer = source?.damagingEntity;
   const dim = e.dimension;
