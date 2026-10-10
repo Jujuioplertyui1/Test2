@@ -2,7 +2,10 @@
 // Real-ish: ticks + timers + waitTicks, dimensions holding entities, players with inventories/equipment/health,
 // damage routed through before/after hurt events, death events, dynamic properties, entity properties.
 // Everything else is a forgiving deep proxy, so code that calls APIs we don't model still runs.
-const H = (globalThis.__fake = globalThis.__fake ?? { tick: 0, intervals: [], timers: [], startup: [], subs: {}, errors: [], log: [] });
+// The world clock starts at an odd, arbitrary tick (like after a /reload), and every interval starts on the tick it was
+// registered, exactly like the real engine: code that assumes `currentTick % N === 0` lines up with an N-tick
+// interval breaks here the same way it breaks in game. Set FAKE_TICK0 to pick the starting tick.
+const H = (globalThis.__fake = globalThis.__fake ?? { tick: Number(process.env.FAKE_TICK0 ?? 1237), intervals: [], timers: [], startup: [], subs: {}, errors: [], log: [] });
 
 const deep = (path) => new Proxy(function () {}, {
   get(_, k) {
@@ -25,7 +28,7 @@ export const fire = (path, ev) => { for (const s of H.subs[path] ?? []) { const 
 // ------------------------------------------------------------------ system
 export const system = {
   get currentTick() { return H.tick; },
-  runInterval(fn, n = 1) { const id = H.intervals.length + 1; H.intervals.push({ id, fn, n: Math.max(1, n) }); return id; },
+  runInterval(fn, n = 1) { const id = H.intervals.length + 1; H.intervals.push({ id, fn, n: Math.max(1, n), from: H.tick }); return id; },
   runTimeout(fn, n = 1) { const id = 100000 + H.timers.length; H.timers.push({ id, at: H.tick + Math.max(0, n), fn }); return id; },
   run(fn) { return this.runTimeout(fn, 0); },
   runJob(gen) { const step = () => { const r = gen.next(); if (!r.done) system.runTimeout(step, 1); }; system.runTimeout(step, 0); return 0; },
@@ -251,7 +254,7 @@ export { deep };
 export async function runTicks(n, each) {
   for (let i = 0; i < n; i++) {
     H.tick++;
-    for (const iv of [...H.intervals]) if (H.tick % iv.n === 0) { try { iv.fn(); } catch (e) { H.errors.push(`interval: ${e?.stack ?? e}`); } }
+    for (const iv of [...H.intervals]) if ((H.tick - iv.from) % iv.n === 0 && H.tick > iv.from) { try { iv.fn(); } catch (e) { H.errors.push(`interval: ${e?.stack ?? e}`); } }
     for (;;) {
       const due = H.timers.filter((x) => x.at <= H.tick);
       if (!due.length) break;

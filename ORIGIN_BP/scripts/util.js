@@ -124,3 +124,17 @@ export const sleep = (t) => system.waitTicks(Math.max(1, Math.floor(t)));
 // Block.isSolid is beta-only (not in the stable API this add-on uses): solid = not air, not liquid, not a plant/torch/etc.
 const SOFT_BLOCK = /(short_grass|tall_grass|:grass$|fern|flower|torch|vine|carpet|sapling|button|rail|lever|sign|dandelion|poppy|tulip|orchid|allium|bluet|daisy|cornflower|lily|bush|_mushroom$|sugar_cane|kelp|seagrass|wheat|carrots|potatoes|beetroot|snow_layer|dead_?bush|roots|sprouts|petals|leaf_litter|light_block|web|banner|pressure_plate|tripwire|redstone_wire|:fire$|soul_fire|lantern|end_rod|candle|flower_pot|ladder|scaffolding|structure_void|barrier)/;
 export const isSolidBlock = (b) => !!b && !b.isAir && !b.isLiquid && !SOFT_BLOCK.test(b.typeId);
+
+// Allies a hero's moves should never hit by accident: Asgard's guardians, villagers and golems, and tamed pets.
+// (Melee you aim yourself still lands - this is for ricochets, splash, homing and auto-targeting.)
+const ALLY_TYPES = new Set(["origin:heimdall", "origin:einherjar", "minecraft:villager", "minecraft:villager_v2", "minecraft:wandering_trader",
+  "minecraft:iron_golem", "minecraft:snow_golem", "minecraft:allay", "minecraft:armor_stand"]);
+export function isAlly(e) {
+  try {
+    if (!e || ALLY_TYPES.has(e.typeId)) return true;
+    if (e.matches?.({ families: ["asgardian"] })) return true;
+    const tame = e.getComponent?.("minecraft:tameable");
+    if (tame?.isTamed) return true;
+  } catch { }
+  return false;
+}
