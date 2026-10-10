@@ -1,0 +1,41 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:xox",
+   "materials": {
+    "default": "entity_alphatest",
+    "glow": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/origin/entity/xox"
+   },
+   "geometry": {
+    "default": "geometry.origin.xox"
+   },
+   "animations": {
+    "idle": "animation.xox.idle",
+    "walk": "animation.xox.walk",
+    "run": "animation.xox.run",
+    "look": "animation.xox.look",
+    "move": "controller.animation.xox.move",
+    "flow": "animation.xox.flow"
+   },
+   "scripts": {
+    "animate": [
+     "move",
+     "look",
+     "flow"
+    ]
+   },
+   "render_controllers": [
+    "controller.render.origin.xox",
+    "controller.render.origin.xox_glow"
+   ],
+   "spawn_egg": {
+    "base_color": "#1F2350",
+    "overlay_color": "#B07CFF"
+   }
+  }
+ }
+}

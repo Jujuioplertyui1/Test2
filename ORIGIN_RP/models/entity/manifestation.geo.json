@@ -1,0 +1,180 @@
+{
+  "format_version": "1.12.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.origin.manifestation",
+        "texture_width": 64,
+        "texture_height": 64,
+        "visible_bounds_width": 3,
+        "visible_bounds_height": 3.5,
+        "visible_bounds_offset": [
+          0,
+          1.25,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "root",
+          "pivot": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "body",
+          "pivot": [
+            0,
+            14,
+            0
+          ],
+          "parent": "root",
+          "cubes": [
+            {
+              "origin": [
+                -5,
+                6,
+                -3
+              ],
+              "size": [
+                10,
+                16,
+                6
+              ],
+              "uv": [
+                0,
+                18
+              ]
+            },
+            {
+              "origin": [
+                -4,
+                0,
+                -2
+              ],
+              "size": [
+                8,
+                6,
+                4
+              ],
+              "uv": [
+                0,
+                40
+              ]
+            }
+          ]
+        },
+        {
+          "name": "head",
+          "pivot": [
+            0,
+            22,
+            0
+          ],
+          "parent": "body",
+          "cubes": [
+            {
+              "origin": [
+                -4.5,
+                22,
+                -4.5
+              ],
+              "size": [
+                9,
+                9,
+                9
+              ],
+              "uv": [
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "name": "halo",
+          "pivot": [
+            0,
+            33,
+            0
+          ],
+          "parent": "head",
+          "cubes": [
+            {
+              "origin": [
+                -5,
+                33,
+                -5
+              ],
+              "size": [
+                10,
+                0,
+                10
+              ],
+              "uv": [
+                0,
+                50
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rightArm",
+          "pivot": [
+            -5.5,
+            21,
+            0
+          ],
+          "parent": "body",
+          "cubes": [
+            {
+              "origin": [
+                -8.5,
+                10,
+                -1.5
+              ],
+              "size": [
+                3,
+                12,
+                3
+              ],
+              "uv": [
+                32,
+                18
+              ]
+            }
+          ]
+        },
+        {
+          "name": "leftArm",
+          "pivot": [
+            5.5,
+            21,
+            0
+          ],
+          "parent": "body",
+          "cubes": [
+            {
+              "origin": [
+                5.5,
+                10,
+                -1.5
+              ],
+              "size": [
+                3,
+                12,
+                3
+              ],
+              "uv": [
+                44,
+                18
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

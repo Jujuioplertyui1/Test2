@@ -1,0 +1,36 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "origin:infinity_gauntlet_recipe"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "GSG",
+      "GNG",
+      " G "
+    ],
+    "key": {
+      "G": {
+        "item": "minecraft:gold_block"
+      },
+      "S": {
+        "item": "minecraft:nether_star"
+      },
+      "N": {
+        "item": "minecraft:netherite_ingot"
+      }
+    },
+    "unlock": [
+      {
+        "item": "minecraft:nether_star"
+      }
+    ],
+    "result": {
+      "item": "origin:infinity_gauntlet",
+      "count": 1
+    }
+  }
+}

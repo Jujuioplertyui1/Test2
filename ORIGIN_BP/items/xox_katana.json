@@ -1,0 +1,32 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "origin:xox_katana",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:display_name": {
+    "value": "\u00a7dXoX's Gravity Katana"
+   },
+   "minecraft:icon": {
+    "textures": {
+     "default": "origin_xox_katana"
+    }
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:hand_equipped": true,
+   "minecraft:damage": 10,
+   "minecraft:durability": {
+    "max_durability": 2400
+   },
+   "minecraft:enchantable": {
+    "slot": "sword",
+    "value": 14
+   },
+   "minecraft:glint": true
+  }
+ }
+}

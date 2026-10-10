@@ -1,0 +1,125 @@
+{
+ "format_version": "1.12.0",
+ "minecraft:geometry": [
+  {
+   "description": {
+    "identifier": "geometry.origin.lumen_blade",
+    "texture_width": 128,
+    "texture_height": 128,
+    "visible_bounds_width": 3,
+    "visible_bounds_height": 3,
+    "visible_bounds_offset": [
+     0,
+     1,
+     0
+    ]
+   },
+   "bones": [
+    {
+     "name": "root",
+     "pivot": [
+      0,
+      12,
+      0
+     ]
+    },
+    {
+     "name": "sword",
+     "pivot": [
+      0,
+      12,
+      0
+     ],
+     "parent": "root",
+     "rotation": [
+      0,
+      0,
+      -90
+     ],
+     "cubes": [
+      {
+       "origin": [
+        -1,
+        12,
+        -5
+       ],
+       "size": [
+        2,
+        6,
+        10
+       ],
+       "uv": [
+        76,
+        0
+       ]
+      },
+      {
+       "origin": [
+        -2,
+        18,
+        -11
+       ],
+       "size": [
+        4,
+        3,
+        22
+       ],
+       "uv": [
+        24,
+        0
+       ]
+      },
+      {
+       "origin": [
+        -1,
+        21,
+        -5
+       ],
+       "size": [
+        2,
+        30,
+        10
+       ],
+       "uv": [
+        0,
+        0
+       ]
+      },
+      {
+       "origin": [
+        -1,
+        51,
+        -3
+       ],
+       "size": [
+        2,
+        8,
+        6
+       ],
+       "uv": [
+        100,
+        0
+       ]
+      },
+      {
+       "origin": [
+        -1,
+        59,
+        -1
+       ],
+       "size": [
+        2,
+        4,
+        2
+       ],
+       "uv": [
+        116,
+        0
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

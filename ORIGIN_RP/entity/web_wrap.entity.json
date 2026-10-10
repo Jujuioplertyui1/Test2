@@ -1,0 +1,28 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:web_wrap",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/origin/entity/web_wrap"
+   },
+   "geometry": {
+    "default": "geometry.origin.web_wrap"
+   },
+   "animations": {
+    "size": "animation.origin.web_wrap.size"
+   },
+   "scripts": {
+    "animate": [
+     "size"
+    ]
+   },
+   "render_controllers": [
+    "controller.render.origin.simple"
+   ]
+  }
+ }
+}

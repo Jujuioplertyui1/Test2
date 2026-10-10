@@ -1,0 +1,305 @@
+{
+  "format_version": "1.21.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "origin:alter_ego",
+      "is_spawnable": false,
+      "is_summonable": true,
+      "properties": {
+        "origin:mood": {
+          "type": "int",
+          "range": [
+            0,
+            3
+          ],
+          "default": 0,
+          "client_sync": true
+        },
+        "origin:cast": {
+          "type": "int",
+          "range": [
+            0,
+            1
+          ],
+          "default": 0,
+          "client_sync": true
+        },
+        "origin:arm_r": {
+          "type": "int",
+          "range": [
+            0,
+            1
+          ],
+          "default": 0,
+          "client_sync": true
+        },
+        "origin:arm_l": {
+          "type": "int",
+          "range": [
+            0,
+            1
+          ],
+          "default": 0,
+          "client_sync": true
+        }
+      }
+    },
+    "component_groups": {
+      "origin:kind": {
+        "minecraft:behavior.nearest_attackable_target": {
+          "priority": 2,
+          "must_see": false,
+          "reselect_targets": true,
+          "within_radius": 20,
+          "entity_types": [
+            {
+              "filters": {
+                "test": "is_family",
+                "subject": "other",
+                "value": "monster"
+              },
+              "max_dist": 20
+            }
+          ]
+        }
+      },
+      "origin:cruel": {
+        "minecraft:behavior.nearest_attackable_target": {
+          "priority": 2,
+          "must_see": false,
+          "reselect_targets": true,
+          "within_radius": 20,
+          "entity_types": [
+            {
+              "filters": {
+                "any_of": [
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "monster"
+                  },
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "villager"
+                  },
+                  {
+                    "all_of": [
+                      {
+                        "test": "is_family",
+                        "subject": "other",
+                        "value": "player"
+                      },
+                      {
+                        "test": "has_tag",
+                        "subject": "other",
+                        "operator": "!=",
+                        "value": "origin_alter_owner"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "max_dist": 20
+            }
+          ]
+        },
+        "minecraft:behavior.hurt_by_target": {
+          "priority": 1
+        }
+      },
+      "origin:just": {
+        "minecraft:behavior.nearest_attackable_target": {
+          "priority": 2,
+          "must_see": false,
+          "reselect_targets": true,
+          "within_radius": 20,
+          "entity_types": [
+            {
+              "filters": {
+                "test": "is_family",
+                "subject": "other",
+                "value": "monster"
+              },
+              "max_dist": 20
+            }
+          ]
+        },
+        "minecraft:behavior.hurt_by_target": {
+          "priority": 1
+        }
+      },
+      "origin:villain_side": {
+        "minecraft:behavior.nearest_attackable_target": {
+          "priority": 2,
+          "must_see": false,
+          "reselect_targets": true,
+          "within_radius": 24,
+          "entity_types": [
+            {
+              "filters": {
+                "any_of": [
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "player"
+                  },
+                  {
+                    "all_of": [
+                      {
+                        "test": "is_family",
+                        "subject": "other",
+                        "value": "origin_alter"
+                      },
+                      {
+                        "test": "is_family",
+                        "subject": "other",
+                        "operator": "!=",
+                        "value": "origin_villain"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "max_dist": 24
+            }
+          ]
+        },
+        "minecraft:behavior.hurt_by_target": {
+          "priority": 1
+        },
+        "minecraft:type_family": {
+          "family": [
+            "origin_alter",
+            "origin_villain",
+            "monster",
+            "mob"
+          ]
+        }
+      }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "origin_alter",
+          "mob"
+        ]
+      },
+      "minecraft:collision_box": {
+        "width": 0.6,
+        "height": 1.8
+      },
+      "minecraft:health": {
+        "value": 60,
+        "max": 60
+      },
+      "minecraft:attack": {
+        "damage": 6
+      },
+      "minecraft:movement": {
+        "value": 0.34
+      },
+      "minecraft:movement.basic": {},
+      "minecraft:jump.static": {},
+      "minecraft:navigation.walk": {
+        "can_path_over_water": true,
+        "avoid_damage_blocks": true
+      },
+      "minecraft:physics": {},
+      "minecraft:pushable": {
+        "is_pushable": true,
+        "is_pushable_by_piston": true
+      },
+      "minecraft:behavior.melee_attack": {
+        "priority": 3,
+        "speed_multiplier": 1.25,
+        "track_target": true
+      },
+      "minecraft:behavior.random_stroll": {
+        "priority": 7,
+        "speed_multiplier": 0.8
+      },
+      "minecraft:behavior.look_at_player": {
+        "priority": 8,
+        "look_distance": 8
+      },
+      "minecraft:nameable": {
+        "always_show": true,
+        "allow_name_tag_renaming": false
+      },
+      "minecraft:equipment": {
+        "slot_drop_chance": [
+          {
+            "slot": "slot.armor.head",
+            "drop_chance": 0
+          },
+          {
+            "slot": "slot.armor.chest",
+            "drop_chance": 0
+          },
+          {
+            "slot": "slot.armor.legs",
+            "drop_chance": 0
+          },
+          {
+            "slot": "slot.armor.feet",
+            "drop_chance": 0
+          },
+          {
+            "slot": "slot.weapon.mainhand",
+            "drop_chance": 0
+          },
+          {
+            "slot": "slot.weapon.offhand",
+            "drop_chance": 0
+          }
+        ]
+      },
+      "minecraft:loot": {
+        "table": "loot_tables/empty.json"
+      },
+      "minecraft:experience_reward": {
+        "on_death": "0"
+      },
+      "minecraft:fire_immune": true,
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "cause": "fall",
+            "deals_damage": "no"
+          }
+        ]
+      }
+    },
+    "events": {
+      "origin:set_kind": {
+        "add": {
+          "component_groups": [
+            "origin:kind"
+          ]
+        }
+      },
+      "origin:set_cruel": {
+        "add": {
+          "component_groups": [
+            "origin:cruel"
+          ]
+        }
+      },
+      "origin:set_just": {
+        "add": {
+          "component_groups": [
+            "origin:just"
+          ]
+        }
+      },
+      "origin:set_villain": {
+        "add": {
+          "component_groups": [
+            "origin:villain_side"
+          ]
+        }
+      }
+    }
+  }
+}

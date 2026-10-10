@@ -1,0 +1,23 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "origin:shield_strap",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:display_name": {
+    "value": "Vanguard Shield (thrown)"
+   },
+   "minecraft:icon": {
+    "textures": {
+     "default": "origin_shield_strap"
+    }
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:hand_equipped": true
+  }
+ }
+}

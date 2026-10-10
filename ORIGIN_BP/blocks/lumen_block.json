@@ -1,0 +1,58 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:block": {
+    "description": {
+      "identifier": "origin:lumen_block",
+      "menu_category": {
+        "category": "none"
+      },
+      "states": {
+        "origin:life": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ]
+      }
+    },
+    "components": {
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "origin_lumen_block",
+          "render_method": "blend"
+        }
+      },
+      "minecraft:light_emission": 10,
+      "minecraft:light_dampening": 0,
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.4
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 60
+      },
+      "minecraft:loot": "loot_tables/empty.json",
+      "minecraft:map_color": "#7CFFE0",
+      "minecraft:tick": {
+        "interval_range": [
+          10,
+          10
+        ],
+        "looping": true
+      },
+      "origin:lumen": {}
+    }
+  }
+}

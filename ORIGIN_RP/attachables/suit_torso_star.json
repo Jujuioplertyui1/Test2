@@ -1,0 +1,33 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "origin:suit_torso_star",
+      "materials": {
+        "default": "armor_leather",
+        "enchanted": "armor_leather_enchanted"
+      },
+      "textures": {
+        "default": "textures/origin/models/armor/suit_torso_star",
+        "enchanted": "textures/misc/enchanted_actor_glint"
+      },
+      "geometry": {
+        "default": "geometry.origin.suit_torso_star"
+      },
+      "scripts": {
+        "parent_setup": "variable.chest_layer_visible = 0.0;",
+        "animate": [
+          "offset",
+          "sway"
+        ]
+      },
+      "animations": {
+        "offset": "animation.armor.chestplate.offset",
+        "sway": "animation.origin.suit.sway"
+      },
+      "render_controllers": [
+        "controller.render.armor"
+      ]
+    }
+  }
+}

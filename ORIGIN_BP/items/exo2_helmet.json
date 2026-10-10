@@ -1,0 +1,46 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "origin:exo2_helmet",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:display_name": {
+    "value": "Mk II Skylark Helmet"
+   },
+   "minecraft:icon": {
+    "textures": {
+     "default": "origin_exo2_helmet"
+    }
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:wearable": {
+    "slot": "slot.armor.head",
+    "protection": 3
+   },
+   "minecraft:durability": {
+    "max_durability": 700
+   },
+   "minecraft:enchantable": {
+    "slot": "armor_head",
+    "value": 12
+   },
+   "minecraft:repairable": {
+    "repair_items": [
+     {
+      "items": [
+       "origin:aetherium_ingot"
+      ],
+      "repair_amount": 300
+     }
+    ]
+   },
+   "minecraft:dyeable": {
+    "default_color": "#D8DEE6"
+   }
+  }
+ }
+}

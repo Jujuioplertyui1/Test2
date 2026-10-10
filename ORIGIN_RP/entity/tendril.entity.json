@@ -1,0 +1,33 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:tendril",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/origin/entity/tendril"
+   },
+   "geometry": {
+    "default": "geometry.origin.tendril"
+   },
+   "animations": {
+    "sway": "animation.origin.tendril.sway",
+    "rise": "animation.origin.tendril.rise",
+    "sink": "animation.origin.tendril.sink",
+    "whip": "animation.origin.tendril.whip",
+    "grab": "animation.origin.tendril.grab"
+   },
+   "scripts": {
+    "animate": [
+     "sway",
+     "rise"
+    ]
+   },
+   "render_controllers": [
+    "controller.render.origin.simple"
+   ]
+  }
+ }
+}

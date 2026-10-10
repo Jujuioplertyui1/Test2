@@ -1,0 +1,22 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "origin:detuned_receiver",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "Detuned Receiver"
+      },
+      "minecraft:icon": {
+        "textures": {
+          "default": "origin_detuned_receiver"
+        }
+      },
+      "minecraft:max_stack_size": 1
+    }
+  }
+}

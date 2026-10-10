@@ -1,0 +1,49 @@
+{
+ "format_version": "1.10.0",
+ "animation_controllers": {
+  "controller.animation.xox.move": {
+   "initial_state": "idle",
+   "states": {
+    "idle": {
+     "animations": [
+      "idle"
+     ],
+     "transitions": [
+      {
+       "run": "q.modified_move_speed > 0.6"
+      },
+      {
+       "walk": "q.modified_move_speed > 0.05"
+      }
+     ],
+     "blend_transition": 0.2
+    },
+    "walk": {
+     "animations": [
+      "walk"
+     ],
+     "transitions": [
+      {
+       "run": "q.modified_move_speed > 0.6"
+      },
+      {
+       "idle": "q.modified_move_speed <= 0.05"
+      }
+     ],
+     "blend_transition": 0.2
+    },
+    "run": {
+     "animations": [
+      "run"
+     ],
+     "transitions": [
+      {
+       "walk": "q.modified_move_speed <= 0.6"
+      }
+     ],
+     "blend_transition": 0.2
+    }
+   }
+  }
+ }
+}

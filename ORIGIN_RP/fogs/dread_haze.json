@@ -1,0 +1,22 @@
+{
+  "format_version": "1.16.100",
+  "minecraft:fog_settings": {
+    "description": {
+      "identifier": "origin:dread_haze"
+    },
+    "distance": {
+      "air": {
+        "fog_start": 8,
+        "fog_end": 64,
+        "fog_color": "#2A0508",
+        "render_distance_type": "fixed"
+      },
+      "weather": {
+        "fog_start": 8,
+        "fog_end": 64,
+        "fog_color": "#2A0508",
+        "render_distance_type": "fixed"
+      }
+    }
+  }
+}

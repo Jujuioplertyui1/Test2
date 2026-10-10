@@ -1,0 +1,20 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:attachable": {
+  "description": {
+   "identifier": "origin:mjolnir_strap",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/origin/entity/gear/mjolnir"
+   },
+   "geometry": {
+    "default": "geometry.origin.empty"
+   },
+   "render_controllers": [
+    "controller.render.item_default"
+   ]
+  }
+ }
+}

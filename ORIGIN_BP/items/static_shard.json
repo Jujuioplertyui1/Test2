@@ -1,0 +1,22 @@
+{
+  "format_version": "1.21.60",
+  "minecraft:item": {
+    "description": {
+      "identifier": "origin:static_shard",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "Static Shard"
+      },
+      "minecraft:icon": {
+        "textures": {
+          "default": "origin_static_shard"
+        }
+      },
+      "minecraft:max_stack_size": 16
+    }
+  }
+}

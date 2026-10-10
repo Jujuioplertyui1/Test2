@@ -1,0 +1,108 @@
+{
+ "format_version": "1.12.0",
+ "minecraft:geometry": [
+  {
+   "description": {
+    "identifier": "geometry.origin.xfrag_mk3_fore_r",
+    "texture_width": 128,
+    "texture_height": 64,
+    "visible_bounds_width": 3,
+    "visible_bounds_height": 3.5,
+    "visible_bounds_offset": [
+     0,
+     1.25,
+     0
+    ]
+   },
+   "bones": [
+    {
+     "name": "root",
+     "pivot": [
+      0,
+      12,
+      0
+     ]
+    },
+    {
+     "name": "rightArm",
+     "pivot": [
+      -5,
+      22,
+      0
+     ],
+     "parent": "root",
+     "cubes": [
+      {
+       "origin": [
+        -8,
+        16,
+        -2
+       ],
+       "size": [
+        4,
+        2,
+        4
+       ],
+       "uv": [
+        10,
+        24
+       ],
+       "inflate": 0.36
+      },
+      {
+       "origin": [
+        -8,
+        12,
+        -2
+       ],
+       "size": [
+        4,
+        4,
+        4
+       ],
+       "uv": [
+        102,
+        0
+       ],
+       "inflate": 0.6
+      },
+      {
+       "origin": [
+        -8,
+        15,
+        -2
+       ],
+       "size": [
+        4,
+        1,
+        4
+       ],
+       "uv": [
+        52,
+        24
+       ],
+       "inflate": 0.72
+      },
+      {
+       "origin": [
+        -7,
+        11,
+        -1
+       ],
+       "size": [
+        2,
+        1,
+        2
+       ],
+       "uv": [
+        118,
+        24
+       ],
+       "inflate": 0.26
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

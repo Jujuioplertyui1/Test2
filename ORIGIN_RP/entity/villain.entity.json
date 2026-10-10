@@ -1,0 +1,57 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "origin:villain",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "physical": "textures/origin/entity/villain_physical",
+        "matter": "textures/origin/entity/villain_matter",
+        "shadow": "textures/origin/entity/villain_shadow"
+      },
+      "geometry": {
+        "default": "geometry.origin.villain"
+      },
+      "render_controllers": [
+        "controller.render.origin.villain"
+      ],
+      "spawn_egg": {
+        "base_color": "#2a0f14",
+        "overlay_color": "#c8262c"
+      },
+      "enable_attachables": true,
+      "animations": {
+        "look": "animation.humanoid.look_at_target.default",
+        "move": "animation.humanoid.move",
+        "attack": "animation.humanoid.attack.rotations",
+        "bob": "animation.humanoid.bob",
+        "cast": "animation.origin.villain.cast",
+        "cape": "animation.origin.villain.cape",
+        "hover": "animation.origin.villain.hover"
+      },
+      "scripts": {
+        "initialize": [
+          "v.gliding_speed_value = 1.0;"
+        ],
+        "pre_animation": [
+          "v.tcos0 = Math.cos(query.modified_distance_moved * 38.17) * query.modified_move_speed / v.gliding_speed_value * 57.3;"
+        ],
+        "animate": [
+          "look",
+          "move",
+          "attack",
+          "bob",
+          "cape",
+          {
+            "cast": "query.property('origin:vstate') == 1 || (query.property('origin:vstate') == 2 && query.property('origin:vfam') != 0)"
+          },
+          {
+            "hover": "query.property('origin:vstate') == 2 && query.property('origin:vfam') == 0"
+          }
+        ]
+      }
+    }
+  }
+}

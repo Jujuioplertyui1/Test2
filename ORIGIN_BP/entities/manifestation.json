@@ -1,0 +1,90 @@
+{
+  "format_version": "1.21.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "origin:manifestation",
+      "is_spawnable": false,
+      "is_summonable": true,
+      "properties": {
+        "origin:arch": {
+          "type": "int",
+          "range": [
+            0,
+            2
+          ],
+          "default": 0,
+          "client_sync": true
+        }
+      }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "origin_manifestation",
+          "inanimate"
+        ]
+      },
+      "minecraft:collision_box": {
+        "width": 0.9,
+        "height": 2.2
+      },
+      "minecraft:health": {
+        "value": 20,
+        "max": 20
+      },
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "cause": "all",
+            "deals_damage": "no"
+          }
+        ]
+      },
+      "minecraft:physics": {
+        "has_gravity": false,
+        "has_collision": true
+      },
+      "minecraft:pushable": {
+        "is_pushable": false,
+        "is_pushable_by_piston": false
+      },
+      "minecraft:knockback_resistance": {
+        "value": 1.0
+      },
+      "minecraft:fire_immune": true,
+      "minecraft:persistent": {},
+      "minecraft:movement": {
+        "value": 0.0
+      },
+      "minecraft:movement.basic": {},
+      "minecraft:navigation.walk": {
+        "avoid_water": true
+      },
+      "minecraft:behavior.look_at_player": {
+        "priority": 0,
+        "look_distance": 16,
+        "probability": 1.0,
+        "look_time": [
+          3,
+          6
+        ]
+      },
+      "minecraft:interact": {
+        "interactions": [
+          {
+            "on_interact": {
+              "filters": {
+                "test": "is_family",
+                "subject": "other",
+                "value": "player"
+              }
+            },
+            "interact_text": "action.interact.origin.talk",
+            "swing": false
+          }
+        ]
+      }
+    },
+    "events": {}
+  }
+}

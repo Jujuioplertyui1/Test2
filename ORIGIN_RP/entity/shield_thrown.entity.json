@@ -1,0 +1,28 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:shield_thrown",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/origin/entity/gear/vanguard_shield_thrown"
+   },
+   "geometry": {
+    "default": "geometry.origin.vanguard_shield_thrown"
+   },
+   "animations": {
+    "fly": "animation.origin.shield_thrown.fly"
+   },
+   "scripts": {
+    "animate": [
+     "fly"
+    ]
+   },
+   "render_controllers": [
+    "controller.render.origin.simple"
+   ]
+  }
+ }
+}

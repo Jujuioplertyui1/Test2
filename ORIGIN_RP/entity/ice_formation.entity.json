@@ -1,0 +1,28 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:ice_formation",
+   "materials": {
+    "default": "entity_alphablend"
+   },
+   "textures": {
+    "default": "textures/origin/entity/ice_formation"
+   },
+   "geometry": {
+    "default": "geometry.origin.ice_formation"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ],
+   "animations": {
+    "grow": "animation.origin.ice_formation"
+   },
+   "scripts": {
+    "animate": [
+     "grow"
+    ]
+   }
+  }
+ }
+}

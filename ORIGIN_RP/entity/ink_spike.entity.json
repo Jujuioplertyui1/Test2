@@ -1,0 +1,28 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "origin:ink_spike",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/origin/entity/ink_spike"
+      },
+      "geometry": {
+        "default": "geometry.origin.ink_spike"
+      },
+      "render_controllers": [
+        "controller.render.default"
+      ],
+      "animations": {
+        "rise": "animation.origin.ink.rise"
+      },
+      "scripts": {
+        "animate": [
+          "rise"
+        ]
+      }
+    }
+  }
+}

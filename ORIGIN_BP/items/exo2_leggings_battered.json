@@ -1,0 +1,46 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "origin:exo2_leggings_battered",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:display_name": {
+    "value": "Mk II Skylark Leggings (Battered)"
+   },
+   "minecraft:icon": {
+    "textures": {
+     "default": "origin_exo2_leggings_battered"
+    }
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:wearable": {
+    "slot": "slot.armor.legs",
+    "protection": 4
+   },
+   "minecraft:durability": {
+    "max_durability": 700
+   },
+   "minecraft:enchantable": {
+    "slot": "armor_legs",
+    "value": 12
+   },
+   "minecraft:repairable": {
+    "repair_items": [
+     {
+      "items": [
+       "origin:aetherium_ingot"
+      ],
+      "repair_amount": 300
+     }
+    ]
+   },
+   "minecraft:dyeable": {
+    "default_color": "#D8DEE6"
+   }
+  }
+ }
+}

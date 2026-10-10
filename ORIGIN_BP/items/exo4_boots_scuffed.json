@@ -1,0 +1,46 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "origin:exo4_boots_scuffed",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:display_name": {
+    "value": "Mk IV Bastion Boots (Scuffed)"
+   },
+   "minecraft:icon": {
+    "textures": {
+     "default": "origin_exo4_boots_scuffed"
+    }
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:wearable": {
+    "slot": "slot.armor.feet",
+    "protection": 4
+   },
+   "minecraft:durability": {
+    "max_durability": 1300
+   },
+   "minecraft:enchantable": {
+    "slot": "armor_feet",
+    "value": 12
+   },
+   "minecraft:repairable": {
+    "repair_items": [
+     {
+      "items": [
+       "origin:aetherium_ingot"
+      ],
+      "repair_amount": 300
+     }
+    ]
+   },
+   "minecraft:dyeable": {
+    "default_color": "#3B3F46"
+   }
+  }
+ }
+}

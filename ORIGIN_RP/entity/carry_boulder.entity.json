@@ -1,0 +1,20 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:carry_boulder",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/origin/entity/carry_boulder"
+   },
+   "geometry": {
+    "default": "geometry.origin.carry_boulder"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

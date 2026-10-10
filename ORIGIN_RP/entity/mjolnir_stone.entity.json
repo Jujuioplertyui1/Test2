@@ -1,0 +1,32 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:mjolnir_stone",
+   "materials": {
+    "default": "entity_alphatest",
+    "glow": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/origin/entity/gear/mjolnir_stone"
+   },
+   "geometry": {
+    "default": "geometry.origin.mjolnir_stone"
+   },
+   "animations": {
+    "shake": "animation.origin.mjolnir_stone.shake"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "shake": "query.property('origin:shake') > 0"
+     }
+    ]
+   },
+   "render_controllers": [
+    "controller.render.origin.mjolnir_stone",
+    "controller.render.origin.mjolnir_stone_glow"
+   ]
+  }
+ }
+}

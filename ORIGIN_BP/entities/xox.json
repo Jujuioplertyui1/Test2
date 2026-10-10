@@ -1,0 +1,126 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:entity": {
+  "description": {
+   "identifier": "origin:xox",
+   "is_spawnable": true,
+   "is_summonable": true,
+   "properties": {
+    "origin:form": {
+     "type": "int",
+     "range": [
+      0,
+      2
+     ],
+     "default": 0,
+     "client_sync": true
+    },
+    "origin:broken": {
+     "type": "int",
+     "range": [
+      0,
+      1
+     ],
+     "default": 0,
+     "client_sync": true
+    }
+   }
+  },
+  "components": {
+   "minecraft:type_family": {
+    "family": [
+     "xox",
+     "monster",
+     "mob",
+     "boss"
+    ]
+   },
+   "minecraft:health": {
+    "value": 460,
+    "max": 460
+   },
+   "minecraft:boss": {
+    "name": "XoX",
+    "hud_range": 64,
+    "should_darken_sky": true
+   },
+   "minecraft:collision_box": {
+    "width": 0.7,
+    "height": 2.1
+   },
+   "minecraft:movement": {
+    "value": 0.34
+   },
+   "minecraft:navigation.walk": {
+    "can_path_over_water": true,
+    "avoid_water": true,
+    "can_open_doors": true
+   },
+   "minecraft:movement.basic": {},
+   "minecraft:jump.static": {},
+   "minecraft:knockback_resistance": {
+    "value": 0.9
+   },
+   "minecraft:physics": {},
+   "minecraft:pushable": {
+    "is_pushable": false,
+    "is_pushable_by_piston": false
+   },
+   "minecraft:fire_immune": {},
+   "minecraft:damage_sensor": {
+    "triggers": [
+     {
+      "cause": "fall",
+      "deals_damage": "no"
+     },
+     {
+      "cause": "suffocation",
+      "deals_damage": "no"
+     },
+     {
+      "cause": "drowning",
+      "deals_damage": "no"
+     }
+    ]
+   },
+   "minecraft:follow_range": {
+    "value": 48,
+    "max": 48
+   },
+   "minecraft:nameable": {},
+   "minecraft:persistent": {},
+   "minecraft:experience_reward": {
+    "on_death": "300"
+   },
+   "minecraft:behavior.nearest_attackable_target": {
+    "priority": 1,
+    "must_see": false,
+    "entity_types": [
+     {
+      "filters": {
+       "test": "is_family",
+       "subject": "other",
+       "value": "player"
+      },
+      "max_dist": 48
+     }
+    ]
+   },
+   "minecraft:behavior.move_towards_target": {
+    "priority": 2,
+    "speed_multiplier": 1.15,
+    "within_radius": 48
+   },
+   "minecraft:behavior.look_at_player": {
+    "priority": 5,
+    "look_distance": 24
+   },
+   "minecraft:behavior.random_look_around": {
+    "priority": 6
+   },
+   "minecraft:scale": {
+    "value": 1.15
+   }
+  }
+ }
+}

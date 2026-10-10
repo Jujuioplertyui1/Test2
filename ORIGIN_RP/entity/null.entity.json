@@ -1,0 +1,44 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "origin:null",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "f0": "textures/origin/entity/null_0",
+        "f1": "textures/origin/entity/null_1",
+        "f2": "textures/origin/entity/null_2"
+      },
+      "geometry": {
+        "default": "geometry.origin.null"
+      },
+      "render_controllers": [
+        "controller.render.origin.null"
+      ],
+      "animations": {
+        "idle": "animation.origin.null.idle",
+        "windup": "animation.origin.null.windup",
+        "recover": "animation.origin.null.recover",
+        "walk": "animation.humanoid.move",
+        "ctrl": "controller.animation.origin.null"
+      },
+      "scripts": {
+        "animate": [
+          "ctrl"
+        ],
+        "initialize": [
+          "v.gliding_speed_value = 1.0;"
+        ],
+        "pre_animation": [
+          "v.tcos0 = Math.cos(query.modified_distance_moved * 38.17) * query.modified_move_speed / v.gliding_speed_value * 57.3;"
+        ]
+      },
+      "spawn_egg": {
+        "base_color": "#b8ad94",
+        "overlay_color": "#1a1a1a"
+      }
+    }
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "format_version": "1.21.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "origin:rift_brute",
+      "is_spawnable": true,
+      "is_summonable": true,
+      "properties": {
+        "origin:state": {
+          "type": "int",
+          "range": [
+            0,
+            5
+          ],
+          "default": 0,
+          "client_sync": true
+        }
+      }
+    },
+    "component_groups": {
+      "origin:rooted": {
+        "minecraft:movement": {
+          "value": 0.0
+        }
+      }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "origin_brute",
+          "monster",
+          "mob"
+        ]
+      },
+      "minecraft:collision_box": {
+        "width": 1.4,
+        "height": 2.4
+      },
+      "minecraft:health": {
+        "value": 70,
+        "max": 70
+      },
+      "minecraft:attack": {
+        "damage": 0
+      },
+      "minecraft:movement": {
+        "value": 0.24
+      },
+      "minecraft:movement.basic": {},
+      "minecraft:navigation.walk": {
+        "can_path_over_water": true,
+        "avoid_damage_blocks": true
+      },
+      "minecraft:jump.static": {},
+      "minecraft:physics": {},
+      "minecraft:pushable": {
+        "is_pushable": false,
+        "is_pushable_by_piston": true
+      },
+      "minecraft:knockback_resistance": {
+        "value": 0.6
+      },
+      "minecraft:follow_range": {
+        "value": 24,
+        "max": 24
+      },
+      "minecraft:breathable": {
+        "total_supply": 15,
+        "suffocate_time": 0
+      },
+      "minecraft:nameable": {
+        "always_show": true,
+        "allow_name_tag_renaming": false
+      },
+      "minecraft:experience_reward": {
+        "on_death": "query.last_hit_by_player ? 12 : 0"
+      },
+      "minecraft:hurt_on_condition": {
+        "damage_conditions": [
+          {
+            "filters": {
+              "test": "in_lava",
+              "subject": "self",
+              "operator": "==",
+              "value": true
+            },
+            "cause": "lava",
+            "damage_per_tick": 4
+          }
+        ]
+      },
+      "minecraft:behavior.float": {
+        "priority": 0
+      },
+      "minecraft:behavior.hurt_by_target": {
+        "priority": 1
+      },
+      "minecraft:behavior.nearest_attackable_target": {
+        "priority": 2,
+        "must_see": true,
+        "reselect_targets": true,
+        "entity_types": [
+          {
+            "filters": {
+              "test": "is_family",
+              "subject": "other",
+              "value": "player"
+            },
+            "max_dist": 24
+          }
+        ]
+      },
+      "minecraft:behavior.melee_attack": {
+        "priority": 3,
+        "reach_multiplier": 0,
+        "speed_multiplier": 1.0,
+        "track_target": true
+      },
+      "minecraft:behavior.random_stroll": {
+        "priority": 6,
+        "speed_multiplier": 0.8
+      },
+      "minecraft:behavior.look_at_player": {
+        "priority": 7,
+        "look_distance": 10,
+        "probability": 0.02
+      },
+      "minecraft:behavior.random_look_around": {
+        "priority": 8
+      },
+      "minecraft:despawn": {
+        "despawn_from_distance": {
+          "min_distance": 48,
+          "max_distance": 96
+        }
+      }
+    },
+    "events": {
+      "origin:root": {
+        "add": {
+          "component_groups": [
+            "origin:rooted"
+          ]
+        }
+      },
+      "origin:unroot": {
+        "remove": {
+          "component_groups": [
+            "origin:rooted"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:mjolnir_thrown",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/origin/entity/gear/mjolnir"
+   },
+   "geometry": {
+    "default": "geometry.origin.mjolnir_thrown"
+   },
+   "animations": {
+    "fly": "animation.origin.mjolnir_thrown.fly"
+   },
+   "scripts": {
+    "animate": [
+     "fly"
+    ]
+   },
+   "render_controllers": [
+    "controller.render.origin.simple"
+   ]
+  }
+ }
+}

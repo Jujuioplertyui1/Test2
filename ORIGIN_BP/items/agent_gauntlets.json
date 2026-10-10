@@ -1,0 +1,23 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "origin:agent_gauntlets",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:display_name": {
+    "value": "Agent Gauntlets"
+   },
+   "minecraft:icon": {
+    "textures": {
+     "default": "origin_agent_gauntlets"
+    }
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:hand_equipped": true
+  }
+ }
+}

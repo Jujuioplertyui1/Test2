@@ -1,0 +1,31 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "origin:suit_mask_hood",
+      "materials": {
+        "default": "armor_leather",
+        "enchanted": "armor_leather_enchanted"
+      },
+      "textures": {
+        "default": "textures/origin/models/armor/suit_mask_hood",
+        "enchanted": "textures/misc/enchanted_actor_glint"
+      },
+      "geometry": {
+        "default": "geometry.origin.suit_mask_hood"
+      },
+      "scripts": {
+        "parent_setup": "variable.helmet_layer_visible = 0.0;",
+        "animate": [
+          "offset"
+        ]
+      },
+      "animations": {
+        "offset": "animation.armor.helmet.offset"
+      },
+      "render_controllers": [
+        "controller.render.armor"
+      ]
+    }
+  }
+}

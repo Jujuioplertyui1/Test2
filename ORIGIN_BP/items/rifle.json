@@ -1,0 +1,27 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "origin:rifle",
+   "menu_category": {
+    "category": "equipment"
+   }
+  },
+  "components": {
+   "minecraft:display_name": {
+    "value": "Assault Rifle"
+   },
+   "minecraft:icon": {
+    "textures": {
+     "default": "origin_rifle"
+    }
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:hand_equipped": true,
+   "minecraft:use_modifiers": {
+    "use_duration": 3600,
+    "movement_modifier": 0.75
+   }
+  }
+ }
+}

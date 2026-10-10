@@ -1,0 +1,28 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:singularity",
+   "materials": {
+    "default": "entity_alphablend"
+   },
+   "textures": {
+    "default": "textures/origin/entity/singularity"
+   },
+   "geometry": {
+    "default": "geometry.origin.singularity"
+   },
+   "animations": {
+    "spin": "animation.origin.singularity.spin"
+   },
+   "scripts": {
+    "animate": [
+     "spin"
+    ]
+   },
+   "render_controllers": [
+    "controller.render.origin.glow_simple"
+   ]
+  }
+ }
+}

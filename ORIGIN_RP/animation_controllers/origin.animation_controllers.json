@@ -1,0 +1,198 @@
+{
+  "format_version": "1.10.0",
+  "animation_controllers": {
+    "controller.animation.origin.brute.state": {
+      "initial_state": "default",
+      "states": {
+        "default": {
+          "animations": [
+            "idle",
+            {
+              "walk": "query.modified_move_speed"
+            }
+          ],
+          "transitions": [
+            {
+              "windup": "query.property('origin:state') == 1"
+            },
+            {
+              "slam": "query.property('origin:state') == 2"
+            },
+            {
+              "recover": "query.property('origin:state') == 3"
+            },
+            {
+              "throw": "query.property('origin:state') == 4"
+            },
+            {
+              "charge": "query.property('origin:state') == 5"
+            }
+          ],
+          "blend_transition": 0.2
+        },
+        "windup": {
+          "animations": [
+            "windup"
+          ],
+          "transitions": [
+            {
+              "default": "query.property('origin:state') == 0"
+            },
+            {
+              "slam": "query.property('origin:state') == 2"
+            },
+            {
+              "recover": "query.property('origin:state') == 3"
+            },
+            {
+              "throw": "query.property('origin:state') == 4"
+            },
+            {
+              "charge": "query.property('origin:state') == 5"
+            }
+          ],
+          "blend_transition": 0.25
+        },
+        "slam": {
+          "animations": [
+            "slam"
+          ],
+          "transitions": [
+            {
+              "default": "query.property('origin:state') == 0"
+            },
+            {
+              "windup": "query.property('origin:state') == 1"
+            },
+            {
+              "recover": "query.property('origin:state') == 3"
+            },
+            {
+              "throw": "query.property('origin:state') == 4"
+            },
+            {
+              "charge": "query.property('origin:state') == 5"
+            }
+          ],
+          "blend_transition": 0.06
+        },
+        "recover": {
+          "animations": [
+            "recover"
+          ],
+          "transitions": [
+            {
+              "default": "query.property('origin:state') == 0"
+            },
+            {
+              "windup": "query.property('origin:state') == 1"
+            },
+            {
+              "slam": "query.property('origin:state') == 2"
+            },
+            {
+              "throw": "query.property('origin:state') == 4"
+            },
+            {
+              "charge": "query.property('origin:state') == 5"
+            }
+          ],
+          "blend_transition": 0.3
+        },
+        "throw": {
+          "animations": [
+            "throw"
+          ],
+          "transitions": [
+            {
+              "default": "query.property('origin:state') == 0"
+            },
+            {
+              "windup": "query.property('origin:state') == 1"
+            },
+            {
+              "slam": "query.property('origin:state') == 2"
+            },
+            {
+              "recover": "query.property('origin:state') == 3"
+            },
+            {
+              "charge": "query.property('origin:state') == 5"
+            }
+          ],
+          "blend_transition": 0.2
+        },
+        "charge": {
+          "animations": [
+            "charge"
+          ],
+          "transitions": [
+            {
+              "default": "query.property('origin:state') == 0"
+            },
+            {
+              "windup": "query.property('origin:state') == 1"
+            },
+            {
+              "slam": "query.property('origin:state') == 2"
+            },
+            {
+              "recover": "query.property('origin:state') == 3"
+            },
+            {
+              "throw": "query.property('origin:state') == 4"
+            }
+          ],
+          "blend_transition": 0.15
+        }
+      }
+    },
+    "controller.animation.origin.null": {
+      "initial_state": "idle",
+      "states": {
+        "idle": {
+          "animations": [
+            "idle",
+            {
+              "walk": "query.modified_move_speed"
+            }
+          ],
+          "transitions": [
+            {
+              "windup": "query.property('origin:state') >= 1 && query.property('origin:state') <= 3"
+            },
+            {
+              "recover": "query.property('origin:state') == 4"
+            }
+          ],
+          "blend_transition": 0.2
+        },
+        "windup": {
+          "animations": [
+            "windup"
+          ],
+          "transitions": [
+            {
+              "idle": "query.property('origin:state') == 0 || query.property('origin:state') == 5"
+            },
+            {
+              "recover": "query.property('origin:state') == 4"
+            }
+          ],
+          "blend_transition": 0.15
+        },
+        "recover": {
+          "animations": [
+            "recover"
+          ],
+          "transitions": [
+            {
+              "idle": "query.property('origin:state') != 4"
+            }
+          ],
+          "blend_transition": 0.25
+        }
+      }
+    }
+  }
+}

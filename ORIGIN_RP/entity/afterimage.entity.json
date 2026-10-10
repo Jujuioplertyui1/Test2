@@ -1,0 +1,28 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:afterimage",
+   "materials": {
+    "default": "entity_alphablend"
+   },
+   "textures": {
+    "default": "textures/origin/entity/afterimage"
+   },
+   "geometry": {
+    "default": "geometry.origin.ghost_body"
+   },
+   "animations": {
+    "run": "animation.origin.afterimage.run"
+   },
+   "scripts": {
+    "animate": [
+     "run"
+    ]
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

@@ -1,0 +1,32 @@
+{
+  "resource_pack_name": "origin",
+  "texture_name": "atlas.terrain",
+  "padding": 8,
+  "num_mip_levels": 4,
+  "texture_data": {
+    "origin_suit_forge": {
+      "textures": "textures/origin/blocks/suit_forge"
+    },
+    "origin_move_forge": {
+      "textures": "textures/origin/blocks/move_forge"
+    },
+    "origin_aetherium_ore": {
+      "textures": "textures/origin/blocks/aetherium_ore"
+    },
+    "origin_starmetal_core": {
+      "textures": "textures/origin/blocks/starmetal_core"
+    },
+    "origin_null_crystal_ore": {
+      "textures": "textures/origin/blocks/null_crystal_ore"
+    },
+    "origin_exo_forge": {
+      "textures": "textures/origin/blocks/exo_forge"
+    },
+    "origin_lumen_block": {
+      "textures": "textures/origin/blocks/lumen_block"
+    },
+    "origin_lumen_lantern": {
+      "textures": "textures/origin/blocks/lumen_lantern"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:regen_body",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "s0": "textures/origin/entity/regen_0",
+    "s1": "textures/origin/entity/regen_1",
+    "s2": "textures/origin/entity/regen_2",
+    "s3": "textures/origin/entity/regen_3",
+    "s4": "textures/origin/entity/regen_4",
+    "s5": "textures/origin/entity/regen_5"
+   },
+   "geometry": {
+    "default": "geometry.origin.regen_body"
+   },
+   "render_controllers": [
+    "controller.render.origin.regen_body"
+   ]
+  }
+ }
+}

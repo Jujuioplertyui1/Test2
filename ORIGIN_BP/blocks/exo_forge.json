@@ -1,0 +1,57 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:block": {
+    "description": {
+      "identifier": "origin:exo_forge",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:geometry": "geometry.origin.exo_forge",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "origin_exo_forge",
+          "render_method": "alpha_test"
+        }
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 8
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 30
+      },
+      "minecraft:display_name": "tile.origin:exo_forge.name",
+      "minecraft:map_color": "#444444",
+      "minecraft:light_emission": 6,
+      "origin:station": {
+        "kind": "exo"
+      },
+      "minecraft:collision_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          16,
+          16
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -8,
+          0,
+          -8
+        ],
+        "size": [
+          16,
+          16,
+          16
+        ]
+      },
+      "minecraft:light_dampening": 0
+    }
+  }
+}

@@ -1,0 +1,584 @@
+{
+ "format_version": "1.14.0",
+ "sound_definitions": {
+  "origin.sfx.burst": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/burst",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.hum": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/hum",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.double": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/double",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.swell": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/swell",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.engine": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_engine",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.repulsor": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_repulsor",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.laser": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_laser",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.punch": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_punch",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.bonecrack": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_bonecrack",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.shock": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_shock",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.explode": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_explode",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.swoosh": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_swoosh",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.ding": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_ding",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.ting": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_ting",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.click": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_click",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.lock": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_lock",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.charge": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_charge",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.powerup": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_powerup",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.thunder": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_thunder",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.highpitch": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_highpitch",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.windblast": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_windblast",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.impact": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_impact",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.cannon": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_cannon",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.portal": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_portal",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.mind": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_mind",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.reality": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_reality",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.soul": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_soul",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.power": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_power",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.awaken": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_awaken",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.guard": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_guard",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.poof": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_poof",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.rocks": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_rocks",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.ice": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_ice",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.flame": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_flame",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.lightning": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_lightning",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.chains": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_chains",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.servo": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_servo",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.sweep": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_sweep",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.wind": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_wind",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.parry": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_parry",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.gravity": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_gravity",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.crush": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_crush",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.critical": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_critical",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.heavyhit": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_heavyhit",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.beam2": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_beam2",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.thunderhit": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_thunderhit",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.stonecrash": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_stonecrash",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.glass": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_glass",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.frameset": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_frameset",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.slowmo": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_slowmo",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.tinnitus": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_tinnitus",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.chime": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_chime",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.gacon": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_gacon",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.devil": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_devil",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.guard2": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_guard2",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.sweep2": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_sweep2",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.fire": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_fire",
+     "volume": 1.0,
+     "load_on_low_memory": true
+    }
+   ]
+  },
+  "origin.sfx.gunshot": {
+   "category": "player",
+   "sounds": [
+    {
+     "name": "sounds/origin/x_gunshot",
+     "volume": 1.0
+    }
+   ]
+  }
+ }
+}

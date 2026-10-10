@@ -1,0 +1,32 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:shade_clone",
+   "materials": {
+    "default": "entity_alphablend"
+   },
+   "textures": {
+    "default": "textures/origin/entity/shade_clone"
+   },
+   "geometry": {
+    "default": "geometry.origin.ghost_body"
+   },
+   "animations": {
+    "idle": "animation.origin.shade_clone.idle",
+    "appear": "animation.origin.shade_clone.appear",
+    "slash": "animation.origin.shade_clone.slash",
+    "fade": "animation.origin.shade_clone.fade"
+   },
+   "scripts": {
+    "animate": [
+     "idle",
+     "appear"
+    ]
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

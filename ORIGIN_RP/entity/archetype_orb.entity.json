@@ -1,0 +1,30 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "origin:archetype_orb",
+      "materials": {
+        "default": "entity_alphablend"
+      },
+      "textures": {
+        "brawler": "textures/origin/entity/orb_brawler",
+        "energy": "textures/origin/entity/orb_energy",
+        "shadow": "textures/origin/entity/orb_shadow"
+      },
+      "geometry": {
+        "default": "geometry.origin.archetype_orb"
+      },
+      "animations": {
+        "idle": "animation.origin.orb.idle"
+      },
+      "scripts": {
+        "animate": [
+          "idle"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.origin.archetype_orb"
+      ]
+    }
+  }
+}

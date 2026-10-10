@@ -1,0 +1,20 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "origin:float_text",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/origin/entity/blank"
+      },
+      "geometry": {
+        "default": "geometry.origin.empty"
+      },
+      "render_controllers": [
+        "controller.render.origin.simple"
+      ]
+    }
+  }
+}

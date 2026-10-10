@@ -1,0 +1,151 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:lumen_construct",
+   "materials": {
+    "body": "entity_alphablend",
+    "glow": "charged_creeper"
+   },
+   "textures": {
+    "fist_teal": "textures/origin/entity/lumen/fist_teal",
+    "fist_gold": "textures/origin/entity/lumen/fist_gold",
+    "fist_violet": "textures/origin/entity/lumen/fist_violet",
+    "fist_rose": "textures/origin/entity/lumen/fist_rose",
+    "fist_emerald": "textures/origin/entity/lumen/fist_emerald",
+    "fist_sapphire": "textures/origin/entity/lumen/fist_sapphire",
+    "fist_crimson": "textures/origin/entity/lumen/fist_crimson",
+    "fist_pearl": "textures/origin/entity/lumen/fist_pearl",
+    "hammer_teal": "textures/origin/entity/lumen/hammer_teal",
+    "hammer_gold": "textures/origin/entity/lumen/hammer_gold",
+    "hammer_violet": "textures/origin/entity/lumen/hammer_violet",
+    "hammer_rose": "textures/origin/entity/lumen/hammer_rose",
+    "hammer_emerald": "textures/origin/entity/lumen/hammer_emerald",
+    "hammer_sapphire": "textures/origin/entity/lumen/hammer_sapphire",
+    "hammer_crimson": "textures/origin/entity/lumen/hammer_crimson",
+    "hammer_pearl": "textures/origin/entity/lumen/hammer_pearl",
+    "blade_teal": "textures/origin/entity/lumen/blade_teal",
+    "blade_gold": "textures/origin/entity/lumen/blade_gold",
+    "blade_violet": "textures/origin/entity/lumen/blade_violet",
+    "blade_rose": "textures/origin/entity/lumen/blade_rose",
+    "blade_emerald": "textures/origin/entity/lumen/blade_emerald",
+    "blade_sapphire": "textures/origin/entity/lumen/blade_sapphire",
+    "blade_crimson": "textures/origin/entity/lumen/blade_crimson",
+    "blade_pearl": "textures/origin/entity/lumen/blade_pearl",
+    "aegis_teal": "textures/origin/entity/lumen/aegis_teal",
+    "aegis_gold": "textures/origin/entity/lumen/aegis_gold",
+    "aegis_violet": "textures/origin/entity/lumen/aegis_violet",
+    "aegis_rose": "textures/origin/entity/lumen/aegis_rose",
+    "aegis_emerald": "textures/origin/entity/lumen/aegis_emerald",
+    "aegis_sapphire": "textures/origin/entity/lumen/aegis_sapphire",
+    "aegis_crimson": "textures/origin/entity/lumen/aegis_crimson",
+    "aegis_pearl": "textures/origin/entity/lumen/aegis_pearl",
+    "shackle_teal": "textures/origin/entity/lumen/shackle_teal",
+    "shackle_gold": "textures/origin/entity/lumen/shackle_gold",
+    "shackle_violet": "textures/origin/entity/lumen/shackle_violet",
+    "shackle_rose": "textures/origin/entity/lumen/shackle_rose",
+    "shackle_emerald": "textures/origin/entity/lumen/shackle_emerald",
+    "shackle_sapphire": "textures/origin/entity/lumen/shackle_sapphire",
+    "shackle_crimson": "textures/origin/entity/lumen/shackle_crimson",
+    "shackle_pearl": "textures/origin/entity/lumen/shackle_pearl",
+    "wings_teal": "textures/origin/entity/lumen/wings_teal",
+    "wings_gold": "textures/origin/entity/lumen/wings_gold",
+    "wings_violet": "textures/origin/entity/lumen/wings_violet",
+    "wings_rose": "textures/origin/entity/lumen/wings_rose",
+    "wings_emerald": "textures/origin/entity/lumen/wings_emerald",
+    "wings_sapphire": "textures/origin/entity/lumen/wings_sapphire",
+    "wings_crimson": "textures/origin/entity/lumen/wings_crimson",
+    "wings_pearl": "textures/origin/entity/lumen/wings_pearl",
+    "hand_teal": "textures/origin/entity/lumen/hand_teal",
+    "hand_gold": "textures/origin/entity/lumen/hand_gold",
+    "hand_violet": "textures/origin/entity/lumen/hand_violet",
+    "hand_rose": "textures/origin/entity/lumen/hand_rose",
+    "hand_emerald": "textures/origin/entity/lumen/hand_emerald",
+    "hand_sapphire": "textures/origin/entity/lumen/hand_sapphire",
+    "hand_crimson": "textures/origin/entity/lumen/hand_crimson",
+    "hand_pearl": "textures/origin/entity/lumen/hand_pearl",
+    "spear_teal": "textures/origin/entity/lumen/spear_teal",
+    "spear_gold": "textures/origin/entity/lumen/spear_gold",
+    "spear_violet": "textures/origin/entity/lumen/spear_violet",
+    "spear_rose": "textures/origin/entity/lumen/spear_rose",
+    "spear_emerald": "textures/origin/entity/lumen/spear_emerald",
+    "spear_sapphire": "textures/origin/entity/lumen/spear_sapphire",
+    "spear_crimson": "textures/origin/entity/lumen/spear_crimson",
+    "spear_pearl": "textures/origin/entity/lumen/spear_pearl",
+    "gatling_teal": "textures/origin/entity/lumen/gatling_teal",
+    "gatling_gold": "textures/origin/entity/lumen/gatling_gold",
+    "gatling_violet": "textures/origin/entity/lumen/gatling_violet",
+    "gatling_rose": "textures/origin/entity/lumen/gatling_rose",
+    "gatling_emerald": "textures/origin/entity/lumen/gatling_emerald",
+    "gatling_sapphire": "textures/origin/entity/lumen/gatling_sapphire",
+    "gatling_crimson": "textures/origin/entity/lumen/gatling_crimson",
+    "gatling_pearl": "textures/origin/entity/lumen/gatling_pearl",
+    "titan_teal": "textures/origin/entity/lumen/titan_teal",
+    "titan_gold": "textures/origin/entity/lumen/titan_gold",
+    "titan_violet": "textures/origin/entity/lumen/titan_violet",
+    "titan_rose": "textures/origin/entity/lumen/titan_rose",
+    "titan_emerald": "textures/origin/entity/lumen/titan_emerald",
+    "titan_sapphire": "textures/origin/entity/lumen/titan_sapphire",
+    "titan_crimson": "textures/origin/entity/lumen/titan_crimson",
+    "titan_pearl": "textures/origin/entity/lumen/titan_pearl",
+    "energy": "textures/origin/entity/lumen/energy"
+   },
+   "geometry": {
+    "fist": "geometry.origin.lumen_fist",
+    "hammer": "geometry.origin.lumen_hammer",
+    "blade": "geometry.origin.lumen_blade",
+    "aegis": "geometry.origin.lumen_aegis",
+    "shackle": "geometry.origin.lumen_shackle",
+    "wings": "geometry.origin.lumen_wings",
+    "hand": "geometry.origin.lumen_hand",
+    "spear": "geometry.origin.lumen_spear",
+    "gatling": "geometry.origin.lumen_gatling",
+    "titan": "geometry.origin.lumen_titan"
+   },
+   "render_controllers": [
+    "controller.render.origin.lumen_body",
+    "controller.render.origin.lumen_glow"
+   ],
+   "animations": {
+    "appear": "animation.origin.lumen.appear",
+    "big": "animation.origin.lumen.big",
+    "swing": "animation.origin.lumen.swing",
+    "flap": "animation.origin.lumen.flap",
+    "turn": "animation.origin.lumen.turn",
+    "grab": "animation.origin.lumen.grab",
+    "spin": "animation.origin.lumen.spin",
+    "titan": "animation.origin.lumen.titan",
+    "spear": "animation.origin.lumen.spear_roll"
+   },
+   "scripts": {
+    "animate": [
+     "appear",
+     {
+      "big": "query.property('origin:big') == 1"
+     },
+     {
+      "swing": "query.property('origin:shape') == 2"
+     },
+     {
+      "flap": "query.property('origin:shape') == 5"
+     },
+     {
+      "turn": "query.property('origin:shape') == 3 || query.property('origin:shape') == 4"
+     },
+     {
+      "grab": "query.property('origin:shape') == 6"
+     },
+     {
+      "spear": "query.property('origin:shape') == 7"
+     },
+     {
+      "spin": "query.property('origin:shape') == 8"
+     },
+     {
+      "titan": "query.property('origin:shape') == 9"
+     }
+    ]
+   }
+  }
+ }
+}

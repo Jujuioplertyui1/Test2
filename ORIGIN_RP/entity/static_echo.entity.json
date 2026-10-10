@@ -1,0 +1,38 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "origin:static_echo",
+      "materials": {
+        "default": "entity_alphablend"
+      },
+      "textures": {
+        "default": "textures/origin/entity/static_echo"
+      },
+      "geometry": {
+        "default": "geometry.origin.static_echo"
+      },
+      "render_controllers": [
+        "controller.render.origin.echo"
+      ],
+      "animations": {
+        "move": "animation.humanoid.move",
+        "attack": "animation.humanoid.attack.rotations",
+        "look": "animation.humanoid.look_at_target.default"
+      },
+      "scripts": {
+        "animate": [
+          "look",
+          "move",
+          "attack"
+        ],
+        "initialize": [
+          "v.gliding_speed_value = 1.0;"
+        ],
+        "pre_animation": [
+          "v.tcos0 = Math.cos(query.modified_distance_moved * 38.17) * query.modified_move_speed / v.gliding_speed_value * 57.3;"
+        ]
+      }
+    }
+  }
+}

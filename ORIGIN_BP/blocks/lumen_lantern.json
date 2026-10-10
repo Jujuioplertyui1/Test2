@@ -1,0 +1,56 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:block": {
+    "description": {
+      "identifier": "origin:lumen_lantern",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:geometry": "geometry.origin.lumen_lantern",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "origin_lumen_lantern",
+          "render_method": "blend"
+        }
+      },
+      "minecraft:light_emission": 14,
+      "minecraft:light_dampening": 0,
+      "minecraft:collision_box": {
+        "origin": [
+          -6,
+          0,
+          -6
+        ],
+        "size": [
+          12,
+          16,
+          12
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [
+          -6,
+          0,
+          -6
+        ],
+        "size": [
+          12,
+          16,
+          12
+        ]
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 2
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 30
+      },
+      "minecraft:map_color": "#7CFFE0",
+      "origin:station": {
+        "kind": "lantern"
+      }
+    }
+  }
+}

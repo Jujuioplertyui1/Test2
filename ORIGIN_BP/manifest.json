@@ -1,0 +1,64 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "ORIGIN: Build Your Own Hero \u00a78(BP)",
+    "description": "v0.23 - Mjolnir (lift it from the stone in Asgard if you're worthy: throw it, call it back, fly, summon lightning), the Vanguard Shield, Shock Batons and Agent Gauntlets, three new suits (Vanguard, Infiltrator, Thunder God), a stronger Lumen Signet (8 colours, Hand, Spear, Gatling, Titan, overcharge), and XoX reborn: a new design and a three-phase fight. Build Your Own Hero.",
+    "uuid": "306a5bb1-90fd-51e6-9403-e26982703f28",
+    "version": [
+      0,
+      0,
+      23
+    ],
+    "min_engine_version": [
+      1,
+      26,
+      30
+    ]
+  },
+  "modules": [
+    {
+      "type": "data",
+      "uuid": "7f4519d6-b320-5794-9542-f98573932581",
+      "version": [
+        0,
+        0,
+        23
+      ]
+    },
+    {
+      "type": "script",
+      "language": "javascript",
+      "uuid": "fe64e3e1-2237-5619-bb61-e96e9f946b78",
+      "version": [
+        0,
+        0,
+        23
+      ],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "uuid": "1b0cc9aa-bd47-52da-825f-6ca892911c00",
+      "version": [
+        0,
+        0,
+        23
+      ]
+    },
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.8.0"
+    },
+    {
+      "module_name": "@minecraft/server-ui",
+      "version": "2.0.0"
+    }
+  ],
+  "metadata": {
+    "authors": [
+      "ORIGIN"
+    ],
+    "product_type": "addon"
+  }
+}

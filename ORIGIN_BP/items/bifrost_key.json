@@ -1,0 +1,23 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "origin:bifrost_key",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:display_name": {
+    "value": "\u00a76Bifrost Keystone"
+   },
+   "minecraft:icon": {
+    "textures": {
+     "default": "origin_bifrost_key"
+    }
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:glint": true
+  }
+ }
+}

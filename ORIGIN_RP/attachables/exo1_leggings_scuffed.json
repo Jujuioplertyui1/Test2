@@ -1,0 +1,31 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:attachable": {
+  "description": {
+   "identifier": "origin:exo1_leggings_scuffed",
+   "materials": {
+    "default": "armor_leather",
+    "enchanted": "armor_leather_enchanted"
+   },
+   "textures": {
+    "default": "textures/origin/models/armor/xmk1_leggings_scuffed",
+    "enchanted": "textures/misc/enchanted_actor_glint"
+   },
+   "geometry": {
+    "default": "geometry.origin.xmk1_legs"
+   },
+   "scripts": {
+    "parent_setup": "variable.leg_layer_visible = 0.0;",
+    "animate": [
+     "offset"
+    ]
+   },
+   "animations": {
+    "offset": "animation.armor.leggings.offset"
+   },
+   "render_controllers": [
+    "controller.render.armor"
+   ]
+  }
+ }
+}

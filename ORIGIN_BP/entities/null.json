@@ -1,0 +1,130 @@
+{
+  "format_version": "1.21.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "origin:null",
+      "is_spawnable": false,
+      "is_summonable": true,
+      "properties": {
+        "origin:state": {
+          "type": "int",
+          "range": [
+            0,
+            5
+          ],
+          "default": 0,
+          "client_sync": true
+        }
+      }
+    },
+    "component_groups": {
+      "origin:rooted": {
+        "minecraft:movement": {
+          "value": 0
+        }
+      }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "origin_null",
+          "monster",
+          "mob"
+        ]
+      },
+      "minecraft:collision_box": {
+        "width": 0.9,
+        "height": 3.0
+      },
+      "minecraft:health": {
+        "value": 260,
+        "max": 260
+      },
+      "minecraft:boss": {
+        "should_darken_sky": true,
+        "hud_range": 48,
+        "name": "NULL"
+      },
+      "minecraft:movement": {
+        "value": 0.24
+      },
+      "minecraft:movement.basic": {},
+      "minecraft:jump.static": {},
+      "minecraft:navigation.walk": {
+        "can_path_over_water": true
+      },
+      "minecraft:physics": {},
+      "minecraft:pushable": {
+        "is_pushable": false,
+        "is_pushable_by_piston": false
+      },
+      "minecraft:knockback_resistance": {
+        "value": 1
+      },
+      "minecraft:behavior.nearest_attackable_target": {
+        "priority": 1,
+        "must_see": false,
+        "within_radius": 48,
+        "entity_types": [
+          {
+            "filters": {
+              "test": "is_family",
+              "subject": "other",
+              "value": "player"
+            },
+            "max_dist": 48
+          }
+        ]
+      },
+      "minecraft:behavior.melee_attack": {
+        "priority": 3,
+        "speed_multiplier": 1.0,
+        "track_target": true,
+        "reach_multiplier": 0
+      },
+      "minecraft:attack": {
+        "damage": 0
+      },
+      "minecraft:nameable": {
+        "always_show": false,
+        "allow_name_tag_renaming": false
+      },
+      "minecraft:fire_immune": true,
+      "minecraft:persistent": {},
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "cause": "fall",
+            "deals_damage": "no"
+          },
+          {
+            "cause": "suffocation",
+            "deals_damage": "no"
+          }
+        ]
+      },
+      "minecraft:loot": {
+        "table": "loot_tables/empty.json"
+      },
+      "minecraft:experience_reward": {
+        "on_death": "200"
+      }
+    },
+    "events": {
+      "origin:root": {
+        "add": {
+          "component_groups": [
+            "origin:rooted"
+          ]
+        }
+      },
+      "origin:unroot": {
+        "remove": {
+          "component_groups": [
+            "origin:rooted"
+          ]
+        }
+      }
+    }
+  }
+}

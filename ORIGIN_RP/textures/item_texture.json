@@ -1,0 +1,528 @@
+{
+ "resource_pack_name": "origin",
+ "texture_name": "atlas.items",
+ "texture_data": {
+  "origin_codex": {
+   "textures": "textures/origin/items/codex"
+  },
+  "origin_focus": {
+   "textures": "textures/origin/items/focus"
+  },
+  "origin_shard": {
+   "textures": "textures/origin/items/shard"
+  },
+  "origin_suit_mask": {
+   "textures": "textures/origin/items/suit_mask"
+  },
+  "origin_suit_torso": {
+   "textures": "textures/origin/items/suit_torso"
+  },
+  "origin_suit_legs": {
+   "textures": "textures/origin/items/suit_legs"
+  },
+  "origin_suit_boots": {
+   "textures": "textures/origin/items/suit_boots"
+  },
+  "origin_suit_mask_visor": {
+   "textures": "textures/origin/items/suit_mask_visor"
+  },
+  "origin_suit_mask_half": {
+   "textures": "textures/origin/items/suit_mask_half"
+  },
+  "origin_suit_torso_star": {
+   "textures": "textures/origin/items/suit_torso_star"
+  },
+  "origin_suit_torso_bolt": {
+   "textures": "textures/origin/items/suit_torso_bolt"
+  },
+  "origin_suit_torso_plain": {
+   "textures": "textures/origin/items/suit_torso_plain"
+  },
+  "origin_suit_legs_stripe": {
+   "textures": "textures/origin/items/suit_legs_stripe"
+  },
+  "origin_power_core": {
+   "textures": "textures/origin/items/power_core"
+  },
+  "origin_static_shard": {
+   "textures": "textures/origin/items/static_shard"
+  },
+  "origin_detuned_receiver": {
+   "textures": "textures/origin/items/detuned_receiver"
+  },
+  "origin_static_remote": {
+   "textures": "textures/origin/items/static_remote"
+  },
+  "origin_raw_aetherium": {
+   "textures": "textures/origin/items/raw_aetherium"
+  },
+  "origin_aetherium_ingot": {
+   "textures": "textures/origin/items/aetherium_ingot"
+  },
+  "origin_starmetal_fragment": {
+   "textures": "textures/origin/items/starmetal_fragment"
+  },
+  "origin_starmetal_plate": {
+   "textures": "textures/origin/items/starmetal_plate"
+  },
+  "origin_null_crystal": {
+   "textures": "textures/origin/items/null_crystal"
+  },
+  "origin_rift_heart": {
+   "textures": "textures/origin/items/rift_heart"
+  },
+  "origin_reactor_core": {
+   "textures": "textures/origin/items/reactor_core"
+  },
+  "origin_exo_interface": {
+   "textures": "textures/origin/items/exo_interface"
+  },
+  "origin_other_shard": {
+   "textures": "textures/origin/items/other_shard"
+  },
+  "origin_other_mask": {
+   "textures": "textures/origin/items/other_mask"
+  },
+  "origin_exo_helmet": {
+   "textures": "textures/origin/items/exo_helmet"
+  },
+  "origin_exo_chestplate": {
+   "textures": "textures/origin/items/exo_chestplate"
+  },
+  "origin_exo_leggings": {
+   "textures": "textures/origin/items/exo_leggings"
+  },
+  "origin_exo_boots": {
+   "textures": "textures/origin/items/exo_boots"
+  },
+  "origin_exo_helmet_scuffed": {
+   "textures": "textures/origin/items/exo_helmet_scuffed"
+  },
+  "origin_exo_helmet_battered": {
+   "textures": "textures/origin/items/exo_helmet_battered"
+  },
+  "origin_exo_chestplate_scuffed": {
+   "textures": "textures/origin/items/exo_chestplate_scuffed"
+  },
+  "origin_exo_chestplate_battered": {
+   "textures": "textures/origin/items/exo_chestplate_battered"
+  },
+  "origin_exo_leggings_scuffed": {
+   "textures": "textures/origin/items/exo_leggings_scuffed"
+  },
+  "origin_exo_leggings_battered": {
+   "textures": "textures/origin/items/exo_leggings_battered"
+  },
+  "origin_exo_boots_scuffed": {
+   "textures": "textures/origin/items/exo_boots_scuffed"
+  },
+  "origin_exo_boots_battered": {
+   "textures": "textures/origin/items/exo_boots_battered"
+  },
+  "origin_lumen_signet": {
+   "textures": "textures/origin/items/lumen_signet"
+  },
+  "origin_katana": {
+   "textures": "textures/origin/items/katana"
+  },
+  "origin_bandage": {
+   "textures": "textures/origin/items/bandage"
+  },
+  "origin_exo_prosthetic": {
+   "textures": "textures/origin/items/exo_prosthetic"
+  },
+  "origin_severed_arm": {
+   "textures": "textures/origin/items/severed_arm"
+  },
+  "origin_super_serum": {
+   "textures": "textures/origin/items/super_serum"
+  },
+  "origin_mod_cannon": {
+   "textures": "textures/origin/items/mod_cannon"
+  },
+  "origin_mod_grapple": {
+   "textures": "textures/origin/items/mod_grapple"
+  },
+  "origin_mod_piston": {
+   "textures": "textures/origin/items/mod_piston"
+  },
+  "origin_mod_drill": {
+   "textures": "textures/origin/items/mod_drill"
+  },
+  "origin_mod_shield": {
+   "textures": "textures/origin/items/mod_shield"
+  },
+  "origin_space_stone": {
+   "textures": "textures/origin/items/space_stone"
+  },
+  "origin_mind_stone": {
+   "textures": "textures/origin/items/mind_stone"
+  },
+  "origin_reality_stone": {
+   "textures": "textures/origin/items/reality_stone"
+  },
+  "origin_power_stone": {
+   "textures": "textures/origin/items/power_stone"
+  },
+  "origin_time_stone": {
+   "textures": "textures/origin/items/time_stone"
+  },
+  "origin_soul_stone": {
+   "textures": "textures/origin/items/soul_stone"
+  },
+  "origin_infinity_gauntlet": {
+   "textures": "textures/origin/items/infinity_gauntlet"
+  },
+  "origin_blueprint_data": {
+   "textures": "textures/origin/items/blueprint_data"
+  },
+  "origin_exo1_helmet": {
+   "textures": "textures/origin/items/exo1_helmet"
+  },
+  "origin_exo1_helmet_scuffed": {
+   "textures": "textures/origin/items/exo1_helmet_scuffed"
+  },
+  "origin_exo1_helmet_battered": {
+   "textures": "textures/origin/items/exo1_helmet_battered"
+  },
+  "origin_exo1_chestplate": {
+   "textures": "textures/origin/items/exo1_chestplate"
+  },
+  "origin_exo1_chestplate_scuffed": {
+   "textures": "textures/origin/items/exo1_chestplate_scuffed"
+  },
+  "origin_exo1_chestplate_battered": {
+   "textures": "textures/origin/items/exo1_chestplate_battered"
+  },
+  "origin_exo1_leggings": {
+   "textures": "textures/origin/items/exo1_leggings"
+  },
+  "origin_exo1_leggings_scuffed": {
+   "textures": "textures/origin/items/exo1_leggings_scuffed"
+  },
+  "origin_exo1_leggings_battered": {
+   "textures": "textures/origin/items/exo1_leggings_battered"
+  },
+  "origin_exo1_boots": {
+   "textures": "textures/origin/items/exo1_boots"
+  },
+  "origin_exo1_boots_scuffed": {
+   "textures": "textures/origin/items/exo1_boots_scuffed"
+  },
+  "origin_exo1_boots_battered": {
+   "textures": "textures/origin/items/exo1_boots_battered"
+  },
+  "origin_exo2_helmet": {
+   "textures": "textures/origin/items/exo2_helmet"
+  },
+  "origin_exo2_helmet_scuffed": {
+   "textures": "textures/origin/items/exo2_helmet_scuffed"
+  },
+  "origin_exo2_helmet_battered": {
+   "textures": "textures/origin/items/exo2_helmet_battered"
+  },
+  "origin_exo2_chestplate": {
+   "textures": "textures/origin/items/exo2_chestplate"
+  },
+  "origin_exo2_chestplate_scuffed": {
+   "textures": "textures/origin/items/exo2_chestplate_scuffed"
+  },
+  "origin_exo2_chestplate_battered": {
+   "textures": "textures/origin/items/exo2_chestplate_battered"
+  },
+  "origin_exo2_leggings": {
+   "textures": "textures/origin/items/exo2_leggings"
+  },
+  "origin_exo2_leggings_scuffed": {
+   "textures": "textures/origin/items/exo2_leggings_scuffed"
+  },
+  "origin_exo2_leggings_battered": {
+   "textures": "textures/origin/items/exo2_leggings_battered"
+  },
+  "origin_exo2_boots": {
+   "textures": "textures/origin/items/exo2_boots"
+  },
+  "origin_exo2_boots_scuffed": {
+   "textures": "textures/origin/items/exo2_boots_scuffed"
+  },
+  "origin_exo2_boots_battered": {
+   "textures": "textures/origin/items/exo2_boots_battered"
+  },
+  "origin_exo4_helmet": {
+   "textures": "textures/origin/items/exo4_helmet"
+  },
+  "origin_exo4_helmet_scuffed": {
+   "textures": "textures/origin/items/exo4_helmet_scuffed"
+  },
+  "origin_exo4_helmet_battered": {
+   "textures": "textures/origin/items/exo4_helmet_battered"
+  },
+  "origin_exo4_chestplate": {
+   "textures": "textures/origin/items/exo4_chestplate"
+  },
+  "origin_exo4_chestplate_scuffed": {
+   "textures": "textures/origin/items/exo4_chestplate_scuffed"
+  },
+  "origin_exo4_chestplate_battered": {
+   "textures": "textures/origin/items/exo4_chestplate_battered"
+  },
+  "origin_exo4_leggings": {
+   "textures": "textures/origin/items/exo4_leggings"
+  },
+  "origin_exo4_leggings_scuffed": {
+   "textures": "textures/origin/items/exo4_leggings_scuffed"
+  },
+  "origin_exo4_leggings_battered": {
+   "textures": "textures/origin/items/exo4_leggings_battered"
+  },
+  "origin_exo4_boots": {
+   "textures": "textures/origin/items/exo4_boots"
+  },
+  "origin_exo4_boots_scuffed": {
+   "textures": "textures/origin/items/exo4_boots_scuffed"
+  },
+  "origin_exo4_boots_battered": {
+   "textures": "textures/origin/items/exo4_boots_battered"
+  },
+  "origin_infinity_gauntlet_1": {
+   "textures": "textures/origin/items/infinity_gauntlet_1"
+  },
+  "origin_infinity_gauntlet_2": {
+   "textures": "textures/origin/items/infinity_gauntlet_2"
+  },
+  "origin_infinity_gauntlet_3": {
+   "textures": "textures/origin/items/infinity_gauntlet_3"
+  },
+  "origin_infinity_gauntlet_4": {
+   "textures": "textures/origin/items/infinity_gauntlet_4"
+  },
+  "origin_infinity_gauntlet_5": {
+   "textures": "textures/origin/items/infinity_gauntlet_5"
+  },
+  "origin_infinity_gauntlet_6": {
+   "textures": "textures/origin/items/infinity_gauntlet_6"
+  },
+  "origin_infinity_gauntlet_7": {
+   "textures": "textures/origin/items/infinity_gauntlet_7"
+  },
+  "origin_infinity_gauntlet_8": {
+   "textures": "textures/origin/items/infinity_gauntlet_8"
+  },
+  "origin_infinity_gauntlet_9": {
+   "textures": "textures/origin/items/infinity_gauntlet_9"
+  },
+  "origin_infinity_gauntlet_10": {
+   "textures": "textures/origin/items/infinity_gauntlet_10"
+  },
+  "origin_infinity_gauntlet_11": {
+   "textures": "textures/origin/items/infinity_gauntlet_11"
+  },
+  "origin_infinity_gauntlet_12": {
+   "textures": "textures/origin/items/infinity_gauntlet_12"
+  },
+  "origin_infinity_gauntlet_13": {
+   "textures": "textures/origin/items/infinity_gauntlet_13"
+  },
+  "origin_infinity_gauntlet_14": {
+   "textures": "textures/origin/items/infinity_gauntlet_14"
+  },
+  "origin_infinity_gauntlet_15": {
+   "textures": "textures/origin/items/infinity_gauntlet_15"
+  },
+  "origin_infinity_gauntlet_16": {
+   "textures": "textures/origin/items/infinity_gauntlet_16"
+  },
+  "origin_infinity_gauntlet_17": {
+   "textures": "textures/origin/items/infinity_gauntlet_17"
+  },
+  "origin_infinity_gauntlet_18": {
+   "textures": "textures/origin/items/infinity_gauntlet_18"
+  },
+  "origin_infinity_gauntlet_19": {
+   "textures": "textures/origin/items/infinity_gauntlet_19"
+  },
+  "origin_infinity_gauntlet_20": {
+   "textures": "textures/origin/items/infinity_gauntlet_20"
+  },
+  "origin_infinity_gauntlet_21": {
+   "textures": "textures/origin/items/infinity_gauntlet_21"
+  },
+  "origin_infinity_gauntlet_22": {
+   "textures": "textures/origin/items/infinity_gauntlet_22"
+  },
+  "origin_infinity_gauntlet_23": {
+   "textures": "textures/origin/items/infinity_gauntlet_23"
+  },
+  "origin_infinity_gauntlet_24": {
+   "textures": "textures/origin/items/infinity_gauntlet_24"
+  },
+  "origin_infinity_gauntlet_25": {
+   "textures": "textures/origin/items/infinity_gauntlet_25"
+  },
+  "origin_infinity_gauntlet_26": {
+   "textures": "textures/origin/items/infinity_gauntlet_26"
+  },
+  "origin_infinity_gauntlet_27": {
+   "textures": "textures/origin/items/infinity_gauntlet_27"
+  },
+  "origin_infinity_gauntlet_28": {
+   "textures": "textures/origin/items/infinity_gauntlet_28"
+  },
+  "origin_infinity_gauntlet_29": {
+   "textures": "textures/origin/items/infinity_gauntlet_29"
+  },
+  "origin_infinity_gauntlet_30": {
+   "textures": "textures/origin/items/infinity_gauntlet_30"
+  },
+  "origin_infinity_gauntlet_31": {
+   "textures": "textures/origin/items/infinity_gauntlet_31"
+  },
+  "origin_infinity_gauntlet_32": {
+   "textures": "textures/origin/items/infinity_gauntlet_32"
+  },
+  "origin_infinity_gauntlet_33": {
+   "textures": "textures/origin/items/infinity_gauntlet_33"
+  },
+  "origin_infinity_gauntlet_34": {
+   "textures": "textures/origin/items/infinity_gauntlet_34"
+  },
+  "origin_infinity_gauntlet_35": {
+   "textures": "textures/origin/items/infinity_gauntlet_35"
+  },
+  "origin_infinity_gauntlet_36": {
+   "textures": "textures/origin/items/infinity_gauntlet_36"
+  },
+  "origin_infinity_gauntlet_37": {
+   "textures": "textures/origin/items/infinity_gauntlet_37"
+  },
+  "origin_infinity_gauntlet_38": {
+   "textures": "textures/origin/items/infinity_gauntlet_38"
+  },
+  "origin_infinity_gauntlet_39": {
+   "textures": "textures/origin/items/infinity_gauntlet_39"
+  },
+  "origin_infinity_gauntlet_40": {
+   "textures": "textures/origin/items/infinity_gauntlet_40"
+  },
+  "origin_infinity_gauntlet_41": {
+   "textures": "textures/origin/items/infinity_gauntlet_41"
+  },
+  "origin_infinity_gauntlet_42": {
+   "textures": "textures/origin/items/infinity_gauntlet_42"
+  },
+  "origin_infinity_gauntlet_43": {
+   "textures": "textures/origin/items/infinity_gauntlet_43"
+  },
+  "origin_infinity_gauntlet_44": {
+   "textures": "textures/origin/items/infinity_gauntlet_44"
+  },
+  "origin_infinity_gauntlet_45": {
+   "textures": "textures/origin/items/infinity_gauntlet_45"
+  },
+  "origin_infinity_gauntlet_46": {
+   "textures": "textures/origin/items/infinity_gauntlet_46"
+  },
+  "origin_infinity_gauntlet_47": {
+   "textures": "textures/origin/items/infinity_gauntlet_47"
+  },
+  "origin_infinity_gauntlet_48": {
+   "textures": "textures/origin/items/infinity_gauntlet_48"
+  },
+  "origin_infinity_gauntlet_49": {
+   "textures": "textures/origin/items/infinity_gauntlet_49"
+  },
+  "origin_infinity_gauntlet_50": {
+   "textures": "textures/origin/items/infinity_gauntlet_50"
+  },
+  "origin_infinity_gauntlet_51": {
+   "textures": "textures/origin/items/infinity_gauntlet_51"
+  },
+  "origin_infinity_gauntlet_52": {
+   "textures": "textures/origin/items/infinity_gauntlet_52"
+  },
+  "origin_infinity_gauntlet_53": {
+   "textures": "textures/origin/items/infinity_gauntlet_53"
+  },
+  "origin_infinity_gauntlet_54": {
+   "textures": "textures/origin/items/infinity_gauntlet_54"
+  },
+  "origin_infinity_gauntlet_55": {
+   "textures": "textures/origin/items/infinity_gauntlet_55"
+  },
+  "origin_infinity_gauntlet_56": {
+   "textures": "textures/origin/items/infinity_gauntlet_56"
+  },
+  "origin_infinity_gauntlet_57": {
+   "textures": "textures/origin/items/infinity_gauntlet_57"
+  },
+  "origin_infinity_gauntlet_58": {
+   "textures": "textures/origin/items/infinity_gauntlet_58"
+  },
+  "origin_infinity_gauntlet_59": {
+   "textures": "textures/origin/items/infinity_gauntlet_59"
+  },
+  "origin_infinity_gauntlet_60": {
+   "textures": "textures/origin/items/infinity_gauntlet_60"
+  },
+  "origin_infinity_gauntlet_61": {
+   "textures": "textures/origin/items/infinity_gauntlet_61"
+  },
+  "origin_infinity_gauntlet_62": {
+   "textures": "textures/origin/items/infinity_gauntlet_62"
+  },
+  "origin_infinity_gauntlet_63": {
+   "textures": "textures/origin/items/infinity_gauntlet_63"
+  },
+  "origin_pistol": {
+   "textures": "textures/origin/items/pistol"
+  },
+  "origin_rifle": {
+   "textures": "textures/origin/items/rifle"
+  },
+  "origin_shotgun": {
+   "textures": "textures/origin/items/shotgun"
+  },
+  "origin_sniper": {
+   "textures": "textures/origin/items/sniper"
+  },
+  "origin_ammo": {
+   "textures": "textures/origin/items/ammo"
+  },
+  "origin_war_hammer": {
+   "textures": "textures/origin/items/war_hammer"
+  },
+  "origin_combat_knife": {
+   "textures": "textures/origin/items/combat_knife"
+  },
+  "origin_xox_katana": {
+   "textures": "textures/origin/items/xox_katana"
+  },
+  "origin_gravity_seal": {
+   "textures": "textures/origin/items/gravity_seal"
+  },
+  "origin_ultimate_mask": {
+   "textures": "textures/origin/items/ultimate_mask"
+  },
+  "origin_bifrost_key": {
+   "textures": "textures/origin/items/bifrost_key"
+  },
+  "origin_mjolnir": {
+   "textures": "textures/origin/items/mjolnir"
+  },
+  "origin_mjolnir_strap": {
+   "textures": "textures/origin/items/mjolnir_strap"
+  },
+  "origin_vanguard_shield": {
+   "textures": "textures/origin/items/vanguard_shield"
+  },
+  "origin_shield_strap": {
+   "textures": "textures/origin/items/shield_strap"
+  },
+  "origin_shock_batons": {
+   "textures": "textures/origin/items/shock_batons"
+  },
+  "origin_agent_gauntlets": {
+   "textures": "textures/origin/items/agent_gauntlets"
+  }
+ }
+}

@@ -1,0 +1,20 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:carry_tree",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/origin/entity/carry_tree"
+   },
+   "geometry": {
+    "default": "geometry.origin.carry_tree"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ]
+  }
+ }
+}

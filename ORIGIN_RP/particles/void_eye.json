@@ -1,0 +1,51 @@
+{
+  "format_version": "1.10.0",
+  "particle_effect": {
+    "description": {
+      "identifier": "origin:void_eye",
+      "basic_render_parameters": {
+        "material": "particles_add",
+        "texture": "textures/origin/particle/atlas"
+      }
+    },
+    "components": {
+      "minecraft:emitter_lifetime_once": {
+        "active_time": 0.05
+      },
+      "minecraft:emitter_rate_instant": {
+        "num_particles": 1
+      },
+      "minecraft:emitter_shape_point": {},
+      "minecraft:particle_lifetime_expression": {
+        "max_lifetime": 1.6
+      },
+      "minecraft:particle_appearance_billboard": {
+        "size": [
+          "0.22",
+          "0.05 + math.max(0, math.sin(variable.particle_age / variable.particle_lifetime * 180)) * 0.07"
+        ],
+        "facing_camera_mode": "rotate_xyz",
+        "uv": {
+          "texture_width": 32,
+          "texture_height": 32,
+          "uv": [
+            0,
+            0
+          ],
+          "uv_size": [
+            16,
+            16
+          ]
+        }
+      },
+      "minecraft:particle_appearance_tinting": {
+        "color": [
+          "variable.color.r",
+          "variable.color.g",
+          "variable.color.b",
+          "math.sin(variable.particle_age / variable.particle_lifetime * 180)"
+        ]
+      }
+    }
+  }
+}

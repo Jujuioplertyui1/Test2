@@ -1,0 +1,95 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:entity": {
+  "description": {
+   "identifier": "origin:tether",
+   "is_spawnable": false,
+   "is_summonable": true,
+   "properties": {
+    "origin:kind": {
+     "type": "int",
+     "range": [
+      0,
+      8
+     ],
+     "default": 0,
+     "client_sync": true
+    },
+    "origin:len": {
+     "type": "int",
+     "range": [
+      0,
+      64
+     ],
+     "default": 0,
+     "client_sync": true
+    },
+    "origin:pitch": {
+     "type": "int",
+     "range": [
+      -90,
+      90
+     ],
+     "default": 0,
+     "client_sync": true
+    }
+   }
+  },
+  "component_groups": {
+   "origin:despawn": {
+    "minecraft:instant_despawn": {}
+   }
+  },
+  "components": {
+   "minecraft:collision_box": {
+    "width": 0.01,
+    "height": 0.01
+   },
+   "minecraft:physics": {
+    "has_gravity": false,
+    "has_collision": false
+   },
+   "minecraft:pushable": {
+    "is_pushable": false,
+    "is_pushable_by_piston": false
+   },
+   "minecraft:damage_sensor": {
+    "triggers": [
+     {
+      "cause": "all",
+      "deals_damage": "no"
+     }
+    ]
+   },
+   "minecraft:health": {
+    "value": 1,
+    "max": 1
+   },
+   "minecraft:type_family": {
+    "family": [
+     "inanimate",
+     "origin_fx"
+    ]
+   },
+   "minecraft:fire_immune": true,
+   "minecraft:timer": {
+    "looping": false,
+    "time": 90,
+    "randomInterval": false,
+    "time_down_event": {
+     "event": "origin:despawn",
+     "target": "self"
+    }
+   }
+  },
+  "events": {
+   "origin:despawn": {
+    "add": {
+     "component_groups": [
+      "origin:despawn"
+     ]
+    }
+   }
+  }
+ }
+}

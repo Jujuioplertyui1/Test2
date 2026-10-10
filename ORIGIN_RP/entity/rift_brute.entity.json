@@ -1,0 +1,41 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "origin:rift_brute",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/origin/entity/rift_brute"
+      },
+      "geometry": {
+        "default": "geometry.origin.rift_brute"
+      },
+      "animations": {
+        "look": "animation.origin.brute.look",
+        "idle": "animation.origin.brute.idle",
+        "walk": "animation.origin.brute.walk",
+        "windup": "animation.origin.brute.windup",
+        "slam": "animation.origin.brute.slam",
+        "recover": "animation.origin.brute.recover",
+        "state": "controller.animation.origin.brute.state",
+        "throw": "animation.origin.brute.throw",
+        "charge": "animation.origin.brute.charge"
+      },
+      "scripts": {
+        "animate": [
+          "look",
+          "state"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.origin.rift_brute"
+      ],
+      "spawn_egg": {
+        "base_color": "#1d1b22",
+        "overlay_color": "#c8261d"
+      }
+    }
+  }
+}

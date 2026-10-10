@@ -1,0 +1,28 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:clock_rune",
+   "materials": {
+    "default": "entity_alphablend"
+   },
+   "textures": {
+    "default": "textures/origin/entity/clock_rune"
+   },
+   "geometry": {
+    "default": "geometry.origin.clock_rune"
+   },
+   "animations": {
+    "spin": "animation.origin.clock_rune.spin"
+   },
+   "scripts": {
+    "animate": [
+     "spin"
+    ]
+   },
+   "render_controllers": [
+    "controller.render.origin.glow_simple"
+   ]
+  }
+ }
+}

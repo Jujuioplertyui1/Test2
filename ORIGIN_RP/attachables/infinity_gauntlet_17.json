@@ -1,0 +1,22 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:attachable": {
+  "description": {
+   "identifier": "origin:infinity_gauntlet_17",
+   "materials": {
+    "default": "entity_alphatest",
+    "enchanted": "entity_alphatest_glint"
+   },
+   "textures": {
+    "default": "textures/origin/entity/gauntlet/g17",
+    "enchanted": "textures/misc/enchanted_item_glint"
+   },
+   "geometry": {
+    "default": "geometry.origin.gauntlet"
+   },
+   "render_controllers": [
+    "controller.render.item_default"
+   ]
+  }
+ }
+}

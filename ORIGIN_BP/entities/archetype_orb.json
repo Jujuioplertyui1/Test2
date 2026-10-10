@@ -1,0 +1,95 @@
+{
+  "format_version": "1.21.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "origin:archetype_orb",
+      "is_spawnable": false,
+      "is_summonable": true,
+      "properties": {
+        "origin:arch": {
+          "type": "int",
+          "range": [
+            0,
+            2
+          ],
+          "default": 0,
+          "client_sync": true
+        },
+        "origin:taps": {
+          "type": "int",
+          "range": [
+            0,
+            99
+          ],
+          "default": 0,
+          "client_sync": false
+        }
+      }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": [
+          "origin_orb",
+          "inanimate"
+        ]
+      },
+      "minecraft:collision_box": {
+        "width": 0.9,
+        "height": 1.7
+      },
+      "minecraft:health": {
+        "value": 20,
+        "max": 20
+      },
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "cause": "all",
+            "deals_damage": "no"
+          }
+        ]
+      },
+      "minecraft:physics": {
+        "has_gravity": false,
+        "has_collision": false
+      },
+      "minecraft:pushable": {
+        "is_pushable": false,
+        "is_pushable_by_piston": false
+      },
+      "minecraft:knockback_resistance": {
+        "value": 1.0
+      },
+      "minecraft:fire_immune": true,
+      "minecraft:persistent": {},
+      "minecraft:nameable": {
+        "always_show": true,
+        "allow_name_tag_renaming": false
+      },
+      "minecraft:interact": {
+        "interactions": [
+          {
+            "on_interact": {
+              "filters": {
+                "test": "is_family",
+                "subject": "other",
+                "value": "player"
+              },
+              "event": "origin:tapped",
+              "target": "self"
+            },
+            "interact_text": "action.interact.origin.choose",
+            "swing": true
+          }
+        ]
+      }
+    },
+    "events": {
+      "origin:tapped": {
+        "set_property": {
+          "origin:taps": "math.mod(query.property('origin:taps') + 1, 99)"
+        }
+      }
+    }
+  }
+}

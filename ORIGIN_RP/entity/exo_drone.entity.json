@@ -1,0 +1,28 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "origin:exo_drone",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/origin/entity/exo_drone"
+      },
+      "geometry": {
+        "default": "geometry.origin.exo_drone"
+      },
+      "render_controllers": [
+        "controller.render.default"
+      ],
+      "animations": {
+        "hover": "animation.origin.exo_drone.hover"
+      },
+      "scripts": {
+        "animate": [
+          "hover"
+        ]
+      }
+    }
+  }
+}

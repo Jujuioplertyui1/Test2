@@ -1,0 +1,43 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shapeless": {
+  "description": {
+   "identifier": "origin:bifrost_key_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "ingredients": [
+   {
+    "item": "minecraft:gold_block"
+   },
+   {
+    "item": "minecraft:gold_block"
+   },
+   {
+    "item": "minecraft:diamond"
+   },
+   {
+    "item": "minecraft:amethyst_shard"
+   },
+   {
+    "item": "minecraft:amethyst_shard"
+   },
+   {
+    "item": "minecraft:prismarine_crystals"
+   },
+   {
+    "item": "minecraft:ender_eye"
+   }
+  ],
+  "unlock": [
+   {
+    "item": "minecraft:gold_block"
+   }
+  ],
+  "result": {
+   "item": "origin:bifrost_key",
+   "count": 1
+  }
+ }
+}

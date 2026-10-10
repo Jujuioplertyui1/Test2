@@ -1,0 +1,21 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "origin:severed_limb",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "flesh": "textures/origin/entity/limb_flesh",
+        "armored": "textures/origin/entity/limb_armored"
+      },
+      "geometry": {
+        "default": "geometry.origin.limb"
+      },
+      "render_controllers": [
+        "controller.render.origin.limb"
+      ]
+    }
+  }
+}

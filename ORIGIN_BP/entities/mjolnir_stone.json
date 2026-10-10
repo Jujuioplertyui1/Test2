@@ -1,0 +1,100 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:entity": {
+  "description": {
+   "identifier": "origin:mjolnir_stone",
+   "is_spawnable": false,
+   "is_summonable": true,
+   "properties": {
+    "origin:shake": {
+     "type": "int",
+     "range": [
+      0,
+      1
+     ],
+     "default": 0,
+     "client_sync": true
+    },
+    "origin:empty": {
+     "type": "int",
+     "range": [
+      0,
+      1
+     ],
+     "default": 0,
+     "client_sync": true
+    },
+    "origin:taps": {
+     "type": "int",
+     "range": [
+      0,
+      99
+     ],
+     "default": 0
+    }
+   }
+  },
+  "components": {
+   "minecraft:collision_box": {
+    "width": 1.1,
+    "height": 1.5
+   },
+   "minecraft:physics": {
+    "has_gravity": false,
+    "has_collision": false
+   },
+   "minecraft:pushable": {
+    "is_pushable": false,
+    "is_pushable_by_piston": false
+   },
+   "minecraft:damage_sensor": {
+    "triggers": [
+     {
+      "cause": "all",
+      "deals_damage": "no"
+     }
+    ]
+   },
+   "minecraft:health": {
+    "value": 1,
+    "max": 1
+   },
+   "minecraft:type_family": {
+    "family": [
+     "inanimate",
+     "origin_fx"
+    ]
+   },
+   "minecraft:fire_immune": true,
+   "minecraft:persistent": {},
+   "minecraft:nameable": {
+    "always_show": false,
+    "allow_name_tag_renaming": false
+   },
+   "minecraft:interact": {
+    "interactions": [
+     {
+      "on_interact": {
+       "filters": {
+        "test": "is_family",
+        "subject": "other",
+        "value": "player"
+       },
+       "event": "origin:tapped",
+       "target": "self"
+      },
+      "interact_text": "action.interact.lift",
+      "swing": true
+     }
+    ]
+   }
+  },
+  "events": {
+   "origin:tapped": {
+    "set_property": {
+     "origin:taps": "math.mod(query.property('origin:taps') + 1, 99)"
+    }
+   }
+  }
+ }
+}

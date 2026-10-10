@@ -1,0 +1,1360 @@
+{
+ "format_version": "1.8.0",
+ "render_controllers": {
+  "controller.render.origin.archetype_orb": {
+   "arrays": {
+    "textures": {
+     "Array.skins": [
+      "Texture.brawler",
+      "Texture.energy",
+      "Texture.shadow"
+     ]
+    }
+   },
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Array.skins[query.property('origin:arch')]"
+   ],
+   "ignore_lighting": true
+  },
+  "controller.render.origin.manifestation": {
+   "arrays": {
+    "textures": {
+     "Array.skins": [
+      "Texture.brawler",
+      "Texture.energy",
+      "Texture.shadow"
+     ]
+    },
+    "geometries": {
+     "Array.geos": [
+      "Geometry.brawler",
+      "Geometry.energy",
+      "Geometry.shadow"
+     ]
+    }
+   },
+   "geometry": "Array.geos[query.property('origin:arch')]",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Array.skins[query.property('origin:arch')]"
+   ],
+   "ignore_lighting": true
+  },
+  "controller.render.origin.rift_brute": {
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.default"
+   ],
+   "overlay_color": {
+    "r": "1.0",
+    "g": "query.property('origin:state') == 3 ? 0.82 : (query.property('origin:state') == 4 ? 0.45 : 0.06)",
+    "b": "query.property('origin:state') == 3 ? 0.35 : (query.property('origin:state') == 4 ? 0.1 : 0.04)",
+    "a": "(query.property('origin:state') == 1 || query.property('origin:state') == 4 || query.property('origin:state') == 5) ? (0.25 + 0.35 * math.abs(math.sin(query.life_time * 540))) : (query.property('origin:state') == 2 ? 0.6 : (query.property('origin:state') == 3 ? (0.16 + 0.08 * math.sin(query.life_time * 360)) : 0.0))"
+   }
+  },
+  "controller.render.origin.simple": {
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.default"
+   ]
+  },
+  "controller.render.origin.alter_ego": {
+   "arrays": {
+    "textures": {
+     "Array.moods": [
+      "Texture.kind",
+      "Texture.cruel",
+      "Texture.just",
+      "Texture.cruel"
+     ]
+    }
+   },
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Array.moods[query.property('origin:mood')]"
+   ],
+   "part_visibility": [
+    {
+     "*": true
+    },
+    {
+     "rightArm": "query.property('origin:arm_r') == 0"
+    },
+    {
+     "rightItem": "query.property('origin:arm_r') == 0"
+    },
+    {
+     "leftArm": "query.property('origin:arm_l') == 0"
+    }
+   ]
+  },
+  "controller.render.origin.null": {
+   "arrays": {
+    "textures": {
+     "Array.frames": [
+      "Texture.f0",
+      "Texture.f1",
+      "Texture.f2"
+     ]
+    }
+   },
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Array.frames[math.mod(math.floor(query.life_time * 12), 3)]"
+   ],
+   "overlay_color": {
+    "r": "1",
+    "g": "1",
+    "b": "1",
+    "a": "query.property('origin:state') == 4 ? 0.0 : ((query.property('origin:state') >= 1 && query.property('origin:state') <= 3) ? 0.15 + 0.2 * math.abs(math.sin(query.life_time * 720)) : 0.0)"
+   }
+  },
+  "controller.render.origin.echo": {
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.default"
+   ],
+   "ignore_lighting": true
+  },
+  "controller.render.origin.villain": {
+   "arrays": {
+    "textures": {
+     "Array.fam": [
+      "Texture.physical",
+      "Texture.matter",
+      "Texture.shadow"
+     ]
+    }
+   },
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Array.fam[query.property('origin:vfam')]"
+   ],
+   "part_visibility": [
+    {
+     "*": "query.property('origin:vstate') != 3"
+    },
+    {
+     "p_crest": "query.property('origin:vfam') == 0 && query.property('origin:vstate') != 3"
+    },
+    {
+     "p_padR": "(query.property('origin:vfam') == 0 && query.property('origin:vstate') != 3) && query.property('origin:arm_r') == 0"
+    },
+    {
+     "p_padL": "(query.property('origin:vfam') == 0 && query.property('origin:vstate') != 3) && query.property('origin:arm_l') == 0"
+    },
+    {
+     "p_fistR": "(query.property('origin:vfam') == 0 && query.property('origin:vstate') != 3) && query.property('origin:arm_r') == 0"
+    },
+    {
+     "p_fistL": "(query.property('origin:vfam') == 0 && query.property('origin:vstate') != 3) && query.property('origin:arm_l') == 0"
+    },
+    {
+     "p_belt": "query.property('origin:vfam') == 0 && query.property('origin:vstate') != 3"
+    },
+    {
+     "m_helm": "query.property('origin:vfam') == 1 && query.property('origin:vstate') != 3"
+    },
+    {
+     "m_core": "query.property('origin:vfam') == 1 && query.property('origin:vstate') != 3"
+    },
+    {
+     "m_collar": "query.property('origin:vfam') == 1 && query.property('origin:vstate') != 3"
+    },
+    {
+     "m_cape": "query.property('origin:vfam') == 1 && query.property('origin:vstate') != 3"
+    },
+    {
+     "m_gloveR": "(query.property('origin:vfam') == 1 && query.property('origin:vstate') != 3) && query.property('origin:arm_r') == 0"
+    },
+    {
+     "m_gloveL": "(query.property('origin:vfam') == 1 && query.property('origin:vstate') != 3) && query.property('origin:arm_l') == 0"
+    },
+    {
+     "s_hood": "query.property('origin:vfam') == 2 && query.property('origin:vstate') != 3"
+    },
+    {
+     "s_robe": "query.property('origin:vfam') == 2 && query.property('origin:vstate') != 3"
+    },
+    {
+     "s_scarf": "query.property('origin:vfam') == 2 && query.property('origin:vstate') != 3"
+    },
+    {
+     "s_wrapR": "(query.property('origin:vfam') == 2 && query.property('origin:vstate') != 3) && query.property('origin:arm_r') == 0"
+    },
+    {
+     "s_wrapL": "(query.property('origin:vfam') == 2 && query.property('origin:vstate') != 3) && query.property('origin:arm_l') == 0"
+    },
+    {
+     "rightArm": "query.property('origin:vstate') != 3 && query.property('origin:arm_r') == 0"
+    },
+    {
+     "rightItem": "query.property('origin:vstate') != 3 && query.property('origin:arm_r') == 0"
+    },
+    {
+     "leftArm": "query.property('origin:vstate') != 3 && query.property('origin:arm_l') == 0"
+    }
+   ]
+  },
+  "controller.render.origin.lumen_body": {
+   "arrays": {
+    "geometries": {
+     "Array.geo": [
+      "Geometry.fist",
+      "Geometry.hammer",
+      "Geometry.blade",
+      "Geometry.aegis",
+      "Geometry.shackle",
+      "Geometry.wings",
+      "Geometry.hand",
+      "Geometry.spear",
+      "Geometry.gatling",
+      "Geometry.titan"
+     ]
+    },
+    "textures": {
+     "Array.tex": [
+      "Texture.fist_teal",
+      "Texture.fist_gold",
+      "Texture.fist_violet",
+      "Texture.fist_rose",
+      "Texture.fist_emerald",
+      "Texture.fist_sapphire",
+      "Texture.fist_crimson",
+      "Texture.fist_pearl",
+      "Texture.hammer_teal",
+      "Texture.hammer_gold",
+      "Texture.hammer_violet",
+      "Texture.hammer_rose",
+      "Texture.hammer_emerald",
+      "Texture.hammer_sapphire",
+      "Texture.hammer_crimson",
+      "Texture.hammer_pearl",
+      "Texture.blade_teal",
+      "Texture.blade_gold",
+      "Texture.blade_violet",
+      "Texture.blade_rose",
+      "Texture.blade_emerald",
+      "Texture.blade_sapphire",
+      "Texture.blade_crimson",
+      "Texture.blade_pearl",
+      "Texture.aegis_teal",
+      "Texture.aegis_gold",
+      "Texture.aegis_violet",
+      "Texture.aegis_rose",
+      "Texture.aegis_emerald",
+      "Texture.aegis_sapphire",
+      "Texture.aegis_crimson",
+      "Texture.aegis_pearl",
+      "Texture.shackle_teal",
+      "Texture.shackle_gold",
+      "Texture.shackle_violet",
+      "Texture.shackle_rose",
+      "Texture.shackle_emerald",
+      "Texture.shackle_sapphire",
+      "Texture.shackle_crimson",
+      "Texture.shackle_pearl",
+      "Texture.wings_teal",
+      "Texture.wings_gold",
+      "Texture.wings_violet",
+      "Texture.wings_rose",
+      "Texture.wings_emerald",
+      "Texture.wings_sapphire",
+      "Texture.wings_crimson",
+      "Texture.wings_pearl",
+      "Texture.hand_teal",
+      "Texture.hand_gold",
+      "Texture.hand_violet",
+      "Texture.hand_rose",
+      "Texture.hand_emerald",
+      "Texture.hand_sapphire",
+      "Texture.hand_crimson",
+      "Texture.hand_pearl",
+      "Texture.spear_teal",
+      "Texture.spear_gold",
+      "Texture.spear_violet",
+      "Texture.spear_rose",
+      "Texture.spear_emerald",
+      "Texture.spear_sapphire",
+      "Texture.spear_crimson",
+      "Texture.spear_pearl",
+      "Texture.gatling_teal",
+      "Texture.gatling_gold",
+      "Texture.gatling_violet",
+      "Texture.gatling_rose",
+      "Texture.gatling_emerald",
+      "Texture.gatling_sapphire",
+      "Texture.gatling_crimson",
+      "Texture.gatling_pearl",
+      "Texture.titan_teal",
+      "Texture.titan_gold",
+      "Texture.titan_violet",
+      "Texture.titan_rose",
+      "Texture.titan_emerald",
+      "Texture.titan_sapphire",
+      "Texture.titan_crimson",
+      "Texture.titan_pearl"
+     ]
+    }
+   },
+   "geometry": "Array.geo[query.property('origin:shape')]",
+   "materials": [
+    {
+     "*": "Material.body"
+    }
+   ],
+   "textures": [
+    "Array.tex[query.property('origin:shape') * 8 + query.property('origin:hue')]"
+   ]
+  },
+  "controller.render.origin.lumen_glow": {
+   "arrays": {
+    "geometries": {
+     "Array.geo": [
+      "Geometry.fist",
+      "Geometry.hammer",
+      "Geometry.blade",
+      "Geometry.aegis",
+      "Geometry.shackle",
+      "Geometry.wings",
+      "Geometry.hand",
+      "Geometry.spear",
+      "Geometry.gatling",
+      "Geometry.titan"
+     ]
+    }
+   },
+   "geometry": "Array.geo[query.property('origin:shape')]",
+   "materials": [
+    {
+     "*": "Material.glow"
+    }
+   ],
+   "textures": [
+    "Texture.energy"
+   ],
+   "uv_anim": {
+    "offset": [
+     "query.life_time * 0.6",
+     "query.life_time * 0.6"
+    ],
+    "scale": [
+     1,
+     1
+    ]
+   }
+  },
+  "controller.render.origin.limb": {
+   "arrays": {
+    "textures": {
+     "Array.look": [
+      "Texture.flesh",
+      "Texture.armored"
+     ]
+    }
+   },
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Array.look[query.property('origin:look')]"
+   ]
+  },
+  "controller.render.origin.prosthetic": {
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.default"
+   ],
+   "part_visibility": [
+    {
+     "*": true
+    },
+    {
+     "m_cannon": "math.mod(math.floor(query.property('origin:mods') / 1), 2) == 1"
+    },
+    {
+     "m_grapple": "math.mod(math.floor(query.property('origin:mods') / 2), 2) == 1"
+    },
+    {
+     "m_piston": "math.mod(math.floor(query.property('origin:mods') / 4), 2) == 1"
+    },
+    {
+     "m_drill": "math.mod(math.floor(query.property('origin:mods') / 8), 2) == 1"
+    },
+    {
+     "m_shield": "math.mod(math.floor(query.property('origin:mods') / 16), 2) == 1"
+    }
+   ]
+  },
+  "controller.render.origin.exo_piece_paint": {
+   "arrays": {
+    "geometries": {
+     "Array.geo": [
+      "Geometry.m0f0",
+      "Geometry.m0f1",
+      "Geometry.m0f2",
+      "Geometry.m0f3",
+      "Geometry.m0f4",
+      "Geometry.m0f5",
+      "Geometry.m0f6",
+      "Geometry.m0f7",
+      "Geometry.m0f8",
+      "Geometry.m0f9",
+      "Geometry.m0f10",
+      "Geometry.m0f11",
+      "Geometry.m0f12",
+      "Geometry.m0f13",
+      "Geometry.m0f14",
+      "Geometry.m1f0",
+      "Geometry.m1f1",
+      "Geometry.m1f2",
+      "Geometry.m1f3",
+      "Geometry.m1f4",
+      "Geometry.m1f5",
+      "Geometry.m1f6",
+      "Geometry.m1f7",
+      "Geometry.m1f8",
+      "Geometry.m1f9",
+      "Geometry.m1f10",
+      "Geometry.m1f11",
+      "Geometry.m1f12",
+      "Geometry.m1f13",
+      "Geometry.m1f14",
+      "Geometry.m2f0",
+      "Geometry.m2f1",
+      "Geometry.m2f2",
+      "Geometry.m2f3",
+      "Geometry.m2f4",
+      "Geometry.m2f5",
+      "Geometry.m2f6",
+      "Geometry.m2f7",
+      "Geometry.m2f8",
+      "Geometry.m2f9",
+      "Geometry.m2f10",
+      "Geometry.m2f11",
+      "Geometry.m2f12",
+      "Geometry.m2f13",
+      "Geometry.m2f14",
+      "Geometry.m3f0",
+      "Geometry.m3f1",
+      "Geometry.m3f2",
+      "Geometry.m3f3",
+      "Geometry.m3f4",
+      "Geometry.m3f5",
+      "Geometry.m3f6",
+      "Geometry.m3f7",
+      "Geometry.m3f8",
+      "Geometry.m3f9",
+      "Geometry.m3f10",
+      "Geometry.m3f11",
+      "Geometry.m3f12",
+      "Geometry.m3f13",
+      "Geometry.m3f14"
+     ]
+    },
+    "textures": {
+     "Array.t": [
+      "Texture.p00",
+      "Texture.p01",
+      "Texture.p02",
+      "Texture.p03",
+      "Texture.p10",
+      "Texture.p11",
+      "Texture.p12",
+      "Texture.p13",
+      "Texture.p20",
+      "Texture.p21",
+      "Texture.p22",
+      "Texture.p23",
+      "Texture.p30",
+      "Texture.p31",
+      "Texture.p32",
+      "Texture.p33"
+     ]
+    }
+   },
+   "geometry": "Array.geo[query.property('origin:mark') * 15 + query.property('origin:frag')]",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Array.t[query.property('origin:mark') * 4 + query.property('origin:piece')]"
+   ],
+   "overlay_color": {
+    "r": "query.property('origin:pr') / 31.0",
+    "g": "query.property('origin:pg') / 31.0",
+    "b": "query.property('origin:pb') / 31.0",
+    "a": "0.8"
+   }
+  },
+  "controller.render.origin.exo_piece_detail": {
+   "arrays": {
+    "geometries": {
+     "Array.geo": [
+      "Geometry.m0f0",
+      "Geometry.m0f1",
+      "Geometry.m0f2",
+      "Geometry.m0f3",
+      "Geometry.m0f4",
+      "Geometry.m0f5",
+      "Geometry.m0f6",
+      "Geometry.m0f7",
+      "Geometry.m0f8",
+      "Geometry.m0f9",
+      "Geometry.m0f10",
+      "Geometry.m0f11",
+      "Geometry.m0f12",
+      "Geometry.m0f13",
+      "Geometry.m0f14",
+      "Geometry.m1f0",
+      "Geometry.m1f1",
+      "Geometry.m1f2",
+      "Geometry.m1f3",
+      "Geometry.m1f4",
+      "Geometry.m1f5",
+      "Geometry.m1f6",
+      "Geometry.m1f7",
+      "Geometry.m1f8",
+      "Geometry.m1f9",
+      "Geometry.m1f10",
+      "Geometry.m1f11",
+      "Geometry.m1f12",
+      "Geometry.m1f13",
+      "Geometry.m1f14",
+      "Geometry.m2f0",
+      "Geometry.m2f1",
+      "Geometry.m2f2",
+      "Geometry.m2f3",
+      "Geometry.m2f4",
+      "Geometry.m2f5",
+      "Geometry.m2f6",
+      "Geometry.m2f7",
+      "Geometry.m2f8",
+      "Geometry.m2f9",
+      "Geometry.m2f10",
+      "Geometry.m2f11",
+      "Geometry.m2f12",
+      "Geometry.m2f13",
+      "Geometry.m2f14",
+      "Geometry.m3f0",
+      "Geometry.m3f1",
+      "Geometry.m3f2",
+      "Geometry.m3f3",
+      "Geometry.m3f4",
+      "Geometry.m3f5",
+      "Geometry.m3f6",
+      "Geometry.m3f7",
+      "Geometry.m3f8",
+      "Geometry.m3f9",
+      "Geometry.m3f10",
+      "Geometry.m3f11",
+      "Geometry.m3f12",
+      "Geometry.m3f13",
+      "Geometry.m3f14"
+     ]
+    },
+    "textures": {
+     "Array.t": [
+      "Texture.d00",
+      "Texture.d01",
+      "Texture.d02",
+      "Texture.d03",
+      "Texture.d10",
+      "Texture.d11",
+      "Texture.d12",
+      "Texture.d13",
+      "Texture.d20",
+      "Texture.d21",
+      "Texture.d22",
+      "Texture.d23",
+      "Texture.d30",
+      "Texture.d31",
+      "Texture.d32",
+      "Texture.d33"
+     ]
+    }
+   },
+   "geometry": "Array.geo[query.property('origin:mark') * 15 + query.property('origin:frag')]",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Array.t[query.property('origin:mark') * 4 + query.property('origin:piece')]"
+   ]
+  },
+  "controller.render.origin.xox": {
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.default"
+   ],
+   "part_visibility": [
+    {
+     "*": true
+    },
+    {
+     "mask": "query.property('origin:form') >= 1"
+    },
+    {
+     "mask_glow": false
+    },
+    {
+     "eyes_glow": false
+    },
+    {
+     "blade_glow": false
+    },
+    {
+     "halo": false
+    },
+    {
+     "core": "query.property('origin:form') == 2 && query.property('origin:broken') == 0"
+    },
+    {
+     "core_glow": false
+    },
+    {
+     "disk": false
+    },
+    {
+     "orbit": "query.property('origin:form') == 2 && query.property('origin:broken') == 0"
+    },
+    {
+     "seams": false
+    }
+   ]
+  },
+  "controller.render.origin.regen_body": {
+   "arrays": {
+    "textures": {
+     "Array.st": [
+      "Texture.s0",
+      "Texture.s1",
+      "Texture.s2",
+      "Texture.s3",
+      "Texture.s4",
+      "Texture.s5"
+     ]
+    }
+   },
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Array.st[query.property('origin:stage')]"
+   ],
+   "part_visibility": [
+    {
+     "*": true
+    },
+    {
+     "body_bone": "query.property('origin:stage') <= 2"
+    },
+    {
+     "head_bone": "query.property('origin:stage') <= 2"
+    },
+    {
+     "rightArm_bone": "query.property('origin:stage') <= 2"
+    },
+    {
+     "leftArm_bone": "query.property('origin:stage') <= 2"
+    },
+    {
+     "rightLeg_bone": "query.property('origin:stage') <= 2"
+    },
+    {
+     "leftLeg_bone": "query.property('origin:stage') <= 2"
+    },
+    {
+     "body_flesh": "query.property('origin:stage') >= 1"
+    },
+    {
+     "head_flesh": "query.property('origin:stage') >= 1"
+    },
+    {
+     "rightArm_flesh": "query.property('origin:stage') >= 1"
+    },
+    {
+     "leftArm_flesh": "query.property('origin:stage') >= 1"
+    },
+    {
+     "rightLeg_flesh": "query.property('origin:stage') >= 1"
+    },
+    {
+     "leftLeg_flesh": "query.property('origin:stage') >= 1"
+    }
+   ]
+  },
+  "controller.render.origin.tether": {
+   "arrays": {
+    "geometries": {
+     "Array.geo": [
+      "Geometry.chain",
+      "Geometry.chain",
+      "Geometry.strand",
+      "Geometry.arm",
+      "Geometry.chain",
+      "Geometry.chain",
+      "Geometry.tendril",
+      "Geometry.strand",
+      "Geometry.chain"
+     ]
+    },
+    "textures": {
+     "Array.tex": [
+      "Texture.chain",
+      "Texture.blood",
+      "Texture.web",
+      "Texture.rubber",
+      "Texture.hellfire",
+      "Texture.void",
+      "Texture.tendril",
+      "Texture.psy",
+      "Texture.lumen"
+     ]
+    }
+   },
+   "geometry": "Array.geo[query.property('origin:kind')]",
+   "textures": [
+    "Array.tex[query.property('origin:kind')]"
+   ],
+   "part_visibility": [
+    {
+     "*": true
+    },
+    {
+     "s0": "query.property('origin:len') > 0"
+    },
+    {
+     "s1": "query.property('origin:len') > 1"
+    },
+    {
+     "s2": "query.property('origin:len') > 2"
+    },
+    {
+     "s3": "query.property('origin:len') > 3"
+    },
+    {
+     "s4": "query.property('origin:len') > 4"
+    },
+    {
+     "s5": "query.property('origin:len') > 5"
+    },
+    {
+     "s6": "query.property('origin:len') > 6"
+    },
+    {
+     "s7": "query.property('origin:len') > 7"
+    },
+    {
+     "s8": "query.property('origin:len') > 8"
+    },
+    {
+     "s9": "query.property('origin:len') > 9"
+    },
+    {
+     "s10": "query.property('origin:len') > 10"
+    },
+    {
+     "s11": "query.property('origin:len') > 11"
+    },
+    {
+     "s12": "query.property('origin:len') > 12"
+    },
+    {
+     "s13": "query.property('origin:len') > 13"
+    },
+    {
+     "s14": "query.property('origin:len') > 14"
+    },
+    {
+     "s15": "query.property('origin:len') > 15"
+    },
+    {
+     "s16": "query.property('origin:len') > 16"
+    },
+    {
+     "s17": "query.property('origin:len') > 17"
+    },
+    {
+     "s18": "query.property('origin:len') > 18"
+    },
+    {
+     "s19": "query.property('origin:len') > 19"
+    },
+    {
+     "s20": "query.property('origin:len') > 20"
+    },
+    {
+     "s21": "query.property('origin:len') > 21"
+    },
+    {
+     "s22": "query.property('origin:len') > 22"
+    },
+    {
+     "s23": "query.property('origin:len') > 23"
+    },
+    {
+     "s24": "query.property('origin:len') > 24"
+    },
+    {
+     "s25": "query.property('origin:len') > 25"
+    },
+    {
+     "s26": "query.property('origin:len') > 26"
+    },
+    {
+     "s27": "query.property('origin:len') > 27"
+    },
+    {
+     "s28": "query.property('origin:len') > 28"
+    },
+    {
+     "s29": "query.property('origin:len') > 29"
+    },
+    {
+     "s30": "query.property('origin:len') > 30"
+    },
+    {
+     "s31": "query.property('origin:len') > 31"
+    },
+    {
+     "s32": "query.property('origin:len') > 32"
+    },
+    {
+     "s33": "query.property('origin:len') > 33"
+    },
+    {
+     "s34": "query.property('origin:len') > 34"
+    },
+    {
+     "s35": "query.property('origin:len') > 35"
+    },
+    {
+     "s36": "query.property('origin:len') > 36"
+    },
+    {
+     "s37": "query.property('origin:len') > 37"
+    },
+    {
+     "s38": "query.property('origin:len') > 38"
+    },
+    {
+     "s39": "query.property('origin:len') > 39"
+    },
+    {
+     "s40": "query.property('origin:len') > 40"
+    },
+    {
+     "s41": "query.property('origin:len') > 41"
+    },
+    {
+     "s42": "query.property('origin:len') > 42"
+    },
+    {
+     "s43": "query.property('origin:len') > 43"
+    },
+    {
+     "s44": "query.property('origin:len') > 44"
+    },
+    {
+     "s45": "query.property('origin:len') > 45"
+    },
+    {
+     "s46": "query.property('origin:len') > 46"
+    },
+    {
+     "s47": "query.property('origin:len') > 47"
+    },
+    {
+     "s48": "query.property('origin:len') > 48"
+    },
+    {
+     "s49": "query.property('origin:len') > 49"
+    },
+    {
+     "s50": "query.property('origin:len') > 50"
+    },
+    {
+     "s51": "query.property('origin:len') > 51"
+    },
+    {
+     "s52": "query.property('origin:len') > 52"
+    },
+    {
+     "s53": "query.property('origin:len') > 53"
+    },
+    {
+     "s54": "query.property('origin:len') > 54"
+    },
+    {
+     "s55": "query.property('origin:len') > 55"
+    },
+    {
+     "s56": "query.property('origin:len') > 56"
+    },
+    {
+     "s57": "query.property('origin:len') > 57"
+    },
+    {
+     "s58": "query.property('origin:len') > 58"
+    },
+    {
+     "s59": "query.property('origin:len') > 59"
+    },
+    {
+     "s60": "query.property('origin:len') > 60"
+    },
+    {
+     "s61": "query.property('origin:len') > 61"
+    },
+    {
+     "s62": "query.property('origin:len') > 62"
+    },
+    {
+     "s63": "query.property('origin:len') > 63"
+    },
+    {
+     "tip": "query.property('origin:len') > 0"
+    }
+   ],
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ]
+  },
+  "controller.render.origin.tether_glow": {
+   "arrays": {
+    "geometries": {
+     "Array.geo": [
+      "Geometry.chain",
+      "Geometry.chain",
+      "Geometry.strand",
+      "Geometry.arm",
+      "Geometry.chain",
+      "Geometry.chain",
+      "Geometry.tendril",
+      "Geometry.strand",
+      "Geometry.chain"
+     ]
+    },
+    "textures": {
+     "Array.tex": [
+      "Texture.chain",
+      "Texture.blood",
+      "Texture.web",
+      "Texture.rubber",
+      "Texture.hellfire",
+      "Texture.void",
+      "Texture.tendril",
+      "Texture.psy",
+      "Texture.lumen"
+     ]
+    }
+   },
+   "geometry": "Array.geo[query.property('origin:kind')]",
+   "textures": [
+    "Array.tex[query.property('origin:kind')]"
+   ],
+   "part_visibility": [
+    {
+     "*": true
+    },
+    {
+     "s0": "query.property('origin:len') > 0"
+    },
+    {
+     "s1": "query.property('origin:len') > 1"
+    },
+    {
+     "s2": "query.property('origin:len') > 2"
+    },
+    {
+     "s3": "query.property('origin:len') > 3"
+    },
+    {
+     "s4": "query.property('origin:len') > 4"
+    },
+    {
+     "s5": "query.property('origin:len') > 5"
+    },
+    {
+     "s6": "query.property('origin:len') > 6"
+    },
+    {
+     "s7": "query.property('origin:len') > 7"
+    },
+    {
+     "s8": "query.property('origin:len') > 8"
+    },
+    {
+     "s9": "query.property('origin:len') > 9"
+    },
+    {
+     "s10": "query.property('origin:len') > 10"
+    },
+    {
+     "s11": "query.property('origin:len') > 11"
+    },
+    {
+     "s12": "query.property('origin:len') > 12"
+    },
+    {
+     "s13": "query.property('origin:len') > 13"
+    },
+    {
+     "s14": "query.property('origin:len') > 14"
+    },
+    {
+     "s15": "query.property('origin:len') > 15"
+    },
+    {
+     "s16": "query.property('origin:len') > 16"
+    },
+    {
+     "s17": "query.property('origin:len') > 17"
+    },
+    {
+     "s18": "query.property('origin:len') > 18"
+    },
+    {
+     "s19": "query.property('origin:len') > 19"
+    },
+    {
+     "s20": "query.property('origin:len') > 20"
+    },
+    {
+     "s21": "query.property('origin:len') > 21"
+    },
+    {
+     "s22": "query.property('origin:len') > 22"
+    },
+    {
+     "s23": "query.property('origin:len') > 23"
+    },
+    {
+     "s24": "query.property('origin:len') > 24"
+    },
+    {
+     "s25": "query.property('origin:len') > 25"
+    },
+    {
+     "s26": "query.property('origin:len') > 26"
+    },
+    {
+     "s27": "query.property('origin:len') > 27"
+    },
+    {
+     "s28": "query.property('origin:len') > 28"
+    },
+    {
+     "s29": "query.property('origin:len') > 29"
+    },
+    {
+     "s30": "query.property('origin:len') > 30"
+    },
+    {
+     "s31": "query.property('origin:len') > 31"
+    },
+    {
+     "s32": "query.property('origin:len') > 32"
+    },
+    {
+     "s33": "query.property('origin:len') > 33"
+    },
+    {
+     "s34": "query.property('origin:len') > 34"
+    },
+    {
+     "s35": "query.property('origin:len') > 35"
+    },
+    {
+     "s36": "query.property('origin:len') > 36"
+    },
+    {
+     "s37": "query.property('origin:len') > 37"
+    },
+    {
+     "s38": "query.property('origin:len') > 38"
+    },
+    {
+     "s39": "query.property('origin:len') > 39"
+    },
+    {
+     "s40": "query.property('origin:len') > 40"
+    },
+    {
+     "s41": "query.property('origin:len') > 41"
+    },
+    {
+     "s42": "query.property('origin:len') > 42"
+    },
+    {
+     "s43": "query.property('origin:len') > 43"
+    },
+    {
+     "s44": "query.property('origin:len') > 44"
+    },
+    {
+     "s45": "query.property('origin:len') > 45"
+    },
+    {
+     "s46": "query.property('origin:len') > 46"
+    },
+    {
+     "s47": "query.property('origin:len') > 47"
+    },
+    {
+     "s48": "query.property('origin:len') > 48"
+    },
+    {
+     "s49": "query.property('origin:len') > 49"
+    },
+    {
+     "s50": "query.property('origin:len') > 50"
+    },
+    {
+     "s51": "query.property('origin:len') > 51"
+    },
+    {
+     "s52": "query.property('origin:len') > 52"
+    },
+    {
+     "s53": "query.property('origin:len') > 53"
+    },
+    {
+     "s54": "query.property('origin:len') > 54"
+    },
+    {
+     "s55": "query.property('origin:len') > 55"
+    },
+    {
+     "s56": "query.property('origin:len') > 56"
+    },
+    {
+     "s57": "query.property('origin:len') > 57"
+    },
+    {
+     "s58": "query.property('origin:len') > 58"
+    },
+    {
+     "s59": "query.property('origin:len') > 59"
+    },
+    {
+     "s60": "query.property('origin:len') > 60"
+    },
+    {
+     "s61": "query.property('origin:len') > 61"
+    },
+    {
+     "s62": "query.property('origin:len') > 62"
+    },
+    {
+     "s63": "query.property('origin:len') > 63"
+    },
+    {
+     "tip": "query.property('origin:len') > 0"
+    }
+   ],
+   "materials": [
+    {
+     "*": "Material.glow"
+    }
+   ],
+   "ignore_lighting": true
+  },
+  "controller.render.origin.glow_simple": {
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.default"
+   ],
+   "ignore_lighting": true
+  },
+  "controller.render.origin.mjolnir_stone": {
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.default"
+   ],
+   "part_visibility": [
+    {
+     "*": true
+    },
+    {
+     "glow": false
+    },
+    {
+     "hammer": "query.property('origin:empty') == 0"
+    }
+   ]
+  },
+  "controller.render.origin.mjolnir_stone_glow": {
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.glow"
+    }
+   ],
+   "textures": [
+    "Texture.default"
+   ],
+   "ignore_lighting": true,
+   "part_visibility": [
+    {
+     "*": false
+    },
+    {
+     "glow": true
+    }
+   ]
+  },
+  "controller.render.origin.xox_glow": {
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.glow"
+    }
+   ],
+   "textures": [
+    "Texture.default"
+   ],
+   "ignore_lighting": true,
+   "part_visibility": [
+    {
+     "*": false
+    },
+    {
+     "mask_glow": "query.property('origin:form') >= 1"
+    },
+    {
+     "eyes_glow": "query.property('origin:form') == 0"
+    },
+    {
+     "blade_glow": "query.property('origin:form') >= 1 && query.property('origin:broken') == 0"
+    },
+    {
+     "halo": "query.property('origin:form') >= 1 && query.property('origin:broken') == 0"
+    },
+    {
+     "core_glow": "query.property('origin:form') == 2 && query.property('origin:broken') == 0"
+    },
+    {
+     "disk": "query.property('origin:form') == 2 && query.property('origin:broken') == 0"
+    },
+    {
+     "seams": "query.property('origin:form') == 2 && query.property('origin:broken') == 0"
+    }
+   ]
+  },
+  "controller.render.origin.xox_phantom": {
+   "geometry": "Geometry.default",
+   "materials": [
+    {
+     "*": "Material.default"
+    }
+   ],
+   "textures": [
+    "Texture.default"
+   ],
+   "ignore_lighting": true,
+   "part_visibility": [
+    {
+     "*": true
+    },
+    {
+     "mask_glow": false
+    },
+    {
+     "eyes_glow": false
+    },
+    {
+     "halo": false
+    },
+    {
+     "core": false
+    },
+    {
+     "core_glow": false
+    },
+    {
+     "disk": false
+    },
+    {
+     "orbit": false
+    },
+    {
+     "seams": false
+    }
+   ]
+  }
+ }
+}

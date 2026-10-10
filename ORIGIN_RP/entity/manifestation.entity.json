@@ -1,0 +1,44 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "origin:manifestation",
+      "materials": {
+        "default": "entity_alphablend"
+      },
+      "textures": {
+        "brawler": "textures/origin/entity/manifest_brawler",
+        "energy": "textures/origin/entity/manifest_energy",
+        "shadow": "textures/origin/entity/manifest_shadow"
+      },
+      "geometry": {
+        "brawler": "geometry.origin.manifest_brawler",
+        "energy": "geometry.origin.manifest_energy",
+        "shadow": "geometry.origin.manifest_shadow"
+      },
+      "animations": {
+        "brawler": "animation.origin.manifest.brawler",
+        "energy": "animation.origin.manifest.energy",
+        "shadow": "animation.origin.manifest.shadow",
+        "look": "animation.origin.manifest.look"
+      },
+      "scripts": {
+        "animate": [
+          {
+            "brawler": "query.property('origin:arch') == 0"
+          },
+          {
+            "energy": "query.property('origin:arch') == 1"
+          },
+          {
+            "shadow": "query.property('origin:arch') == 2"
+          },
+          "look"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.origin.manifestation"
+      ]
+    }
+  }
+}

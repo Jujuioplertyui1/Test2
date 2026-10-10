@@ -1,0 +1,128 @@
+{
+ "namespace": "server_form",
+ "main_screen_content": {
+  "type": "panel",
+  "size": [
+   "100%",
+   "100%"
+  ],
+  "controls": [
+   {
+    "server_form_factory": {
+     "type": "factory",
+     "control_ids": {
+      "long_form": "@server_form.origin_router",
+      "custom_form": "@server_form.custom_form"
+     }
+    }
+   }
+  ]
+ },
+ "origin_router": {
+  "type": "panel",
+  "size": [
+   "100%",
+   "100%"
+  ],
+  "controls": [
+   {
+    "vanilla_long_form@server_form.long_form": {
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "((#title_text - 'origin:') = #title_text)",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "origin_menu@origin_ui.menu_screen": {
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - 'origin:menu|') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "origin_suit@origin_ui.suit_screen": {
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - 'origin:suit|') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "origin_forge@origin_ui.forge_screen": {
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - 'origin:forge|') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "origin_talk@origin_ui.talk_screen": {
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - 'origin:talk|') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "origin_wheel@origin_ui.wheel_screen": {
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - 'origin:wheel|') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   },
+   {
+    "origin_stone@origin_ui.stone_screen": {
+     "bindings": [
+      {
+       "binding_name": "#title_text"
+      },
+      {
+       "binding_type": "view",
+       "source_property_name": "(not ((#title_text - 'origin:stone|') = #title_text))",
+       "target_property_name": "#visible"
+      }
+     ]
+    }
+   }
+  ]
+ }
+}

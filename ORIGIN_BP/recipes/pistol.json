@@ -1,0 +1,40 @@
+{
+ "format_version": "1.20.10",
+ "minecraft:recipe_shapeless": {
+  "description": {
+   "identifier": "origin:pistol_recipe"
+  },
+  "tags": [
+   "crafting_table"
+  ],
+  "ingredients": [
+   {
+    "item": "minecraft:iron_ingot"
+   },
+   {
+    "item": "minecraft:iron_ingot"
+   },
+   {
+    "item": "minecraft:iron_ingot"
+   },
+   {
+    "item": "minecraft:iron_ingot"
+   },
+   {
+    "item": "minecraft:gunpowder"
+   },
+   {
+    "item": "minecraft:redstone"
+   }
+  ],
+  "unlock": [
+   {
+    "item": "minecraft:iron_ingot"
+   }
+  ],
+  "result": {
+   "item": "origin:pistol",
+   "count": 1
+  }
+ }
+}

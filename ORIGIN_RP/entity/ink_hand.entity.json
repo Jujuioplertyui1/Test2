@@ -1,0 +1,30 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "origin:ink_hand",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/origin/entity/ink_hand"
+      },
+      "geometry": {
+        "default": "geometry.origin.ink_hand"
+      },
+      "render_controllers": [
+        "controller.render.default"
+      ],
+      "animations": {
+        "rise": "animation.origin.ink.rise",
+        "grip": "animation.origin.ink.grip"
+      },
+      "scripts": {
+        "animate": [
+          "rise",
+          "grip"
+        ]
+      }
+    }
+  }
+}

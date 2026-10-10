@@ -1,0 +1,121 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:exo_piece",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "p00": "textures/origin/models/armor/xmk1_head_fp",
+    "d00": "textures/origin/models/armor/xmk1_head_fd",
+    "p01": "textures/origin/models/armor/xmk1_chest_fp",
+    "d01": "textures/origin/models/armor/xmk1_chest_fd",
+    "p02": "textures/origin/models/armor/xmk1_legs_fp",
+    "d02": "textures/origin/models/armor/xmk1_legs_fd",
+    "p03": "textures/origin/models/armor/xmk1_feet_fp",
+    "d03": "textures/origin/models/armor/xmk1_feet_fd",
+    "p10": "textures/origin/models/armor/xmk2_head_fp",
+    "d10": "textures/origin/models/armor/xmk2_head_fd",
+    "p11": "textures/origin/models/armor/xmk2_chest_fp",
+    "d11": "textures/origin/models/armor/xmk2_chest_fd",
+    "p12": "textures/origin/models/armor/xmk2_legs_fp",
+    "d12": "textures/origin/models/armor/xmk2_legs_fd",
+    "p13": "textures/origin/models/armor/xmk2_feet_fp",
+    "d13": "textures/origin/models/armor/xmk2_feet_fd",
+    "p20": "textures/origin/models/armor/xmk3_head_fp",
+    "d20": "textures/origin/models/armor/xmk3_head_fd",
+    "p21": "textures/origin/models/armor/xmk3_chest_fp",
+    "d21": "textures/origin/models/armor/xmk3_chest_fd",
+    "p22": "textures/origin/models/armor/xmk3_legs_fp",
+    "d22": "textures/origin/models/armor/xmk3_legs_fd",
+    "p23": "textures/origin/models/armor/xmk3_feet_fp",
+    "d23": "textures/origin/models/armor/xmk3_feet_fd",
+    "p30": "textures/origin/models/armor/xmk4_head_fp",
+    "d30": "textures/origin/models/armor/xmk4_head_fd",
+    "p31": "textures/origin/models/armor/xmk4_chest_fp",
+    "d31": "textures/origin/models/armor/xmk4_chest_fd",
+    "p32": "textures/origin/models/armor/xmk4_legs_fp",
+    "d32": "textures/origin/models/armor/xmk4_legs_fd",
+    "p33": "textures/origin/models/armor/xmk4_feet_fp",
+    "d33": "textures/origin/models/armor/xmk4_feet_fd"
+   },
+   "geometry": {
+    "m0f0": "geometry.origin.xfrag_mk1_boot_r",
+    "m0f1": "geometry.origin.xfrag_mk1_boot_l",
+    "m0f2": "geometry.origin.xfrag_mk1_shin_r",
+    "m0f3": "geometry.origin.xfrag_mk1_shin_l",
+    "m0f4": "geometry.origin.xfrag_mk1_thigh_r",
+    "m0f5": "geometry.origin.xfrag_mk1_thigh_l",
+    "m0f6": "geometry.origin.xfrag_mk1_belt",
+    "m0f7": "geometry.origin.xfrag_mk1_core",
+    "m0f8": "geometry.origin.xfrag_mk1_back",
+    "m0f9": "geometry.origin.xfrag_mk1_upper_r",
+    "m0f10": "geometry.origin.xfrag_mk1_upper_l",
+    "m0f11": "geometry.origin.xfrag_mk1_fore_r",
+    "m0f12": "geometry.origin.xfrag_mk1_fore_l",
+    "m0f13": "geometry.origin.xfrag_mk1_helm",
+    "m0f14": "geometry.origin.xfrag_mk1_face",
+    "m1f0": "geometry.origin.xfrag_mk2_boot_r",
+    "m1f1": "geometry.origin.xfrag_mk2_boot_l",
+    "m1f2": "geometry.origin.xfrag_mk2_shin_r",
+    "m1f3": "geometry.origin.xfrag_mk2_shin_l",
+    "m1f4": "geometry.origin.xfrag_mk2_thigh_r",
+    "m1f5": "geometry.origin.xfrag_mk2_thigh_l",
+    "m1f6": "geometry.origin.xfrag_mk2_belt",
+    "m1f7": "geometry.origin.xfrag_mk2_core",
+    "m1f8": "geometry.origin.xfrag_mk2_back",
+    "m1f9": "geometry.origin.xfrag_mk2_upper_r",
+    "m1f10": "geometry.origin.xfrag_mk2_upper_l",
+    "m1f11": "geometry.origin.xfrag_mk2_fore_r",
+    "m1f12": "geometry.origin.xfrag_mk2_fore_l",
+    "m1f13": "geometry.origin.xfrag_mk2_helm",
+    "m1f14": "geometry.origin.xfrag_mk2_face",
+    "m2f0": "geometry.origin.xfrag_mk3_boot_r",
+    "m2f1": "geometry.origin.xfrag_mk3_boot_l",
+    "m2f2": "geometry.origin.xfrag_mk3_shin_r",
+    "m2f3": "geometry.origin.xfrag_mk3_shin_l",
+    "m2f4": "geometry.origin.xfrag_mk3_thigh_r",
+    "m2f5": "geometry.origin.xfrag_mk3_thigh_l",
+    "m2f6": "geometry.origin.xfrag_mk3_belt",
+    "m2f7": "geometry.origin.xfrag_mk3_core",
+    "m2f8": "geometry.origin.xfrag_mk3_back",
+    "m2f9": "geometry.origin.xfrag_mk3_upper_r",
+    "m2f10": "geometry.origin.xfrag_mk3_upper_l",
+    "m2f11": "geometry.origin.xfrag_mk3_fore_r",
+    "m2f12": "geometry.origin.xfrag_mk3_fore_l",
+    "m2f13": "geometry.origin.xfrag_mk3_helm",
+    "m2f14": "geometry.origin.xfrag_mk3_face",
+    "m3f0": "geometry.origin.xfrag_mk4_boot_r",
+    "m3f1": "geometry.origin.xfrag_mk4_boot_l",
+    "m3f2": "geometry.origin.xfrag_mk4_shin_r",
+    "m3f3": "geometry.origin.xfrag_mk4_shin_l",
+    "m3f4": "geometry.origin.xfrag_mk4_thigh_r",
+    "m3f5": "geometry.origin.xfrag_mk4_thigh_l",
+    "m3f6": "geometry.origin.xfrag_mk4_belt",
+    "m3f7": "geometry.origin.xfrag_mk4_core",
+    "m3f8": "geometry.origin.xfrag_mk4_back",
+    "m3f9": "geometry.origin.xfrag_mk4_upper_r",
+    "m3f10": "geometry.origin.xfrag_mk4_upper_l",
+    "m3f11": "geometry.origin.xfrag_mk4_fore_r",
+    "m3f12": "geometry.origin.xfrag_mk4_fore_l",
+    "m3f13": "geometry.origin.xfrag_mk4_helm",
+    "m3f14": "geometry.origin.xfrag_mk4_face"
+   },
+   "render_controllers": [
+    "controller.render.origin.exo_piece_paint",
+    "controller.render.origin.exo_piece_detail"
+   ],
+   "animations": {
+    "spin": "animation.origin.exo_piece.spin"
+   },
+   "scripts": {
+    "animate": [
+     {
+      "spin": "query.property('origin:spin') == 1"
+     }
+    ]
+   }
+  }
+ }
+}

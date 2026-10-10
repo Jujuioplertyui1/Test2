@@ -1,0 +1,37 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "origin:blueprint_data_recipe"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "ingredients": [
+      {
+        "item": "minecraft:paper"
+      },
+      {
+        "item": "minecraft:paper"
+      },
+      {
+        "item": "minecraft:redstone"
+      },
+      {
+        "item": "minecraft:lapis_lazuli"
+      },
+      {
+        "item": "minecraft:glowstone_dust"
+      }
+    ],
+    "unlock": [
+      {
+        "item": "minecraft:paper"
+      }
+    ],
+    "result": {
+      "item": "origin:blueprint_data",
+      "count": 1
+    }
+  }
+}

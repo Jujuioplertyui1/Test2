@@ -1,0 +1,28 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:tk_rock",
+   "materials": {
+    "default": "entity_alphatest"
+   },
+   "textures": {
+    "default": "textures/origin/entity/tk_rock"
+   },
+   "geometry": {
+    "default": "geometry.origin.tk_rock"
+   },
+   "render_controllers": [
+    "controller.render.default"
+   ],
+   "animations": {
+    "spin": "animation.origin.tk_rock.spin"
+   },
+   "scripts": {
+    "animate": [
+     "spin"
+    ]
+   }
+  }
+ }
+}

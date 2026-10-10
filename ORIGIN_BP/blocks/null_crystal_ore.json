@@ -1,0 +1,38 @@
+{
+  "format_version": "1.21.90",
+  "minecraft:block": {
+    "description": {
+      "identifier": "origin:null_crystal_ore",
+      "menu_category": {
+        "category": "nature"
+      }
+    },
+    "components": {
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "origin_null_crystal_ore",
+          "render_method": "opaque"
+        }
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 10,
+        "item_specific_speeds": [
+          {
+            "item": {
+              "tags": "q.any_tag('minecraft:is_pickaxe')"
+            },
+            "destroy_speed": 2.5
+          }
+        ]
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 30
+      },
+      "minecraft:display_name": "tile.origin:null_crystal_ore.name",
+      "minecraft:map_color": "#444444",
+      "minecraft:loot": "loot_tables/origin/null_crystal_ore.json",
+      "minecraft:light_emission": 5
+    }
+  }
+}

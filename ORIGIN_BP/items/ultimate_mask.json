@@ -1,0 +1,23 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "origin:ultimate_mask",
+   "menu_category": {
+    "category": "items"
+   }
+  },
+  "components": {
+   "minecraft:display_name": {
+    "value": "\u00a7dXoX's Mask"
+   },
+   "minecraft:icon": {
+    "textures": {
+     "default": "origin_ultimate_mask"
+    }
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:glint": true
+  }
+ }
+}

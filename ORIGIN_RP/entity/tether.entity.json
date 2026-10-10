@@ -1,0 +1,45 @@
+{
+ "format_version": "1.10.0",
+ "minecraft:client_entity": {
+  "description": {
+   "identifier": "origin:tether",
+   "materials": {
+    "default": "entity_alphatest",
+    "glow": "entity_alphablend"
+   },
+   "textures": {
+    "chain": "textures/origin/entity/tether_chain",
+    "blood": "textures/origin/entity/tether_blood",
+    "web": "textures/origin/entity/tether_web",
+    "rubber": "textures/origin/entity/tether_rubber",
+    "hellfire": "textures/origin/entity/tether_hellfire",
+    "void": "textures/origin/entity/tether_void",
+    "tendril": "textures/origin/entity/tether_tendril",
+    "psy": "textures/origin/entity/tether_psy",
+    "lumen": "textures/origin/entity/tether_lumen"
+   },
+   "geometry": {
+    "chain": "geometry.origin.tether_chain",
+    "strand": "geometry.origin.tether_strand",
+    "arm": "geometry.origin.tether_arm",
+    "tendril": "geometry.origin.tether_tendril"
+   },
+   "animations": {
+    "aim": "animation.origin.tether.aim"
+   },
+   "scripts": {
+    "animate": [
+     "aim"
+    ]
+   },
+   "render_controllers": [
+    {
+     "controller.render.origin.tether": "query.property('origin:kind') < 4"
+    },
+    {
+     "controller.render.origin.tether_glow": "query.property('origin:kind') >= 4"
+    }
+   ]
+  }
+ }
+}

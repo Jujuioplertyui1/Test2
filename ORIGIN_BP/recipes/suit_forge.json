@@ -1,0 +1,37 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "origin:suit_forge_recipe"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      " W ",
+      "LCL",
+      "III"
+    ],
+    "key": {
+      "W": {
+        "item": "minecraft:white_wool"
+      },
+      "L": {
+        "item": "minecraft:leather"
+      },
+      "C": {
+        "item": "minecraft:crafting_table"
+      },
+      "I": {
+        "item": "minecraft:iron_ingot"
+      }
+    },
+    "unlock": {
+      "context": "AlwaysUnlocked"
+    },
+    "result": {
+      "item": "origin:suit_forge",
+      "count": 1
+    }
+  }
+}

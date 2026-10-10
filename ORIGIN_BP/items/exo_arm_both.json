@@ -1,0 +1,23 @@
+{
+ "format_version": "1.21.60",
+ "minecraft:item": {
+  "description": {
+   "identifier": "origin:exo_arm_both",
+   "menu_category": {
+    "category": "none"
+   }
+  },
+  "components": {
+   "minecraft:display_name": {
+    "value": "\u00a7bExo Prosthetics"
+   },
+   "minecraft:icon": {
+    "textures": {
+     "default": "origin_exo_prosthetic"
+    }
+   },
+   "minecraft:max_stack_size": 1,
+   "minecraft:allow_off_hand": true
+  }
+ }
+}

@@ -1,0 +1,24 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "origin:training_dummy",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/origin/entity/training_dummy"
+      },
+      "geometry": {
+        "default": "geometry.origin.training_dummy"
+      },
+      "render_controllers": [
+        "controller.render.origin.simple"
+      ],
+      "spawn_egg": {
+        "base_color": "#c9a24a",
+        "overlay_color": "#C8262C"
+      }
+    }
+  }
+}

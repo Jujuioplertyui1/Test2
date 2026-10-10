@@ -1,0 +1,28 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "origin:void_stain",
+      "materials": {
+        "default": "entity_alphablend"
+      },
+      "textures": {
+        "default": "textures/origin/entity/void_stain"
+      },
+      "geometry": {
+        "default": "geometry.origin.void_stain"
+      },
+      "render_controllers": [
+        "controller.render.default"
+      ],
+      "animations": {
+        "pulse": "animation.origin.stain.pulse"
+      },
+      "scripts": {
+        "animate": [
+          "pulse"
+        ]
+      }
+    }
+  }
+}

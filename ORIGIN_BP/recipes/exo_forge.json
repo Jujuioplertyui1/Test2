@@ -1,0 +1,42 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "origin:exo_forge_recipe"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "RSR",
+      "NBN",
+      "III"
+    ],
+    "key": {
+      "R": {
+        "item": "origin:raw_aetherium"
+      },
+      "S": {
+        "item": "origin:starmetal_fragment"
+      },
+      "N": {
+        "item": "minecraft:netherite_ingot"
+      },
+      "B": {
+        "item": "minecraft:blast_furnace"
+      },
+      "I": {
+        "item": "minecraft:iron_block"
+      }
+    },
+    "unlock": [
+      {
+        "item": "origin:raw_aetherium"
+      }
+    ],
+    "result": {
+      "item": "origin:exo_forge",
+      "count": 1
+    }
+  }
+}
